@@ -1,0 +1,35 @@
+{
+    "name": "livewire-filemanager/filemanager",
+    "description": "A simple, friendly and practical Livewire filemanager for your applications",
+    "keywords": [
+        "livewire-filemanager",
+        "filemanager"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "LivewireFilemanager\\Filemanager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yves Engetschwiler",
+            "email": "info@bee-interactive.ch",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.2",
+        "livewire/livewire": "^3.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.15",
+        "phpunit/phpunit": "^10.4"
+    }
+}
