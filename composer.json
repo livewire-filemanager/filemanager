@@ -1,6 +1,7 @@
 {
     "name": "livewire-filemanager/filemanager",
     "description": "A simple, friendly and practical Livewire filemanager for your applications",
+    "homepage": "https://github.com/livewire-filemanager/filemanager",
     "keywords": [
         "livewire-filemanager",
         "filemanager"
@@ -24,11 +25,21 @@
             "LivewireFilemanager\\Filemanager\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LivewireFilemanager\\Filemanager\\FilemanagerServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.2",
         "livewire/livewire": "^3.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true
