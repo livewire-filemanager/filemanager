@@ -15,6 +15,7 @@ class FilemanagerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'livewire-filemanager');
 
         $this
+            ->registerPublishables()
             ->registerBladeComponents()
             ->registerLivewireComponents();
     }
@@ -22,6 +23,25 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function register()
     {
         parent::register();
+    }
+
+    protected function registerPublishables(): self
+    {
+        if (!class_exists('CreateTemporaryUploadsTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_folders_table.php'),
+            ], 'livewire-fileuploader-migrations');
+
+            $this->publishes([
+                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
+            ], 'livewire-fileuploader-views');
+
+            $this->publishes([
+                __DIR__ . '/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
+            ], 'livewire-fileuploader-lang');
+        }
+
+        return $this;
     }
 
     public function registerLivewireComponents(): self
