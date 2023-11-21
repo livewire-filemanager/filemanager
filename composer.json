@@ -5,13 +5,6 @@
         "livewire-filemanager",
         "filemanager"
     ],
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "LivewireFilemanager\\Filemanager\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Yves Engetschwiler",
@@ -19,6 +12,18 @@
             "role": "Developer"
         }
     ],
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "LivewireFilemanager\\Filemanager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LivewireFilemanager\\Filemanager\\Tests\\": "tests"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
