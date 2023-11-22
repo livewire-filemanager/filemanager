@@ -36,7 +36,10 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^3.0",
+        "masmerise/livewire-toaster": "^2.0",
+        "spatie/laravel-medialibrary": "^10.15",
+        "wire-elements/modal": "^2.0"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
