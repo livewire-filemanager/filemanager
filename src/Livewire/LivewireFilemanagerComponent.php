@@ -2,13 +2,13 @@
 
 namespace LivewireFilemanager\Filemanager\Livewire;
 
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
+use Livewire\Component;
 use Livewire\WithFileUploads;
-use Masmerise\Toaster\Toaster;
-use Illuminate\Support\Facades\Auth;
 use LivewireFilemanager\Filemanager\Models\Folder;
+use Masmerise\Toaster\Toaster;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LivewireFilemanagerComponent extends Component
@@ -39,7 +39,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function mount()
     {
-        if(!session('currentFolderId')) {
+        if (!session('currentFolderId')) {
             session(['currentFolderId' => 1]);
         }
 
@@ -48,7 +48,7 @@ class LivewireFilemanagerComponent extends Component
         $this->currentFolder = Folder::with(['children', 'parent'])->where('id', $currentFolderId)->first();
         $this->breadcrumb = $this->generateBreadcrumb($this->currentFolder);
 
-        if($this->currentFolder) {
+        if ($this->currentFolder) {
             $this->loadFolders();
         }
     }
@@ -144,8 +144,8 @@ class LivewireFilemanagerComponent extends Component
                 function ($attribute, $value, $fail) {
                     $slug = Str::slug(trim($value));
                     $existingFolder = Folder::where('slug', $slug)
-                                            ->where('parent_id', $this->currentFolder->id)
-                                            ->first();
+                        ->where('parent_id', $this->currentFolder->id)
+                        ->first();
                     if ($existingFolder) {
                         $fail('A folder with this name already exists in the current directory.');
 

@@ -3,8 +3,8 @@
 namespace LivewireFilemanager\Filemanager\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Folder extends Model
 {
@@ -43,8 +43,8 @@ class Folder extends Model
 
     public function elements()
     {
-        if($this->children_count + $this->getMedia('medialibrary')->count() > 1) {
-            return $this->children_count + $this->getMedia('medialibrary')->count() . ' éléments';
+        if ($this->children_count + $this->getMedia('medialibrary')->count() > 1) {
+            return $this->children_count + $this->getMedia('medialibrary')->count().' éléments';
         } elseif ($this->children_count + $this->getMedia('medialibrary')->count() == 1) {
             return '1 élément';
         }
