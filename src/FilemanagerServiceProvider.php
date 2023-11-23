@@ -5,6 +5,7 @@ namespace LivewireFilemanager\Filemanager;
 use Livewire\Livewire;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use LivewireFilemanager\Filemanager\Livewire\CreateRootFolder;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 
@@ -18,6 +19,7 @@ class FilemanagerServiceProvider extends ServiceProvider
         $this
             ->registerPublishables()
             ->registerBladeComponents()
+            ->registerBladeDirectives()
             ->registerLivewireComponents();
     }
 
@@ -48,6 +50,7 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function registerLivewireComponents(): self
     {
         Livewire::component('livewire-filemanager', LivewireFilemanagerComponent::class);
+        Livewire::component('create-root-folder', CreateRootFolder::class);
 
         return $this;
     }
@@ -55,6 +58,21 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function registerBladeComponents(): self
     {
         Blade::component('livewire-filemanager', BladeFilemanagerComponent::class);
+
+        return $this;
+    }
+
+    public function registerBladeDirectives(): self
+    {
+        Blade::directive('filemanagerScripts', function () {
+            $scripts = '';
+
+            $scripts .= <<<html
+                        <script defer src="https://unpkg.com/@alpinejs/ui@3.13.3-beta.1/dist/cdn.min.js"></script>
+                    html;
+
+            return $scripts;
+        });
 
         return $this;
     }
