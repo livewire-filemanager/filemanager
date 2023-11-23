@@ -38,8 +38,7 @@
         "php": "^8.2",
         "livewire/livewire": "^3.0",
         "masmerise/livewire-toaster": "^2.0",
-        "spatie/laravel-medialibrary": "^10.15",
-        "wire-elements/modal": "^2.0"
+        "spatie/laravel-medialibrary": "^10.15"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
@@ -48,6 +47,7 @@
         "sort-packages": true
     },
     "require-dev": {
+        "laravel/pint": "^1.13",
         "orchestra/testbench": "^8.15",
         "phpunit/phpunit": "^10.4"
     }
