@@ -2,19 +2,21 @@
 
 namespace LivewireFilemanager\Filemanager;
 
-use Livewire\Livewire;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerButtonComponent;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
 use LivewireFilemanager\Filemanager\Livewire\CreateRootFolder;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
-use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 
 class FilemanagerServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'livewire-filemanager');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'livewire-filemanager');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'livewire-filemanager');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'livewire-filemanager');
 
         $this
             ->registerPublishables()
@@ -30,17 +32,17 @@ class FilemanagerServiceProvider extends ServiceProvider
 
     protected function registerPublishables(): self
     {
-        if (!class_exists('CreateTemporaryUploadsTable')) {
+        if (! class_exists('CreateTemporaryUploadsTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_folders_table.php'),
+                __DIR__.'/../database/migrations/create_folders_table.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_folders_table.php'),
             ], 'livewire-fileuploader-migrations');
 
             $this->publishes([
-                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
+                __DIR__.'/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
             ], 'livewire-fileuploader-views');
 
             $this->publishes([
-                __DIR__ . '/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
+                __DIR__.'/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
             ], 'livewire-fileuploader-lang');
         }
 
@@ -58,6 +60,8 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function registerBladeComponents(): self
     {
         Blade::component('livewire-filemanager', BladeFilemanagerComponent::class);
+        Blade::component('livewire-filemanager-modal', BladeFilemanagerModalComponent::class);
+        Blade::component('livewire-filemanager-button', BladeFilemanagerButtonComponent::class);
 
         return $this;
     }
@@ -67,7 +71,7 @@ class FilemanagerServiceProvider extends ServiceProvider
         Blade::directive('filemanagerScripts', function () {
             $scripts = '';
 
-            $scripts .= <<<html
+            $scripts .= <<<'html'
                         <script defer src="https://unpkg.com/@alpinejs/ui@3.13.3-beta.1/dist/cdn.min.js"></script>
                     html;
 
