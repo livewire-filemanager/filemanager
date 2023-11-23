@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('temporary_uploads', function (Blueprint $table) {
+        Schema::create('folders', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('parent_id')->nullable()->constrained('folders')->cascadeOnDelete();
