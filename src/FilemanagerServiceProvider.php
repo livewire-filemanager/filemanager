@@ -13,6 +13,7 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'livewire-filemanager');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'livewire-filemanager');
 
         $this
             ->registerPublishables()
