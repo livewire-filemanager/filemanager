@@ -15,7 +15,7 @@ class LivewireFilemanagerComponent extends Component
 {
     use WithFileUploads;
 
-    public $currentFolder;
+    public $currentFolder = null;
 
     public $search = '';
 
@@ -48,7 +48,9 @@ class LivewireFilemanagerComponent extends Component
         $this->currentFolder = Folder::with(['children', 'parent'])->where('id', $currentFolderId)->first();
         $this->breadcrumb = $this->generateBreadcrumb($this->currentFolder);
 
-        $this->loadFolders();
+        if($this->currentFolder) {
+            $this->loadFolders();
+        }
     }
 
     public function toggleFolderSelection($folderId)
