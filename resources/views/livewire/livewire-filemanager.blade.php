@@ -1,7 +1,11 @@
 <div>
     @if(!$currentFolder)
-        <div class="w-full">
+        <div class="w-full" x-data="{ open: false }">
             {{ __('livewire-filemanager::filemanager.root_folder_not_configurated') }}
+
+            <button x-on:click="open = true">{{ __('livewire-filemanager::filemanager.add_your_first_folder') }}</button>
+
+            @include('livewire-filemanager::livewire.modals.create-root-folder')
         </div>
     @else
         <div class="w-full col-span-4" x-data="{ uploading: false, progress: 0 }"
