@@ -39,7 +39,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function mount()
     {
-        if (! session('currentFolderId')) {
+        if (!session('currentFolderId')) {
             session(['currentFolderId' => 1]);
         }
 
@@ -51,6 +51,17 @@ class LivewireFilemanagerComponent extends Component
         if ($this->currentFolder) {
             $this->loadFolders();
         }
+    }
+
+    public function createRootFolder()
+    {
+        $this->validate([
+            'newFolderName' => 'required|max:255',
+        ], [
+            'newFolderName.required' => __('livewire-filemanager::filemanager.validation.folder_name_required'),
+        ]);
+
+
     }
 
     public function toggleFolderSelection($folderId)
@@ -74,10 +85,10 @@ class LivewireFilemanagerComponent extends Component
     public function loadFolders()
     {
         if ($this->search != '') {
-            $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%'.$this->search.'%')->get();
-            $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%'.$this->search.'%')->get();
+            $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%' . $this->search . '%')->get();
+            $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%' . $this->search . '%')->get();
         } else {
-            $this->folders = $this->currentFolder->fresh()->children;
+            $this->folders = ($this->currentFolder ? [] : $this->currentFolder->fresh()->children);
             $this->searchedFiles = null;
         }
 
@@ -144,7 +155,7 @@ class LivewireFilemanagerComponent extends Component
                 function ($attribute, $value, $fail) {
                     $slug = Str::slug(trim($value));
                     $existingFolder = Folder::where('slug', $slug)
-                        ->where('parent_id', $this->currentFolder->id)
+                        ->where('parent_id', ($this->currentFolder ? $this->currentFolder->id : null))
                         ->first();
                     if ($existingFolder) {
                         $fail('A folder with this name already exists in the current directory.');
@@ -159,8 +170,10 @@ class LivewireFilemanagerComponent extends Component
 
         $newFolder->name = trim($this->newFolderName) ?: 'dossier sans titre';
         $newFolder->slug = Str::slug(trim($this->newFolderName) ?: 'dossier sans titre');
-        $newFolder->parent_id = $this->currentFolder->id;
+        $newFolder->parent_id = ($this->currentFolder ? $this->currentFolder->id : null);
         $newFolder->save();
+
+        $this->currentFolder = $newFolder;
 
         $this->newFolderName = '';
 
