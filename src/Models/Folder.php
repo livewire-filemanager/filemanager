@@ -28,12 +28,12 @@ class Folder extends Model implements HasMedia
         });
     }
 
-    public function getChildrenCountAttribute()
+    public function getChildrenCountAttribute(): int
     {
         return $this->children()->count();
     }
 
-    public function isHomeFolder()
+    public function isHomeFolder(): bool
     {
         return $this->id === 1;
     }
@@ -48,15 +48,9 @@ class Folder extends Model implements HasMedia
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    public function elements()
+    public function elements(): string
     {
-        if ($this->children_count + $this->getMedia('medialibrary')->count() > 1) {
-            return $this->children_count + $this->getMedia('medialibrary')->count() . ' éléments';
-        } elseif ($this->children_count + $this->getMedia('medialibrary')->count() == 1) {
-            return '1 élément';
-        }
-
-        return 'Aucun élément';
+        return trans_choice('livewire-filemanager::filemanager.elements', $this->children_count + $this->getMedia('medialibrary')->count(), ['value' => $this->children_count + $this->getMedia('medialibrary')->count()]);
     }
 
     /**
