@@ -126,18 +126,11 @@
                         @endif
 
                         @foreach($folders->sortBy('name') as $folder)
-                            <div
-                            :class="{ '!bg-gray-200/50 !hover:bg-gray-200/60 group': @json($selectedFolders).includes({{ $folder->id }}) }"
-                            x-on:click="$wire.toggleFolderSelection({{ $folder->id }}); shiftKey = false"
-                            x-on:dblclick="$wire.navigateToFolder({{ $folder->id }}); shiftKey = false"
-                            data-id="{{ $folder->id }}"
-                            class="folder cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 hover:bg-blue-100/30 text-center select-none">
-                                <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
-                                <div class="flex flex-wrap text-center">
-                                    <span :class="{ '!bg-blue-500 !text-white group': @json($selectedFolders).includes({{ $folder->id }}) }" class="text-ellipsis overflow-hidden break-words w-full block text-sm max-w-[150px] rounded">{{ $folder->name }}</span>
-                                    <small class="w-full block text-xs text-blue-500">{{ $folder->elements() }}</small>
-                                </div>
-                            </div>
+                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" />
+                        @endforeach
+
+                        @foreach($currentFolder->getMedia('medialibrary')->sortBy('file_name') as $media)
+                            <x-livewire-filemanager::elements.media :folder="$folder" :media="$media" :selectedFiles="$selectedFiles" />
                         @endforeach
                     </div>
                 </div>
@@ -150,13 +143,7 @@
 
                         @if (!$loop->last)
                             <div class="px-2">
-                                <svg class="w-2 h-2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-                                    <style type="text/css">
-                                        .st0{fill:none;}
-                                    </style>
-                                    <path d="M15.7,0.8l-5.5,5.5L28,24L10.2,41.8l5.5,5.5L39,24L15.7,0.8z"/>
-                                    <path class="st0" d="M0,0h48v48H0V0z"/>
-                                </svg>
+                                <x-livewire-filemanager::icons.chevron />
                             </div>
                         @endif
                     @endforeach

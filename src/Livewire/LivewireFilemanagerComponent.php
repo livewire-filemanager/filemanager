@@ -8,7 +8,6 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireFilemanager\Filemanager\Models\Folder;
-use Masmerise\Toaster\Toaster;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LivewireFilemanagerComponent extends Component
@@ -157,8 +156,6 @@ class LivewireFilemanagerComponent extends Component
                         ->first();
                     if ($existingFolder) {
                         $fail(__('livewire-filemanager::filemanager.folder_already_exists'));
-
-                        Toaster::error(__('livewire-filemanager::filemanager.folder_already_exists'));
                     }
                 },
             ],
@@ -177,8 +174,6 @@ class LivewireFilemanagerComponent extends Component
 
         $this->breadcrumb = $this->generateBreadcrumb($this->currentFolder);
         $this->isCreatingNewFolder = false;
-
-        Toaster::success(__('livewire-filemanager::filemanager.status.informations_updated_success'));
 
         $this->loadFolders();
     }
@@ -234,12 +229,10 @@ class LivewireFilemanagerComponent extends Component
                 ->usingName(Str::slug($file->getClientOriginalName()))
                 ->usingFileName($file->getClientOriginalName())
                 ->withCustomProperties([
-                    'user_id' => Auth::user()->id,
+                    'user_id' => optional(Auth::user())->id,
                 ])
                 ->toMediaCollection('medialibrary');
         }
-
-        Toaster::success(trans_choice('livewire-filemanager::filemanager.files_uploaded', count($this->files)));
 
         $this->files = [];
     }
