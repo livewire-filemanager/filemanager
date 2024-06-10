@@ -60,8 +60,6 @@ class LivewireFilemanagerComponent extends Component
         ], [
             'newFolderName.required' => __('livewire-filemanager::filemanager.validation.folder_name_required'),
         ]);
-
-
     }
 
     public function toggleFolderSelection($folderId)
@@ -88,7 +86,7 @@ class LivewireFilemanagerComponent extends Component
             $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%' . $this->search . '%')->get();
             $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%' . $this->search . '%')->get();
         } else {
-            $this->folders = ($this->currentFolder ? [] : $this->currentFolder->fresh()->children);
+            $this->folders = $this->currentFolder->fresh()->children;
             $this->searchedFiles = null;
         }
 
@@ -142,7 +140,7 @@ class LivewireFilemanagerComponent extends Component
     {
         $this->isCreatingNewFolder = true;
 
-        $this->newFolderName = 'dossier sans titre';
+        $this->newFolderName = __('livewire-filemanager::filemanager.folder_without_title');
 
         $this->dispatch('new-folder-created');
     }
@@ -158,9 +156,9 @@ class LivewireFilemanagerComponent extends Component
                         ->where('parent_id', ($this->currentFolder ? $this->currentFolder->id : null))
                         ->first();
                     if ($existingFolder) {
-                        $fail('A folder with this name already exists in the current directory.');
+                        $fail(__('livewire-filemanager::filemanager.folder_already_exists'));
 
-                        Toaster::error(__('lochness::client.filemanager.folder_already_exists'));
+                        Toaster::error(__('livewire-filemanager::filemanager.folder_already_exists'));
                     }
                 },
             ],
@@ -168,8 +166,8 @@ class LivewireFilemanagerComponent extends Component
 
         $newFolder = new Folder();
 
-        $newFolder->name = trim($this->newFolderName) ?: 'dossier sans titre';
-        $newFolder->slug = Str::slug(trim($this->newFolderName) ?: 'dossier sans titre');
+        $newFolder->name = trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title');
+        $newFolder->slug = Str::slug(trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title'));
         $newFolder->parent_id = ($this->currentFolder ? $this->currentFolder->id : null);
         $newFolder->save();
 
@@ -177,9 +175,10 @@ class LivewireFilemanagerComponent extends Component
 
         $this->newFolderName = '';
 
+        $this->breadcrumb = $this->generateBreadcrumb($this->currentFolder);
         $this->isCreatingNewFolder = false;
 
-        Toaster::success(__('lochness::client.resources.status.informations_updated_success'));
+        Toaster::success(__('livewire-filemanager::filemanager.status.informations_updated_success'));
 
         $this->loadFolders();
     }
@@ -240,7 +239,7 @@ class LivewireFilemanagerComponent extends Component
                 ->toMediaCollection('medialibrary');
         }
 
-        Toaster::success(trans_choice('lochness::client.filemanager.files_uploaded', count($this->files)));
+        Toaster::success(trans_choice('livewire-filemanager::filemanager.files_uploaded', count($this->files)));
 
         $this->files = [];
     }
