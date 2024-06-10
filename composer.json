@@ -18,7 +18,10 @@
     "autoload": {
         "psr-4": {
             "LivewireFilemanager\\Filemanager\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -37,8 +40,8 @@
     "require": {
         "php": "^8.2",
         "livewire/livewire": "^3.0",
-        "masmerise/livewire-toaster": "^2.0",
-        "spatie/laravel-medialibrary": "^10.15"
+        "laravel/framework": "^10.0|^11.9",
+        "spatie/laravel-medialibrary": "^10.15|^11.5"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
