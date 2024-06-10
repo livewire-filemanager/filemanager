@@ -10,6 +10,7 @@ return [
     'search' => 'Rechercher',
     'folder_already_exists' => 'Le dossier existe déjà',
     'folder_without_title' => 'dossier sans titre',
+    'selected' => '[1] 1 sélectionné|[2,*] sélectionnés',
     'actions' => [
         'cancel' => 'Annuler',
         'save' => 'Enregistrer',

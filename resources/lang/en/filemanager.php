@@ -10,6 +10,7 @@ return [
     'search' => 'Search',
     'folder_already_exists' => 'A folder with this name already exists in the current directory.',
     'folder_without_title' => 'untitled folder',
+    'selected' => '[1] selected|[2,*] selected',
     'actions' => [
         'cancel' => 'Cancel',
         'save' => 'Save',
