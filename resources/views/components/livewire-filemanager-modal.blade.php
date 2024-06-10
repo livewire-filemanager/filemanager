@@ -21,9 +21,9 @@
             </div>
 
             <div class="p-4 flex justify-end space-x-2 bg-gray-50">
-                <button type="button" x-on:click="$dialog.close()" class="text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg px-5 py-2">
+                <x-livewire-filemanager::buttons.secondary type="button" x-on:click="$dialog.close()">
                     {{ __('livewire-filemanager::filemanager.actions.cancel') }}
-                </button>
+                </x-livewire-filemanager::buttons.secondary>
 
                 {{ $action }}
             </div>
