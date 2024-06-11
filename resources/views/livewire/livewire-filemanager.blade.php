@@ -7,13 +7,13 @@
             x-on:livewire-upload-finish="uploading = false"
             x-on:livewire-upload-error="uploading = false"
             x-on:livewire-upload-progress="progress = $event.detail.progress">
-            <div class="w-full shadow-sm bg-white dark:bg-gray-700 dark:border-gray-800 pt-4 border border-slate-300 sm:rounded">
+            <div class="w-full shadow-sm bg-white pt-4 border border-slate-300 sm:rounded">
                 <div class="px-4 pb-4 sm:px-5 flex items-center justify-between">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-200">
+                    <h2 class="text-lg font-medium text-gray-900">
                         {{ $currentFolder->name }}
 
-                        <span class="px-2 text-gray-600  dark:text-slate-300">|</span>
-                        <span class="text-gray-500 text-sm dark:text-slate-300">{{ $currentFolder->elements() }}{!! ((count($selectedFolders) + count($selectedFiles)) > 0 ? ' <span class="text-slate-700">(' . (count($selectedFolders) + count($selectedFiles)) . ' ' . trans_choice('livewire-filemanager::filemanager.selected', (count($selectedFolders) + count($selectedFiles))) . ')</span>' : '') !!}</span>
+                        <span class="px-2 text-gray-600">|</span>
+                        <span class="text-gray-500 text-sm">{{ $currentFolder->elements() }}{!! ((count($selectedFolders) + count($selectedFiles)) > 0 ? ' <span class="text-slate-700">(' . (count($selectedFolders) + count($selectedFiles)) . ' ' . trans_choice('livewire-filemanager::filemanager.selected', (count($selectedFolders) + count($selectedFiles))) . ')</span>' : '') !!}</span>
                     </h2>
 
                     <div>
@@ -62,7 +62,7 @@
                                 </button>
                             </div>
 
-                            <input wire:model.live="search" @click="Livewire.dispatch('reset-media', { media_id: null })" class="rounded border border-slate-300 w-full py-2 px-3 zinc-500 leading-tight focus:outline-none focus:ring-lochness-200 focus:border-lochness-200 sm:mr-2 dark:bg-slate-700 dark:border-slate-800 dark:placeholder:text-slate-400 dark:text-slate-300 dark:focus:ring-1" type="search" placeholder="{{ __('livewire-filemanager::filemanager.search') }}...">
+                            <input wire:model.live="search" @click="Livewire.dispatch('reset-media', { media_id: null })" class="rounded border border-slate-300 w-full py-2 px-3 zinc-500 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:mr-2" type="search" placeholder="{{ __('livewire-filemanager::filemanager.search') }}...">
                         </div>
                     </div>
                 </div>
