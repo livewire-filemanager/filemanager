@@ -1,6 +1,6 @@
 <p align="center"><img src="https://github.com/livewire-filemanager/filemanager/raw/master/images/banner.png" alt="Livewire filemanager image"></p>
 
-# A simple, friendly and practical Livewire filemanager for your Laravel applications
+# A Livewire filemanager for your Laravel applications
 
 ## Installation
 
