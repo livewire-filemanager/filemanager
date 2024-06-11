@@ -14,6 +14,8 @@ return [
     'search_results' => 'Résultats de recherche',
     'created' => 'Créé',
     'modified' => 'Modifié',
+    'delete_items' => 'Supprimer les éléments',
+    'delete_items_warning' => 'Etes-vous sur de vouloir supprimer ces éléments ?',
     'actions' => [
         'cancel' => 'Annuler',
         'save' => 'Enregistrer',
