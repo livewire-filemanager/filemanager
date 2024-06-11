@@ -1,4 +1,4 @@
-<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" {{ $attributes }} xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 96 96" style="enable-background:new 0 0 96 96;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#FFFFFF;stroke:#979593;stroke-width:1.5583;stroke-miterlimit:10;}
