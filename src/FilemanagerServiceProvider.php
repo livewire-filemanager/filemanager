@@ -5,11 +5,10 @@ namespace LivewireFilemanager\Filemanager;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerButtonComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
-use LivewireFilemanager\Filemanager\Livewire\CreateRootFolder;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
 
 class FilemanagerServiceProvider extends ServiceProvider
 {
@@ -52,7 +51,7 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function registerLivewireComponents(): self
     {
         Livewire::component('livewire-filemanager', LivewireFilemanagerComponent::class);
-        Livewire::component('create-root-folder', CreateRootFolder::class);
+        Livewire::component('livewire-filemanager.delete-items', DeleteItemsComponent::class);
 
         return $this;
     }
@@ -61,7 +60,6 @@ class FilemanagerServiceProvider extends ServiceProvider
     {
         Blade::component('livewire-filemanager', BladeFilemanagerComponent::class);
         Blade::component('livewire-filemanager-modal', BladeFilemanagerModalComponent::class);
-        Blade::component('livewire-filemanager-button', BladeFilemanagerButtonComponent::class);
 
         return $this;
     }
