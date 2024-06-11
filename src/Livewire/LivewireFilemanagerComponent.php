@@ -95,7 +95,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function deleteItems()
     {
-        $this->dispatch('openModal', 'lochness::livewire.delete-items', ['folders' => $this->selectedFolders, 'files' => $this->selectedFiles]);
+        $this->dispatch('delete-items', folders: $this->selectedFolders, files: $this->selectedFiles);
     }
 
     #[On('folder-deleted')]
