@@ -1,3 +1,7 @@
+<p align="center"><img src="https://github.com/livewire-filemanager/filemanager/raw/master/images/banner.png" alt="Livewire filemanager image"></p>
+
+# A simple, friendly and practical Livewire filemanager for your Laravel applications
+
 ## Installation
 
 You can install the package via [composer](https://getcomposer.org):
@@ -37,6 +41,8 @@ This package relies on spatie/medialibrary to handle the medias, so if you haven
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
 ```
 
+If you need for informations about the spatie/medialibrary package, please [visit their documentation](https://spatie.be/docs/laravel-medialibrary)
+
 After that, you need to run migrations.
 
 ```bash
@@ -63,6 +69,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Yves Engetschwiler](https://github.com/bee-interactive)
+- [Quetzal Graphic Design](https://quetzal.ch/)
 - [All Contributors](../../contributors)
 
 ## License
