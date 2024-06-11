@@ -1,4 +1,6 @@
-<div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-y-auto z-10">
+@props(['modal'])
+
+<div x-dialog x-model="{{ $modal }}" style="display: none" class="fixed inset-0 overflow-y-auto z-10">
     <div x-dialog:overlay x-transition.opacity class="fixed inset-0 bg-indigo-950 bg-opacity-50"></div>
 
     <div class="relative min-h-screen flex items-center justify-center p-4">
