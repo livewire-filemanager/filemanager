@@ -36,6 +36,8 @@ class LivewireFilemanagerComponent extends Component
 
     public $breadcrumb = [];
 
+    protected $listeners = ['fileAdded'];
+
     public function mount()
     {
         if (!session('currentFolderId')) {
@@ -226,7 +228,7 @@ class LivewireFilemanagerComponent extends Component
         foreach ($this->files as $file) {
             $this->currentFolder
                 ->addMedia($file->getRealPath())
-                ->usingName(Str::slug($file->getClientOriginalName()))
+                ->usingName($file->getClientOriginalName())
                 ->usingFileName($file->getClientOriginalName())
                 ->withCustomProperties([
                     'user_id' => optional(Auth::user())->id,
@@ -235,6 +237,19 @@ class LivewireFilemanagerComponent extends Component
         }
 
         $this->files = [];
+    }
+
+    public function handleMediaClick($fileId)
+    {
+        if(count($this->selectedFiles) > 1) {
+            $this->dispatch('reset-media');
+        } else {
+            if (in_array($fileId, $this->selectedFiles)) {
+                $this->dispatch('load-media', $fileId);
+            } else {
+                $this->dispatch('reset-media');
+            }
+        }
     }
 
     public function render()

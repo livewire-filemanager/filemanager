@@ -2,13 +2,14 @@
 
 namespace LivewireFilemanager\Filemanager;
 
+use Livewire\Livewire;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
-use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
-use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
-use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
+use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
 
 class FilemanagerServiceProvider extends ServiceProvider
 {
@@ -52,6 +53,7 @@ class FilemanagerServiceProvider extends ServiceProvider
     {
         Livewire::component('livewire-filemanager', LivewireFilemanagerComponent::class);
         Livewire::component('livewire-filemanager.delete-items', DeleteItemsComponent::class);
+        Livewire::component('livewire-filemanager.media-panel', LivewireFilemanagerPanelComponent::class);
 
         return $this;
     }
