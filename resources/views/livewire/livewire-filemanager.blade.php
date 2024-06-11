@@ -19,12 +19,12 @@
                     <div>
                         <input type="file" wire:model.live="files" name="files" id="fileInput" multiple style="display: none;">
 
-                        <button class="border rounded p-1.5 px-4 flex text-sm items-center space-x-4 bg-slate-100" @click="Livewire.dispatch('reset-media', { media_id: null })" onclick="document.getElementById('fileInput').click();">
+                        <button class="border rounded p-1.5 px-2 md:px-4 flex text-sm items-center space-x-4 bg-slate-100" @click="Livewire.dispatch('reset-media', { media_id: null })" onclick="document.getElementById('fileInput').click();">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                             </svg>
 
-                            <span>{{ __('livewire-filemanager::filemanager.add_a_file') }}</span>
+                            <span class="hidden md:flex">{{ __('livewire-filemanager::filemanager.add_a_file') }}</span>
                         </button>
                     </div>
 
@@ -43,7 +43,7 @@
                             @endif
 
                             @if ($this->currentFolder->id !== 1)
-                                <div>
+                                <div class="">
                                     <button class="border rounded p-1.5 border-slate-300" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click="navigateToParent">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -67,12 +67,16 @@
                     </div>
                 </div>
 
-                <div x-data="{ shiftKey: false }" class="border-t border-slate-300 shadow-inner overflow-x-hidden relative">
+                <div x-data="dropFileComponent()" class="border-t border-slate-300 shadow-inner overflow-x-hidden relative" x-bind:class="dropingFile ? 'bg-blue-50' : ''">
                     @if($search)
                         <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-slate-300 text-sm">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
                     @endif
 
-                    <div id="folder-container" x-on:dblclick.self="$wire.createNewFolder()" class="p-2 pb-10 min-h-[400px] xl:min-h-[600px] xl:max-h-[600px] overflow-y-auto flex relative flex-wrap content-start" @keydown.shift.window="shiftKey = true" @keyup.shift.window="shiftKey = false">
+                    <div
+                    x-on:drop="dropingFile = false"
+                    x-on:drop.prevent="handleFileDrop($event)"
+                    x-on:dragover.prevent="dropingFile = true"
+                    x-on:dragleave.prevent="dropingFile = false" id="folder-container" x-on:dblclick.self="$wire.createNewFolder()" class="p-2 pb-10 min-h-[600px] xl:min-h-[600px] xl:max-h-[600px] overflow-y-auto flex relative flex-wrap content-start" @keydown.shift.window="shiftKey = true" @keyup.shift.window="shiftKey = false">
                         @if ($isCreatingNewFolder)
                             <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center">
                                 <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
@@ -85,13 +89,27 @@
                             <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" />
                         @endforeach
 
-                        @foreach($currentFolder->getMedia('medialibrary')->sortBy('file_name') as $media)
-                            <x-livewire-filemanager::elements.media :folder="$folder" :media="$media" :selectedFiles="$selectedFiles" />
-                        @endforeach
+                        @if($searchedFiles)
+                            @foreach($searchedFiles->sortBy('file_name') as $media)
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" />
+                            @endforeach
+                        @else
+                            @foreach($currentFolder->getMedia('medialibrary')->sortBy('file_name') as $media)
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" />
+                            @endforeach
+                        @endif
                     </div>
+
+                    <div class="w-full absolute left-0 right-0 p-1 border-l-0 border-r-0 border -bottom-1" x-cloak x-show="uploading">
+                        <div class="w-full flex mb-1">
+                            <progress class="w-full" max="100" x-bind:value="progress"></progress>
+                        </div>
+                    </div>
+
+                    <livewire:livewire-filemanager.media-panel />
                 </div>
 
-                <nav class="border-t text-sm px-4 sm:px-5 py-1 flex items-center border-slate-300">
+                <nav class="border-t text-sm px-4 sm:px-4 py-1.5 flex items-center border-slate-300">
                     @foreach ($breadcrumb as $index => $folder)
                         <span class="cursor-pointer flex space-x-1 items-center" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click.prevent="navigateToBreadcrumb({{ $index }})">
                             <x-livewire-filemanager::icons.folder class="w-5 h-5" /> <span>{{ $folder->name }}</span>
@@ -109,6 +127,20 @@
     @endif
 
     <script>
+        function dropFileComponent() {
+            return {
+                dropingFile: false,
+                handleFileDrop(e) {
+                    if (event.dataTransfer.files.length > 0) {
+                        const files = e.dataTransfer.files;
+                        @this.uploadMultiple('files', files,
+                            (uploadedFilename) => {}, () => {}, (event) => {}
+                        )
+                    }
+                }
+            };
+        }
+
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('new-folder-created', function () {
                 const checkExist = setInterval(function() {
