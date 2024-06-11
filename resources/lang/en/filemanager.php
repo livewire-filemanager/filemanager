@@ -11,11 +11,15 @@ return [
     'folder_already_exists' => 'A folder with this name already exists in the current directory.',
     'folder_without_title' => 'untitled folder',
     'selected' => '[1] selected|[2,*] selected',
+    'search_results' => 'Search results',
+    'created' => 'Created',
+    'modified' => 'Modified',
     'actions' => [
         'cancel' => 'Cancel',
         'save' => 'Save',
         'delete' => 'Delete',
         'close_modal' => 'Close modal',
+        'copy_url' => 'Copy URL of the file',
     ],
     'validation' => [
         'folder_name_required' => 'The folder name is required',

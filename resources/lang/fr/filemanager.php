@@ -11,11 +11,15 @@ return [
     'folder_already_exists' => 'Le dossier existe déjà',
     'folder_without_title' => 'dossier sans titre',
     'selected' => '[1] 1 sélectionné|[2,*] sélectionnés',
+    'search_results' => 'Résultats de recherche',
+    'created' => 'Créé',
+    'modified' => 'Modifié',
     'actions' => [
         'cancel' => 'Annuler',
         'save' => 'Enregistrer',
         'delete' => 'Supprimer',
         'close_modal' => 'Fermer la popup',
+        'copy_url' => 'Copier l’URL du fichier',
     ],
     'validation' => [
         'folder_name_required' => 'Le nom du dossier est obligatoire',
