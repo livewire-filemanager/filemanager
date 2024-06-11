@@ -32,6 +32,7 @@ class FilemanagerTest extends TestCase
     {
         Livewire::test(LivewireFilemanagerComponent::class)
             ->assertSee(__('livewire-filemanager::filemanager.root_folder_not_configurated'))
+            ->assertSee(__('livewire-filemanager::filemanager.root_folder_not_configurated_help'))
             ->assertSee(__('livewire-filemanager::filemanager.add_your_first_folder'));
     }
 }
