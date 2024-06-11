@@ -14,6 +14,8 @@ return [
     'search_results' => 'Search results',
     'created' => 'Created',
     'modified' => 'Modified',
+    'delete_items' => 'Delete items',
+    'delete_items_warning' => 'Are you sure you want to delete these items?',
     'actions' => [
         'cancel' => 'Cancel',
         'save' => 'Save',
