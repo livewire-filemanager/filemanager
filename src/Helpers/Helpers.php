@@ -93,7 +93,7 @@ if (!function_exists('getMediaFullPath')) {
         while ($folder) {
             array_unshift($path, $folder->slug);
 
-            $folder = $folder->parent;
+            $folder = $folder->parentWithoutRootFolder;
         }
 
         // Return the full path as a string
@@ -113,8 +113,8 @@ if (!function_exists('buildFolderPath')) {
     {
         $folder = Folder::find($folderId);
 
-        if ($folder && $folder->parent) {
-            return buildFolderPath($folder->parent->id) . '/' . $folder->slug;
+        if ($folder && $folder->parentWithoutRootFolder) {
+            return buildFolderPath($folder->parentWithoutRootFolder->id) . '/' . $folder->slug;
         } else {
             return $folder ? $folder->slug : '';
         }

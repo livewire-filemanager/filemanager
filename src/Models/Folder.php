@@ -38,14 +38,19 @@ class Folder extends Model implements HasMedia
         return $this->id === 1;
     }
 
+    public function parentWithoutRootFolder(): BelongsTo
+    {
+        return $this->belongsTo(Folder::class, 'parent_id')->where('id', '!=', 1);
+    }
+
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        return $this->belongsTo(Folder::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(Folder::class, 'parent_id');
     }
 
     public function elements(): string
@@ -60,6 +65,6 @@ class Folder extends Model implements HasMedia
      */
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumbnail')->format('webp')->width(100)->performOnCollections('filemanager');
+        $this->addMediaConversion('thumbnail')->format('webp')->width(100)->performOnCollections('medialibrary');
     }
 }
