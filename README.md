@@ -6,6 +6,9 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 
 ## Installation
 
+> [!IMPORTANT]
+> This package is still in development and its structure can change until a stable version is released. Use with caution in you projects.
+
 You can install the package via [composer](https://getcomposer.org):
 
 ```bash
@@ -16,25 +19,6 @@ Publish the package's migration file:
 
 ```bash
 php artisan vendor:publish --tag=livewire-fileuploader-migrations
-```
-
-### Preparing your template
-
-Next, you'll need to use the `<x-livewire-filemanager />` component where you want to place the filemanager and the @filemanagerScripts directive :
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- ... -->
-</head>
-
-<body>
-    <x-livewire-filemanager />
-
-    @filemanagerScripts
-</body>
-</html>
 ```
 
 This package relies on spatie/medialibrary to handle the medias, so if you haven't already configured the package, don't forget this step:
@@ -53,6 +37,38 @@ php artisan migrate
 
 This will create a `folders` table which will hold all the filemanager structure.
 
+### Package configuration
+
+Next, you'll need to use the `<x-livewire-filemanager />` component where you want to place the filemanager and the @filemanagerScripts directive :
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- ... -->
+</head>
+
+<body>
+    <x-livewire-filemanager />
+
+    @filemanagerScripts
+</body>
+</html>
+```
+
+If you intent to give access to your files with the public, you can add this inside your web routes file:.
+
+```
+Route::get('/assets/{path}', [FileController::class, 'show'])->where('path', '.*')->name('assets.show');
+```
+
+And don't forget to import the FileController class:
+
+```
+use LivewireFilemanager\Filemanager\Http\Controllers\Files\FileController;
+```
+
+This will give you an endpoint where you can reach the files with a direct url.
 
 ## Testing
 
