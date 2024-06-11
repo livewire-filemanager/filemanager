@@ -59,7 +59,7 @@ Next, you'll need to use the `<x-livewire-filemanager />` component where you wa
 If you intent to give access to your files with the public, you can add this inside your web routes file:.
 
 ```
-Route::get('/assets/{path}', [FileController::class, 'show'])->where('path', '.*')->name('assets.show');
+Route::get('{path}', [FileController::class, 'show'])->where('path', '.*')->name('assets.show');
 ```
 
 And don't forget to import the FileController class:
