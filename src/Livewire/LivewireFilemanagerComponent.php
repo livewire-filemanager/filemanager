@@ -40,7 +40,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function mount()
     {
-        if (!session('currentFolderId')) {
+        if (! session('currentFolderId')) {
             session(['currentFolderId' => 1]);
         }
 
@@ -84,8 +84,8 @@ class LivewireFilemanagerComponent extends Component
     public function loadFolders()
     {
         if ($this->search != '') {
-            $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%' . $this->search . '%')->get();
-            $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%' . $this->search . '%')->get();
+            $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%'.$this->search.'%')->get();
+            $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%'.$this->search.'%')->get();
         } else {
             $this->folders = $this->currentFolder->fresh()->children;
             $this->searchedFiles = null;
@@ -241,7 +241,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function handleMediaClick($fileId)
     {
-        if(count($this->selectedFiles) > 1) {
+        if (count($this->selectedFiles) > 1) {
             $this->dispatch('reset-media');
         } else {
             if (in_array($fileId, $this->selectedFiles)) {

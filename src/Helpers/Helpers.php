@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 |
 */
 
-if (!function_exists('trimString')) {
+if (! function_exists('trimString')) {
     function trimString($string, $maxLength)
     {
         $extension = pathinfo($string, PATHINFO_EXTENSION);
@@ -23,7 +23,7 @@ if (!function_exists('trimString')) {
         $trimmedBase = substr($string, 0, $baseLength);
         $end = substr($string, -4); // Get last 4 characters
 
-        return $trimmedBase . "...." . $end;
+        return $trimmedBase.'....'.$end;
     }
 }
 
@@ -34,10 +34,10 @@ if (!function_exists('trimString')) {
 |
 */
 
-if (!function_exists('getFileType')) {
-    function getFileType(string|null $mimeType): string|null
+if (! function_exists('getFileType')) {
+    function getFileType(?string $mimeType): ?string
     {
-        if(!$mimeType) {
+        if (! $mimeType) {
             return null;
         }
 
@@ -81,7 +81,7 @@ if (!function_exists('getFileType')) {
 |
 */
 
-if (!function_exists('getMediaFullPath')) {
+if (! function_exists('getMediaFullPath')) {
     function getMediaFullPath(Media $media)
     {
         $folder = Folder::where('id', $media->model_id)->first();
@@ -97,7 +97,7 @@ if (!function_exists('getMediaFullPath')) {
         }
 
         // Return the full path as a string
-        return config('app.url') . '/' . implode('/', $path);
+        return config('app.url').'/'.implode('/', $path);
     }
 }
 
@@ -108,13 +108,13 @@ if (!function_exists('getMediaFullPath')) {
 |
 */
 
-if (!function_exists('buildFolderPath')) {
+if (! function_exists('buildFolderPath')) {
     function buildFolderPath($folderId)
     {
         $folder = Folder::find($folderId);
 
         if ($folder && $folder->parentWithoutRootFolder) {
-            return buildFolderPath($folder->parentWithoutRootFolder->id) . '/' . $folder->slug;
+            return buildFolderPath($folder->parentWithoutRootFolder->id).'/'.$folder->slug;
         } else {
             return $folder ? $folder->slug : '';
         }

@@ -25,5 +25,5 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'The folder name is required',
-    ]
+    ],
 ];

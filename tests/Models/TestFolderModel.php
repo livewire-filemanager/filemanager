@@ -5,12 +5,13 @@ namespace LivewireFilemanager\Filemanager\Tests\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use LivewireFilemanager\Filemanager\Models\Folder;
 
 class TestFolderModel extends Model
 {
     protected $with = ['children'];
 
-    protected $table = 'folders';
+    public $registerMediaConversionsUsingModelInstance = true;
 
     protected static function boot(): void
     {
@@ -23,34 +24,33 @@ class TestFolderModel extends Model
         });
     }
 
-    public function getChildrenCountAttribute()
+    public function getChildrenCountAttribute(): int
     {
         return $this->children()->count();
     }
 
-    public function isHomeFolder()
+    public function isHomeFolder(): bool
     {
         return $this->id === 1;
     }
 
+    public function parentWithoutRootFolder(): BelongsTo
+    {
+        return $this->belongsTo(Folder::class, 'parent_id')->where('id', '!=', 1);
+    }
+
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        return $this->belongsTo(Folder::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(Folder::class, 'parent_id');
     }
 
-    public function elements()
+    public function elements(): string
     {
-        if ($this->children_count + $this->getMedia('medialibrary')->count() > 1) {
-            return $this->children_count + $this->getMedia('medialibrary')->count().' éléments';
-        } elseif ($this->children_count + $this->getMedia('medialibrary')->count() == 1) {
-            return '1 élément';
-        }
-
-        return 'Aucun élément';
+        return trans_choice('livewire-filemanager::filemanager.elements', $this->children_count + $this->getMedia('medialibrary')->count(), ['value' => $this->children_count + $this->getMedia('medialibrary')->count()]);
     }
 }

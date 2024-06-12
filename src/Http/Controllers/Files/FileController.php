@@ -25,7 +25,7 @@ class FileController
 
         $filePath = $file->getPath();
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             abort(404, 'File not found on server');
         }
 

@@ -2,8 +2,8 @@
 
 namespace LivewireFilemanager\Filemanager\Livewire;
 
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 use LivewireFilemanager\Filemanager\Models\Folder;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

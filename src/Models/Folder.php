@@ -2,11 +2,11 @@
 
 namespace LivewireFilemanager\Filemanager\Models;
 
-use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Folder extends Model implements HasMedia
@@ -60,10 +60,10 @@ class Folder extends Model implements HasMedia
 
     /**
      * Some media conversions for all models
-     * @param Media|null $media
+     *
      * @throws InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumbnail')->format('webp')->width(100)->performOnCollections('medialibrary');
     }
