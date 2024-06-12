@@ -3,16 +3,12 @@
 namespace LivewireFilemanager\Filemanager\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use LivewireFilemanager\Filemanager\Models\Folder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use LivewireFilemanager\Filemanager\Models\Folder;
 
 class TestFolderModel extends Model
 {
-    use InteractsWithMedia;
-
     protected $with = ['children'];
 
     public $registerMediaConversionsUsingModelInstance = true;
@@ -56,15 +52,5 @@ class TestFolderModel extends Model
     public function elements(): string
     {
         return trans_choice('livewire-filemanager::filemanager.elements', $this->children_count + $this->getMedia('medialibrary')->count(), ['value' => $this->children_count + $this->getMedia('medialibrary')->count()]);
-    }
-
-    /**
-     * Some media conversions for all models
-     * @param Media|null $media
-     * @throws InvalidManipulation
-     */
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumbnail')->format('webp')->width(100)->performOnCollections('medialibrary');
     }
 }
