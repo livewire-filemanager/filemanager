@@ -29,13 +29,16 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 
 If you need for informations about the spatie/medialibrary package, please [visit their documentation](https://spatie.be/docs/laravel-medialibrary)
 
+> [!NOTE]
+> **Thumbnails** When you upload images, the package will generate a thumbnail. By defaults, it will be dispatched into the queues. You'll have to launch the workers inside your app or change the **QUEUE_CONNECTION** value in your .env file
+
 After that, you need to run migrations.
 
 ```bash
 php artisan migrate
 ```
 
-This will create a `folders` table which will hold all the filemanager structure.
+This will create a `folders` table which will hold all the filemanager structure and a media table if not already present.
 
 ### Package configuration
 
@@ -82,12 +85,14 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
+All contributions are welcome and will be fully credited.
+
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
 - [Yves Engetschwiler](https://github.com/bee-interactive)
-- [Quetzal Graphic Design](https://quetzal.ch/)
+- All illustrations are made by [Quetzal Graphic Design](https://quetzal.ch/)
 - [All Contributors](../../contributors)
 
 ## License
