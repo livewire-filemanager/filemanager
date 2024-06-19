@@ -42,13 +42,15 @@ This will create a `folders` table which will hold all the filemanager structure
 
 ### Package configuration
 
-Next, you'll need to use the `<x-livewire-filemanager />` component where you want to place the filemanager and the @filemanagerScripts directive :
+Next, you'll need to use the `<x-livewire-filemanager />` component where you want to place the filemanager.
+
+For the styles and scripts, the package relies on TailwindCSS and AlpineJS. So if you don't already have them installed, you can include the `@filemanagerScripts` and `@filemanagerStyles`.
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- ... -->
+    @filemanagerStyles
 </head>
 
 <body>
@@ -57,6 +59,18 @@ Next, you'll need to use the `<x-livewire-filemanager />` component where you wa
     @filemanagerScripts
 </body>
 </html>
+```
+
+> [!IMPORTANT]
+> The @filemanagerStyles will include the PLAY CDN from TailwindCSS which is not recommended for production. Instead, prefer including the path inside your tailwind config file.
+
+```js
+module.exports = {
+    content: [
+        './resources/**/*.blade.php',
+        './vendor/livewire-filemanager/filemanager/resources/views/*.blade.php',
+    ],
+}
 ```
 
 If you intent to give access to your files with the public, you can add this inside your web routes file:.

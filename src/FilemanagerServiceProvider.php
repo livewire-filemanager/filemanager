@@ -68,6 +68,16 @@ class FilemanagerServiceProvider extends ServiceProvider
 
     public function registerBladeDirectives(): self
     {
+        Blade::directive('filemanagerStyles', function () {
+            $styles = '';
+
+            $styles .= <<<'html'
+                        <script src="https://cdn.tailwindcss.com"></script>
+                    html;
+
+            return $styles;
+        });
+
         Blade::directive('filemanagerScripts', function () {
             $scripts = '';
 
