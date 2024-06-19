@@ -87,6 +87,12 @@ use LivewireFilemanager\Filemanager\Http\Controllers\Files\FileController;
 
 This will give you an endpoint where you can reach the files with a direct url.
 
+## The interface
+
+Once everything is installed, the interface should look like this:
+
+<p align="center"><img src="https://github.com/livewire-filemanager/filemanager/raw/master/images/interface.png" alt="Livewire filemanager interface"></p>
+
 ## Testing
 
 ```bash
