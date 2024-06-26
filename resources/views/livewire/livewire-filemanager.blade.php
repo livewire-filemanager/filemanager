@@ -91,7 +91,7 @@
                     x-on:dragover.prevent="dropingFile = true"
                     x-on:dragleave.prevent="dropingFile = false"
                     x-on:dblclick.self="$wire.createNewFolder()"
-                    class="p-2 pb-10 bg-red-200 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
+                    class="p-2 pb-10 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
                         @if ($isCreatingNewFolder)
                             <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center">
                                 <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
