@@ -43,7 +43,7 @@
                             @endif
 
                             @if ($this->currentFolder->id !== 1)
-                                <div class="">
+                                <div>
                                     <button class="border rounded p-1.5 border-slate-300 dark:border-slate-600 dark:text-slate-500" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click="navigateToParent">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -67,16 +67,31 @@
                     </div>
                 </div>
 
-                <div x-data="dropFileComponent()" class="border-t border-slate-300 shadow-inner overflow-x-hidden relative dark:border-slate-700" x-bind:class="dropingFile ? 'bg-blue-50' : ''">
+                <div id="filemanager-area"
+                    x-data="FilemanagerComponent()"
+                    @mousedown="initiateDrawing($event)" @mousemove="draw($event)" @mouseup="stopDrawing()" @mouseleave="stopDrawing()"
+                    class="border-t border-slate-300 shadow-inner overflow-x-hidden relative dark:border-slate-700" x-bind:class="dropingFile ? 'bg-blue-50 dark:bg-slate-900/90 border-dashed' : ''">
                     @if($search)
                         <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-slate-300 text-sm">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
                     @endif
 
+                    <template x-if="drawnArea">
+                        <div class="drawn-area absolute z-10 border border-blue-300 bg-blue-100/60 dark:bg-blue-100/10 dark:border-gray-500/70" :style="{
+                            left: drawnArea.left + 'px',
+                            top: drawnArea.top + 'px',
+                            width: drawnArea.width + 'px',
+                            height: drawnArea.height + 'px'
+                        }"></div>
+                    </template>
+
                     <div
+                    id="folder-container"
                     x-on:drop="dropingFile = false"
                     x-on:drop.prevent="handleFileDrop($event)"
                     x-on:dragover.prevent="dropingFile = true"
-                    x-on:dragleave.prevent="dropingFile = false" id="folder-container" x-on:dblclick.self="$wire.createNewFolder()" class="p-2 pb-10 min-h-[600px] xl:min-h-[600px] xl:max-h-[600px] overflow-y-auto flex relative flex-wrap content-start" @keydown.shift.window="shiftKey = true" @keyup.shift.window="shiftKey = false">
+                    x-on:dragleave.prevent="dropingFile = false"
+                    x-on:dblclick.self="$wire.createNewFolder()"
+                    class="p-2 pb-10 bg-red-200 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
                         @if ($isCreatingNewFolder)
                             <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center">
                                 <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
@@ -110,7 +125,7 @@
                     <livewire:livewire-filemanager.delete-items />
                 </div>
 
-                <nav class="border-t text-sm px-4 sm:px-4 py-1.5 flex items-center border-slate-300 dark:border-slate-700 text-black dark:text-slate-300">
+                <nav class="select-none border-t text-sm px-4 sm:px-4 py-1.5 flex items-center border-slate-300 dark:border-slate-700 text-black dark:text-slate-300">
                     @foreach ($breadcrumb as $index => $folder)
                         <span class="cursor-pointer flex space-x-1 items-center" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click.prevent="navigateToBreadcrumb({{ $index }})">
                             <x-livewire-filemanager::icons.folder class="w-5 h-5" /> <span>{{ $folder->name }}</span>
@@ -128,9 +143,118 @@
     @endif
 
     <script>
-        function dropFileComponent() {
+        function FilemanagerComponent() {
             return {
                 dropingFile: false,
+                isDrawing: false,
+                isPending: false,
+                startX: 0,
+                startY: 0,
+                drawnArea: null,
+                drawingTimeout: null,
+
+                initiateDrawing(event) {
+                    this.isPending = true;
+                    const container = event.currentTarget;
+                    const rect = container.getBoundingClientRect();
+
+                    this.startX = event.clientX - rect.left;
+                    this.startY = event.clientY - rect.top;
+
+                    this.drawingTimeout = setTimeout(() => {
+                        if (this.isPending) {
+                            this.startDrawing();
+                        }
+                    }, 150); // Delay in milliseconds
+                },
+
+                startDrawing(event) {
+                    this.isDrawing = true;
+                    this.isPending = false;
+                    this.drawnArea = {
+                        left: this.startX,
+                        top: this.startY,
+                        width: 0,
+                        height: 0
+                    };
+                },
+
+                draw(event) {
+                    if (!this.isDrawing) return;
+
+                    const container = event.currentTarget;
+                    const rect = container.getBoundingClientRect();
+
+                    const currentX = event.clientX - rect.left;
+                    const currentY = event.clientY - rect.top;
+
+                    const width = currentX - this.startX;
+                    const height = currentY - this.startY;
+
+                    this.drawnArea.width = Math.abs(width);
+                    this.drawnArea.height = Math.abs(height);
+
+                    if (width < 0) {
+                        this.drawnArea.left = currentX;
+                    }
+
+                    if (height < 0) {
+                        this.drawnArea.top = currentY;
+                    }
+                },
+
+                stopDrawing() {
+                    if (this.isPending) {
+                        clearTimeout(this.drawingTimeout);
+                        this.isPending = false;
+                    }
+
+                    if (this.isDrawing) {
+                        this.selectElementsWithinDrawnArea();
+
+                        this.isDrawing = false;
+                        this.drawnArea = null;
+                    }
+                },
+
+                selectElementsWithinDrawnArea() {
+                    const container = document.getElementById('folder-container');
+                    const drawnRect = {
+                        left: this.drawnArea.left,
+                        top: this.drawnArea.top,
+                        right: this.drawnArea.left + this.drawnArea.width,
+                        bottom: this.drawnArea.top + this.drawnArea.height
+                    };
+
+                    container.querySelectorAll('.folder, .file').forEach(element => {
+                        const rect = element.getBoundingClientRect();
+                        const elementRect = {
+                            left: rect.left - container.getBoundingClientRect().left,
+                            top: rect.top - container.getBoundingClientRect().top,
+                            right: rect.right - container.getBoundingClientRect().left,
+                            bottom: rect.bottom - container.getBoundingClientRect().top
+                        };
+
+                        if (this.isElementWithinDrawnArea(drawnRect, elementRect)) {
+                            const id = element.getAttribute('data-id');
+                            const type = element.classList.contains('folder') ? 'folder' : 'file';
+
+                            if (type == 'folder') {
+                                this.$wire.toggleFolderSelection(id);
+                            } else {
+                                this.$wire.toggleFileSelection(id);
+                            }
+                        }
+                    });
+                },
+
+                isElementWithinDrawnArea(drawnRect, elementRect) {
+                    return !(drawnRect.left > elementRect.right ||
+                             drawnRect.right < elementRect.left ||
+                             drawnRect.top > elementRect.bottom ||
+                             drawnRect.bottom < elementRect.top);
+                },
+
                 handleFileDrop(e) {
                     if (event.dataTransfer.files.length > 0) {
                         const files = e.dataTransfer.files;

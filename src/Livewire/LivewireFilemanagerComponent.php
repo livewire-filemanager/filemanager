@@ -63,20 +63,16 @@ class LivewireFilemanagerComponent extends Component
         ]);
     }
 
-    public function toggleFolderSelection($folderId)
+    public function toggleFolderSelection(int $folderId)
     {
-        if (in_array($folderId, $this->selectedFolders)) {
-            $this->selectedFolders = array_diff($this->selectedFolders, [$folderId]);
-        } else {
+        if (! in_array($folderId, $this->selectedFolders)) {
             $this->selectedFolders[] = $folderId;
         }
     }
 
-    public function toggleFileSelection($fileId)
+    public function toggleFileSelection(int $fileId)
     {
-        if (in_array($fileId, $this->selectedFiles)) {
-            $this->selectedFiles = array_diff($this->selectedFiles, [$fileId]);
-        } else {
+        if (! in_array($fileId, $this->selectedFiles)) {
             $this->selectedFiles[] = $fileId;
         }
     }
@@ -176,6 +172,8 @@ class LivewireFilemanagerComponent extends Component
 
         $this->breadcrumb = $this->generateBreadcrumb($this->currentFolder);
         $this->isCreatingNewFolder = false;
+
+        session(['currentFolderId' => $newFolder->id]);
 
         $this->loadFolders();
     }
