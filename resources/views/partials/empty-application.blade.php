@@ -1,9 +1,9 @@
-<div class="px-4 py-12 w-full" x-data="{ create_root_folder: false }">
+<div class="px-4 py-12 w-full bg-white dark:bg-slate-800" x-data="{ create_root_folder: false }">
     <div class="text-center">
         <x-livewire-filemanager::icons.folder class="mx-auto h-16" />
 
-        <h3 class="mt-2 font-semibold text-gray-900">{{ __('livewire-filemanager::filemanager.root_folder_not_configurated') }}</h3>
-        <p class="mt-1 text-base text-gray-500">{{ __('livewire-filemanager::filemanager.root_folder_not_configurated_help') }}</p>
+        <h3 class="mt-2 font-semibold text-gray-900 dark:text-slate-300">{{ __('livewire-filemanager::filemanager.root_folder_not_configurated') }}</h3>
+        <p class="mt-1 text-base text-gray-500 dark:text-slate-300">{{ __('livewire-filemanager::filemanager.root_folder_not_configurated_help') }}</p>
 
         <div class="mt-6">
             <x-livewire-filemanager::buttons.primary x-on:click="create_root_folder = true">
@@ -18,7 +18,7 @@
         <x-slot name="title">{{ __('livewire-filemanager::filemanager.add_your_first_folder') }}</x-slot>
 
         <div>
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">{{ __('livewire-filemanager::filemanager.root_folder_name') }}</label>
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">{{ __('livewire-filemanager::filemanager.root_folder_name') }}</label>
             <div class="relative mt-2 rounded-md shadow-sm">
                 <x-livewire-filemanager::form.text-input type="text" autofocus wire:model="newFolderName" name="folder" id="folder" class="{{ ($errors->has('newFolderName') ? 'focus:ring-red-500 focus:border-red-500 focus:ring-red-500 ring-red-500' : 'ring-gray-300 focus:ring-indigo-600') }}" />
 

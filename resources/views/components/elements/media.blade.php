@@ -1,10 +1,10 @@
 @props(['folder', 'media', 'selectedFiles'])
 
 <div
-    :class="{ '!bg-gray-200/50 !hover:bg-gray-200/60 group': @json($selectedFiles).includes({{ $media->id }}) }"
+    :class="{ '!bg-gray-200/50 !hover:bg-gray-200/60 !dark:bg-gray-700 !hover:dark:bg-gray-700 group': @json($selectedFiles).includes({{ $media->id }}) }"
     x-on:click="$wire.toggleFileSelection({{ $media->id }}); shiftKey = false; $wire.handleMediaClick({{ $media->id }})"
     data-id="{{ $media->id }}"
-    class="file cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 hover:bg-blue-100/30 text-center select-none">
+    class="file cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 hover:bg-blue-100/30 hover:dark:bg-gray-700 text-center select-none">
     <div>
         @if($media->hasGeneratedConversion('thumbnail'))
             <img src="{{ $media->getUrl('thumbnail') }}" class="mx-auto shadow border p-1 bg-white max-w-20 max-h-20 mb-2" alt="folder">
@@ -14,6 +14,6 @@
     </div>
 
     <div class="flex flex-wrap text-center">
-        <span class="text-ellipsis overflow-hidden break-words w-full block text-xs max-w-[150px]">{{ trimString($media->name, 38) }}</span>
+        <span class="text-ellipsis overflow-hidden break-words w-full block text-xs max-w-[150px] dark:text-slate-200">{{ trimString($media->name, 38) }}</span>
     </div>
 </div>
