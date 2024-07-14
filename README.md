@@ -68,7 +68,7 @@ For the styles and scripts, the package relies on TailwindCSS and AlpineJS. So i
 module.exports = {
     content: [
         './resources/**/*.blade.php',
-        './vendor/livewire-filemanager/filemanager/resources/views/*.blade.php',
+        './vendor/livewire-filemanager/filemanager/resources/views/**/*.blade.php',
     ],
 }
 ```
