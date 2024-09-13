@@ -39,9 +39,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "livewire/livewire": "^3.0",
-        "laravel/framework": "^10.0|^11.9",
-        "spatie/laravel-medialibrary": "^10.15|^11.5"
+        "laravel/framework": "^10.48.12|^11.9",
+        "livewire/livewire": "^3.5.4",
+        "spatie/laravel-medialibrary": "^10.15|^11.5.4"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
@@ -50,8 +50,8 @@
         "sort-packages": true
     },
     "require-dev": {
-        "laravel/pint": "^1.13",
-        "orchestra/testbench": "^8.15",
-        "phpunit/phpunit": "^10.4"
+        "laravel/pint": "^1.16",
+        "orchestra/testbench": "^8.23.2",
+        "phpunit/phpunit": "^10.5.20"
     }
 }
