@@ -227,7 +227,9 @@ class LivewireFilemanagerComponent extends Component
             $this->currentFolder
                 ->addMedia($file->getRealPath())
                 ->usingName($file->getClientOriginalName())
-                ->usingFileName($file->getClientOriginalName())
+                ->sanitizingFileName(function ($fileName) {
+                    return Str::ascii($fileName);
+                })
                 ->withCustomProperties([
                     'user_id' => optional(Auth::user())->id,
                 ])
