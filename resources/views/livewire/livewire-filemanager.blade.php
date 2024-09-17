@@ -101,7 +101,7 @@
                         @endif
 
                         @foreach($folders->sortBy('name') as $folder)
-                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :key="'folder-' . $media->id" />
+                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :key="'folder-' . $folder->id" />
                         @endforeach
 
                         @if($searchedFiles)
