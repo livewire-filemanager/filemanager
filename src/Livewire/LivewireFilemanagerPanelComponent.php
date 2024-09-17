@@ -22,12 +22,6 @@ class LivewireFilemanagerPanelComponent extends Component
         $this->media = null;
     }
 
-    #[On('copy-link')]
-    public function copyLink()
-    {
-        // Send notification
-    }
-
     public function render()
     {
         return view('livewire-filemanager::livewire.media-panel');

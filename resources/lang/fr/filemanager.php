@@ -22,6 +22,7 @@ return [
         'delete' => 'Supprimer',
         'close_modal' => 'Fermer la popup',
         'copy_url' => 'Copier l’URL du fichier',
+        'url_copy_pasted' => 'Link copied to clipboard!',
     ],
     'validation' => [
         'folder_name_required' => 'Le nom du dossier est obligatoire',
