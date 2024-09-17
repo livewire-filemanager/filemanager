@@ -227,13 +227,13 @@ class LivewireFilemanagerComponent extends Component
             $this->currentFolder
                 ->addMedia($file->getRealPath())
                 ->usingName($file->getClientOriginalName())
-                ->sanitizingFileName(function ($fileName) {
-                    $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-                    $name = pathinfo($fileName, PATHINFO_FILENAME);
+                ->sanitizingFileName(function ($fileName) use ($file) {
+                    $extension = pathinfo($file->getRealPath(), PATHINFO_EXTENSION);
+                    $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-                    $slugifiedName = Str::slug($name);
+                    $slugified_name = Str::slug($name);
 
-                    return strtolower($slugifiedName . '.' . $extension);
+                    return strtolower($slugified_name . '.' . $extension);
                 })
                 ->withCustomProperties([
                     'user_id' => optional(Auth::user())->id,
