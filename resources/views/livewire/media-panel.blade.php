@@ -32,7 +32,7 @@
                     </li>
                 </ul>
 
-                <div class="pb-4 pt-4">
+                <div class="pb-4 pt-4 relative">
                     <div class="flex text-sm">
                         <button type="button" wire:click.prevent="$dispatch('copy-link', { link: '{{ getMediaFullPath($media) }}' })" class="group inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
                             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -41,6 +41,10 @@
                             </svg>
                             <span class="ml-2">{{ __('livewire-filemanager::filemanager.actions.copy_url') }}</span>
                         </button>
+                    </div>
+
+                    <div id="copyNotification" class="hidden top-0 bg-green-500 text-white text-sm rounded px-3 p-2 mt-2">
+                        {{ __('livewire-filemanager::filemanager.actions.url_copy_pasted') }}
                     </div>
                 </div>
 

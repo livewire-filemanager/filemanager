@@ -101,16 +101,16 @@
                         @endif
 
                         @foreach($folders->sortBy('name') as $folder)
-                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" />
+                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :key="'folder-' . $media->id" />
                         @endforeach
 
                         @if($searchedFiles)
                             @foreach($searchedFiles->sortBy('file_name') as $media)
-                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" />
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :key="'searched-file-' . $media->id" />
                             @endforeach
                         @else
                             @foreach($currentFolder->getMedia('medialibrary')->sortBy('file_name') as $media)
-                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" />
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :key="'file-' . $media->id" />
                             @endforeach
                         @endif
                     </div>
@@ -282,6 +282,12 @@
 
                 navigator.clipboard.writeText(link)
                 .then(() => {
+                    let notification = document.getElementById('copyNotification');
+                    notification.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 2000);
                 })
                 .catch(err => {
                     console.error('Error in copying text: ', err);
