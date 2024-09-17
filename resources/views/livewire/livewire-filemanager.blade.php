@@ -278,7 +278,9 @@
             });
 
             Livewire.on('copy-link', function (event) {
-                navigator.clipboard.writeText(event.link)
+                link = decodeURIComponent(event.link);
+
+                navigator.clipboard.writeText(link)
                 .then(() => {
                 })
                 .catch(err => {
