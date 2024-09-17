@@ -22,6 +22,7 @@ return [
         'delete' => 'Delete',
         'close_modal' => 'Close modal',
         'copy_url' => 'Copy URL of the file',
+        'url_copy_pasted' => 'Link copied to clipboard!',
     ],
     'validation' => [
         'folder_name_required' => 'The folder name is required',
