@@ -93,7 +93,7 @@
                     x-on:dblclick.self="$wire.createNewFolder()"
                     class="p-2 pb-10 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
                         @if ($isCreatingNewFolder)
-                            <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center">
+                            <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center" @click.outside="$wire.saveNewFolder">
                                 <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
 
                                 <input type="text" id="new-folder-name" wire:model="newFolderName" wire:keydown.enter="saveNewFolder" class="text-center w-full rounded py-0.5 px-1 text-sm dark:bg-slate-800 dark:text-slate-200">
