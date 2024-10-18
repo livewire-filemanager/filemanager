@@ -15,6 +15,12 @@ class Folder extends Model implements HasMedia
 
     protected $with = ['children'];
 
+    protected $fillable = [
+        'parent_id',
+        'name',
+        'slug',
+    ];
+
     public $registerMediaConversionsUsingModelInstance = true;
 
     protected static function boot(): void
