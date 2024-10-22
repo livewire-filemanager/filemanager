@@ -159,7 +159,7 @@ class LivewireFilemanagerComponent extends Component
             ],
         ]);
 
-        $newFolder = new Folder();
+        $newFolder = new Folder;
 
         $newFolder->name = trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title');
         $newFolder->slug = Str::slug(trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title'));
@@ -233,7 +233,7 @@ class LivewireFilemanagerComponent extends Component
 
                     $slugified_name = Str::slug($name);
 
-                    return strtolower($slugified_name . '.' . $extension);
+                    return strtolower($slugified_name.'.'.$extension);
                 })
                 ->withCustomProperties([
                     'user_id' => optional(Auth::user())->id,

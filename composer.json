@@ -39,7 +39,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^10.48.12|^11.9",
+        "illuminate/database": "^10.0|^11.0",
+        "illuminate/support": "^10.0|^11.0",
+        "illuminate/view": "^10|^11",
         "livewire/livewire": "^3.5.4",
         "spatie/laravel-medialibrary": "^10.15|^11.5.4"
     },

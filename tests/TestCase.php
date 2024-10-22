@@ -62,7 +62,7 @@ class TestCase extends BaseTestCase
         }
 
         if ($className) {
-            (new $className())->up();
+            (new $className)->up();
 
             return;
         }
