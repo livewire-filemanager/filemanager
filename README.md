@@ -4,6 +4,21 @@
 
 A simple, friendly, and practical file manager designed specifically for Laravel applications. This Livewire-powered tool makes it easy to manage files and folders within your project, offering an intuitive interface and seamless integration with Laravel's ecosystem. Perfect for developers seeking an efficient and user-friendly solution for file and folders management.
 
+- Drag & drop files
+- Search for files or folders
+- Ready to include in any projects
+- Multiple languages (en, es, fr, pt)
+- Darkmode available
+
+## Project requirements
+
+- PHP 8.2.0 or greater required
+
+## Important composer dependencies
+
+- [livewire/livewire](https://laravel-livewire.com/)
+- [spatie/laravel-medialibrary](https://spatie.be/docs/laravel-medialibrary)
+
 ## Installation
 
 > [!IMPORTANT]
