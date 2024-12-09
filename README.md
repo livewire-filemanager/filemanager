@@ -10,6 +10,8 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 - Multiple languages (en, es, fr, pt)
 - Darkmode available
 
+Watch the presentation of the package here: [Laravel Switzerland Meetup](https://youtu.be/lgk_1AtukfM?si=XXUtaCkNK5dpdKni)
+
 ## Project requirements
 
 - PHP 8.2.0 or greater required
