@@ -1,4 +1,10 @@
-<p align="center"><img src="https://github.com/livewire-filemanager/filemanager/raw/master/images/banner.png" alt="Livewire filemanager image"></p>
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="./images/banner_dark.png">
+        <source media="(prefers-color-scheme: light)" srcset="./images/banner_light.png">
+        <img alt="Livewire filemanager image" src="./images/banner_light.png">
+    </picture>
+</p>
 
 # A Livewire filemanager for your Laravel applications
 
