@@ -1,6 +1,12 @@
-<p align="center"><img src="https://github.com/livewire-filemanager/filemanager/raw/master/images/banner.png" alt="Livewire filemanager image"></p>
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="./images/banner_dark.png">
+        <source media="(prefers-color-scheme: light)" srcset="./images/banner_light.png">
+        <img alt="Livewire filemanager image" src="./images/banner_light.png">
+    </picture>
+</p>
 
-# A Livewire filemanager for your Laravel applications
+# Livewire Filemanager
 
 A simple, friendly, and practical file manager designed specifically for Laravel applications. This Livewire-powered tool makes it easy to manage files and folders within your project, offering an intuitive interface and seamless integration with Laravel's ecosystem. Perfect for developers seeking an efficient and user-friendly solution for file and folders management.
 
