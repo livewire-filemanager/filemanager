@@ -13,7 +13,7 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 - Drag & drop files
 - Search for files or folders
 - Ready to include in any projects
-- Multiple languages (en, es, fr, pt)
+- Multiple languages (en, es, fr, pt, fa)
 - Darkmode available
 
 Watch the presentation of the package here: [Laravel Switzerland Meetup](https://youtu.be/lgk_1AtukfM?si=XXUtaCkNK5dpdKni)
