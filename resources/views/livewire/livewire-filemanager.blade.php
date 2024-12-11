@@ -13,7 +13,7 @@
                         {{ $currentFolder->name }}
 
                         <span class="px-2 text-gray-600 dark:text-slate-400">|</span>
-                        <span class="text-gray-500 text-sm dark:text-slate-400">{{ $currentFolder->elements() }}{!! ((count($selectedFolders) + count($selectedFiles)) > 0 ? ' <span class="text-slate-700">(' . (count($selectedFolders) + count($selectedFiles)) . ' ' . trans_choice('livewire-filemanager::filemanager.selected', (count($selectedFolders) + count($selectedFiles))) . ')</span>' : '') !!}</span>
+                        <span class="text-gray-500 text-sm dark:text-slate-400">{{ $currentFolder->elements() }}{!! ((count($selectedFolders) + count($selectedFiles)) > 0 ? ' <span class="text-slate-700 dark:text-slate-400">(' . (count($selectedFolders) + count($selectedFiles)) . ' ' . trans_choice('livewire-filemanager::filemanager.selected', (count($selectedFolders) + count($selectedFiles))) . ')</span>' : '') !!}</span>
                     </h2>
 
                     <div>
@@ -72,7 +72,7 @@
                     @mousedown="initiateDrawing($event)" @mousemove="draw($event)" @mouseup="stopDrawing()" @mouseleave="stopDrawing()"
                     class="border-t border-slate-300 shadow-inner overflow-x-hidden relative dark:border-slate-700" x-bind:class="dropingFile ? 'bg-blue-50 dark:bg-slate-900/90 border-dashed' : ''">
                     @if($search)
-                        <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-slate-300 text-sm">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
+                        <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-slate-300 text-sm dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
                     @endif
 
                     <template x-if="drawnArea">

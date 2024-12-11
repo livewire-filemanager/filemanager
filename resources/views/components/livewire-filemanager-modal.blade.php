@@ -17,7 +17,7 @@
             <div class="p-4">
                 <h2 class="text-xl font-bold text-black dark:text-slate-300">{{ $title }}</h2>
 
-                <div class="py-8">
+                <div class="py-8 text-black dark:text-slate-300">
                     {{ $slot }}
                 </div>
             </div>
