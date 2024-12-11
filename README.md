@@ -16,7 +16,7 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 - Multiple languages (en, es, fr, pt, fa)
 - Darkmode available
 
-Watch the presentation of the package here: [Laravel Switzerland Meetup](https://youtu.be/lgk_1AtukfM?si=XXUtaCkNK5dpdKni)
+Watch the presentation of the package here: [Laravel Switzerland Meetup](https://www.youtube.com/watch?v=lgk_1AtukfM)
 
 ## Project requirements
 
@@ -109,6 +109,8 @@ use LivewireFilemanager\Filemanager\Http\Controllers\Files\FileController;
 ```
 
 This will give you an endpoint where you can reach the files with a direct url.
+
+Inside the filemanager, when you click on a file, you'll have the possibility to copy the url to the file. In order to work correctly, this feature needs to have your domain with https enabled.
 
 ## The interface
 
