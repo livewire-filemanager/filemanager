@@ -9,7 +9,7 @@
         <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
 
         <div class="flex flex-wrap text-center">
-            <span :class="{ 'bg-blue-500 text-white dark:bg-blue-700 group': @json($selectedFolders).includes({{ $folder->id }}) }" class="text-ellipsis overflow-hidden break-words w-full block text-xs max-w-[150px] dark:text-slate-200 rounded">{{ $folder->name }}</span>
+            <span :class="{ 'bg-blue-500 text-white dark:bg-blue-700 group': @json($selectedFolders).includes({{ $folder->id }}) }" class="text-ellipsis overflow-hidden break-words w-full block text-xs max-w-[150px] dark:text-zinc-200 rounded">{{ $folder->name }}</span>
             <small :class="{ 'text-blue-900': @json($selectedFolders).includes({{ $folder->id }}) }" class="w-full block text-xs text-blue-500">{{ $folder->elements() }}</small>
         </div>
 </div>

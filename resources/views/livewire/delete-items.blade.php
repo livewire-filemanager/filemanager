@@ -5,7 +5,7 @@
     <x-livewire-filemanager-modal :modal="'delete_items'">
         <x-slot name="title">{{ __('livewire-filemanager::filemanager.delete_items') }}</x-slot>
 
-        <p class="text-black dark:text-slate-300">{{ __('livewire-filemanager::filemanager.delete_items_warning') }}</p>
+        <p class="text-black dark:text-zinc-300">{{ __('livewire-filemanager::filemanager.delete_items_warning') }}</p>
 
         <x-slot name="action">
             <x-livewire-filemanager::buttons.danger type="button" wire:click="delete">

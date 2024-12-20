@@ -116,7 +116,15 @@ Inside the filemanager, when you click on a file, you'll have the possibility to
 
 Once everything is installed, the interface should look like this:
 
-<p align="center"><img src="https://github.com/livewire-filemanager/filemanager/raw/master/images/interface.jpg" alt="Livewire filemanager interface"></p>
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="./images/interface-dark-mode.jpg">
+        <source media="(prefers-color-scheme: light)" srcset="./images/interface-light-mode.jpg">
+        <img alt="Livewire filemanager interface screenshot" src="./images/interface-light-mode.jpg">
+    </picture>
+</p>
+
+The whole interface is available in dark/light mode.
 
 ## Testing
 
