@@ -15,6 +15,6 @@
     </div>
 
     <div class="flex flex-wrap text-center">
-        <span class="text-ellipsis overflow-hidden break-words w-full block text-xs max-w-[150px] dark:text-slate-200">{{ trimString($media->name, 38) }}</span>
+        <span class="text-ellipsis overflow-hidden break-words w-full block text-xs max-w-[150px] dark:text-zinc-200">{{ trimString($media->name, 38) }}</span>
     </div>
 </div>
