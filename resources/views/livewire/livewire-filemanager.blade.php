@@ -2,7 +2,7 @@
     @if(!$currentFolder)
         @include('livewire-filemanager::partials.empty-application')
     @else
-        <div class="w-full" x-data="{ uploading: false, progress: 0 }"
+        <div class="w-full" x-data="FilemanagerComponent()"
             x-on:livewire-upload-start="uploading = true"
             x-on:livewire-upload-finish="uploading = false"
             x-on:livewire-upload-error="uploading = false"
@@ -68,7 +68,6 @@
                 </div>
 
                 <div id="filemanager-area"
-                    x-data="FilemanagerComponent()"
                     @mousedown="initiateDrawing($event)" @mousemove="draw($event)" @mouseup="stopDrawing()" @mouseleave="stopDrawing()"
                     class="border-t border-zinc-300 shadow-inner overflow-x-hidden relative dark:border-zinc-700" x-bind:class="dropingFile ? 'bg-blue-50 dark:bg-zinc-900/90 border-dashed' : ''">
                     @if($search)
@@ -145,6 +144,8 @@
     <script>
         function FilemanagerComponent() {
             return {
+                uploading: false,
+                progress: 0,
                 dropingFile: false,
                 isDrawing: false,
                 isPending: false,

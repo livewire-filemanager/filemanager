@@ -67,6 +67,8 @@ class LivewireFilemanagerComponent extends Component
     {
         if (! in_array($folderId, $this->selectedFolders)) {
             $this->selectedFolders[] = $folderId;
+        } else {
+            $this->selectedFolders = array_diff($this->selectedFolders, [$folderId]);
         }
     }
 
@@ -74,6 +76,8 @@ class LivewireFilemanagerComponent extends Component
     {
         if (! in_array($fileId, $this->selectedFiles)) {
             $this->selectedFiles[] = $fileId;
+        } else {
+            $this->selectedFiles = array_diff($this->selectedFiles, [$fileId]);
         }
     }
 
