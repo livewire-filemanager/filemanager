@@ -32,22 +32,6 @@
                     </li>
                 </ul>
 
-                <div class="pb-4 pt-4 relative">
-                    <div class="flex text-sm">
-                        <button type="button" wire:click.prevent="$dispatch('copy-link', { link: '{{ getMediaFullPath($media) }}' })" class="group inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
-                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z"></path>
-                                <path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 105.656 5.656l3-3a4 4 0 00-.225-5.865z"></path>
-                            </svg>
-                            <span class="ml-2">{{ __('livewire-filemanager::filemanager.actions.copy_url') }}</span>
-                        </button>
-                    </div>
-
-                    <div id="copyNotification" class="hidden top-0 bg-green-500 text-white text-sm rounded px-3 p-2 mt-2">
-                        {{ __('livewire-filemanager::filemanager.actions.url_copy_pasted') }}
-                    </div>
-                </div>
-
                 <div class="mt-4">
                     <strong class="text-black dark:text-gray-300">Informations</strong>
                     <dl class="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200 dark:divide-zinc-600 dark:border-zinc-600">
@@ -60,6 +44,28 @@
                             <dd class="text-gray-900 dark:text-gray-300">{{ $media->updated_at->diffForHumans() }}</dd>
                         </div>
                     </dl>
+                </div>
+
+                <div class="pb-4 pt-4 relative">
+                    <div class="flex space-x-4 text-sm">
+                        <a href="{{ $media->getUrl() }}" download class="group border rounded p-1.5 inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                        </a>
+
+                        <button type="button" wire:click.prevent="$dispatch('copy-link', { link: '{{ getMediaFullPath($media) }}' })" class="group border rounded p-1.5 inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z"></path>
+                                <path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 105.656 5.656l3-3a4 4 0 00-.225-5.865z"></path>
+                            </svg>
+                            <span class="ml-2">{{ __('livewire-filemanager::filemanager.actions.copy_url') }}</span>
+                        </button>
+                    </div>
+
+                    <div id="copyNotification" class="hidden top-0 bg-green-500 text-white text-sm rounded px-3 p-2 mt-2">
+                        {{ __('livewire-filemanager::filemanager.actions.url_copy_pasted') }}
+                    </div>
                 </div>
             @endif
         </div>
