@@ -23,6 +23,7 @@ return [
         'close_modal' => 'Fermer la popup',
         'copy_url' => 'Copier l’URL du fichier',
         'url_copy_pasted' => 'Lien copié !',
+        'url_not_copy_pasted' => 'Le clipboard API n’est pas supporté dans un contexte non-secure. Servez votre site sur HTTPS.',
     ],
     'validation' => [
         'folder_name_required' => 'Le nom du dossier est obligatoire',

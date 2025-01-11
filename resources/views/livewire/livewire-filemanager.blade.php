@@ -279,20 +279,43 @@
             });
 
             Livewire.on('copy-link', function (event) {
-                link = decodeURIComponent(event.link);
+                const link = decodeURIComponent(event.link);
 
-                navigator.clipboard.writeText(link)
-                .then(() => {
-                    let notification = document.getElementById('copyNotification');
-                    notification.classList.remove('hidden');
+                const showNotification = (message, bgColor, duration) => {
+                    const notification = document.getElementById('copyNotification');
+                    if (notification) {
+                        notification.textContent = message;
+                        notification.className = `top-0 text-white text-sm rounded px-3 p-2 mt-2 ${bgColor}`;
+                        notification.classList.remove('hidden');
+                        setTimeout(() => {
+                            notification.classList.add('hidden');
+                        }, duration);
+                    }
+                };
 
-                    setTimeout(() => {
-                        notification.classList.add('hidden');
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('Error in copying text: ', err);
-                });
+                if (window.isSecureContext) {
+                    navigator.clipboard.writeText(link)
+                        .then(() => {
+                            showNotification(
+                                "{{ __('livewire-filemanager::filemanager.actions.url_copy_pasted') }}",
+                                'bg-green-500',
+                                2000
+                            );
+                        })
+                        .catch(() => {
+                            showNotification(
+                                "{{ __('livewire-filemanager::filemanager.actions.url_not_copy_pasted') }}",
+                                'bg-red-500',
+                                4000
+                            );
+                        });
+                } else {
+                    showNotification(
+                        "{{ __('livewire-filemanager::filemanager.actions.url_not_copy_pasted') }}",
+                        'bg-red-500',
+                        4000
+                    );
+                }
             });
         });
     </script>

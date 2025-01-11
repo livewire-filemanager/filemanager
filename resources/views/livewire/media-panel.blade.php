@@ -63,9 +63,7 @@
                         </button>
                     </div>
 
-                    <div id="copyNotification" class="hidden top-0 bg-green-500 text-white text-sm rounded px-3 p-2 mt-2">
-                        {{ __('livewire-filemanager::filemanager.actions.url_copy_pasted') }}
-                    </div>
+                    <div id="copyNotification" class="hidden top-0 text-white text-sm rounded px-3 p-2 mt-2"></div>
                 </div>
             @endif
         </div>
