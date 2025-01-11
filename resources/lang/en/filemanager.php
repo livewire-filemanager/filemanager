@@ -23,6 +23,7 @@ return [
         'close_modal' => 'Close modal',
         'copy_url' => 'Copy URL of the file',
         'url_copy_pasted' => 'Link copied to clipboard!',
+        'url_not_copy_pasted' => 'Clipboard API not supported in non-secure context. Please serve the site over HTTPS.',
     ],
     'validation' => [
         'folder_name_required' => 'The folder name is required',

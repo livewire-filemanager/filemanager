@@ -23,6 +23,7 @@ return [
         'close_modal' => 'Cerrar modal',
         'copy_url' => 'Copiar URL del archivo',
         'url_copy_pasted' => '¡Enlace copiado al portapapeles!',
+        'url_not_copy_pasted' => 'La API del portapapeles no es compatible con un contexto no seguro. Servicio tu sitio HTTPS.',
     ],
     'validation' => [
         'folder_name_required' => 'El nombre de la carpeta es obligatorio',

@@ -23,6 +23,7 @@ return [
         'close_modal' => 'Fechar modal',
         'copy_url' => 'Copiar URL do ficheiro',
         'url_copy_pasted' => 'Link copiado para a área de transferência!',
+        'url_not_copy_pasted' => 'O clipboard API não é suportado em um contexto non-seguro. Serviço seu site em HTTPS.',
     ],
     'validation' => [
         'folder_name_required' => 'O nome da pasta é obrigatório',

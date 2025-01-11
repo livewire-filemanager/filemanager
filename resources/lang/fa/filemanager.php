@@ -23,6 +23,7 @@ return [
         'close_modal' => 'بستن پنجره',
         'copy_url' => 'کپی آدرس',
         'url_copy_pasted' => 'آدرس کپی شد.',
+        'url_not_copy_pasted' => 'API کلیپ بورد در گونه غیر امن پشتیبانی نمی کند. سایت خود را به HTTPS سرو کنید.',
     ],
     'validation' => [
         'folder_name_required' => 'نام پوشه اجباری است.',
