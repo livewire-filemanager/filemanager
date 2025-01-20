@@ -1,3 +1,5 @@
+<?php
+
 return [
     'root_folder_not_configurated' => 'Ana klasörünüz oluşturulmadı',
     'root_folder_not_configurated_help' => 'Bu klasör, dosya yöneticinizin ana klasörü olacak',
@@ -19,9 +21,9 @@ return [
         'save' => 'Kaydet',
         'delete' => 'Sil',
         'close_modal' => 'Pencereyi kapat',
-        'copy_url' => 'Dosya URL\'sini kopyala',
+        'copy_url' => 'Dosya URL\'ini kopyala',
         'url_copy_pasted' => 'Bağlantı panoya kopyalandı!',
-        'url_not_copy_pasted' => 'Güvenli olmayan bağlamda Pano API\'si desteklenmiyor. Lütfen siteyi HTTPS üzerinden sunun.',
+        'url_not_copy_pasted' => 'Clipboard API SSL olmayan bağlantılarda desteklenmiyor. Lütfen websitenizi HTTPS üzerinden yayınlayın.',
     ],
     'validation' => [
         'folder_name_required' => 'Klasör adı gereklidir',
