@@ -8,7 +8,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireFilemanager\Filemanager\Models\Folder;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use LivewireFilemanager\Filemanager\Models\Media;
 
 class LivewireFilemanagerComponent extends Component
 {
