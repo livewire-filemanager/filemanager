@@ -2,6 +2,7 @@
 
 namespace LivewireFilemanager\Filemanager\Tests\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,13 @@ use LivewireFilemanager\Filemanager\Models\Folder;
 
 class TestFolderModel extends Model
 {
+    protected $table = 'folders';
     protected $with = ['children'];
+    protected $fillable = [
+        'parent_id',
+        'name',
+        'slug',
+    ];
 
     public $registerMediaConversionsUsingModelInstance = true;
 
@@ -20,6 +27,36 @@ class TestFolderModel extends Model
         static::deleting(function ($folder) {
             if ($folder->isHomeFolder()) {
                 return false;
+            }
+        });
+
+        static::creating(function ($folder) {
+            if (!config('livewire-fileuploader.acl_enabled')) {
+                return;
+            }
+
+            $user = auth()->getUser();
+
+            if ($user) {
+                $folder->user_id = $user->id;
+            }
+        });
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('user_id', function (Builder $builder) {
+            if (!config('livewire-fileuploader.acl_enabled')) {
+                return;
+            }
+
+            $user = auth()->getUser();
+
+            if ($user) {
+                $builder->where(
+                    'user_id',
+                    $user->id
+                );
             }
         });
     }

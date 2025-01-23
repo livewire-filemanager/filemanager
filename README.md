@@ -96,7 +96,7 @@ module.exports = {
 }
 ```
 
-If you intent to give access to your files with the public, you can add this inside your web routes file:.
+If you intend to give access to your files with the public, you can add this inside your web routes file:.
 
 ```
 Route::get('{path}', [FileController::class, 'show'])->where('path', '.*')->name('assets.show');
@@ -125,6 +125,25 @@ Once everything is installed, the interface should look like this:
 </p>
 
 The whole interface is available in dark/light mode.
+
+#### ACL Configuration
+If you want to enable ACL, you should publish the config file:
+
+```bash
+php artisan vendor:publish --tag=livewire-fileuploader-config
+```
+
+This will create a `livewire-fileuploader.php` file inside your config folder. You can now enable the ACL by changing the `acl_enabled` value to `true`.
+
+Also publish the Spatie medialibrary config file, if you haven't already done it.
+
+```bash
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-config"
+```
+
+In the media-library config file, change the `media_model` value to `LivewireFilemanager\Filemanager\Models\Media`. If you already have a media model, you can use the Trait `LivewireFilemanager\Filemanager\Traits\HasMediaOwner` inside your model.
+
+This will ensure that only users who created files can view them.
 
 ## Testing
 

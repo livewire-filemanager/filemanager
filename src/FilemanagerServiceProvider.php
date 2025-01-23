@@ -3,6 +3,7 @@
 namespace LivewireFilemanager\Filemanager;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
@@ -10,19 +11,26 @@ use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalCompone
 use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
+use LivewireFilemanager\Filemanager\Models\Media;
+use LivewireFilemanager\Filemanager\Policies\MediaPolicy;
 
 class FilemanagerServiceProvider extends ServiceProvider
 {
+    protected $policies = [
+        Media::class => MediaPolicy::class,
+    ];
+
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'livewire-filemanager');
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'livewire-filemanager');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'livewire-filemanager');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'livewire-filemanager');
 
         $this
             ->registerPublishables()
             ->registerBladeComponents()
             ->registerBladeDirectives()
-            ->registerLivewireComponents();
+            ->registerLivewireComponents()
+            ->registerPolicies();
     }
 
     public function register()
@@ -34,16 +42,21 @@ class FilemanagerServiceProvider extends ServiceProvider
     {
         if (! class_exists('CreateTemporaryUploadsTable')) {
             $this->publishes([
-                __DIR__.'/../database/migrations/create_folders_table.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_folders_table.php'),
+                __DIR__ . '/../database/migrations/create_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_folders_table.php'),
+                __DIR__ . '/../database/migrations/include_user_id_column_in_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_include_user_id_column_in_folders_table.php'),
             ], 'livewire-fileuploader-migrations');
 
             $this->publishes([
-                __DIR__.'/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
+                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
             ], 'livewire-fileuploader-views');
 
             $this->publishes([
-                __DIR__.'/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
+                __DIR__ . '/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
             ], 'livewire-fileuploader-lang');
+
+            $this->publishes([
+                __DIR__ . '/../config/livewire-fileuploader.stub' => config_path('livewire-fileuploader.php'),
+            ], 'livewire-fileuploader-config');
         }
 
         return $this;
@@ -87,6 +100,15 @@ class FilemanagerServiceProvider extends ServiceProvider
 
             return $scripts;
         });
+
+        return $this;
+    }
+
+    public function registerPolicies(): self
+    {
+        foreach ($this->policies as $key => $value) {
+            Gate::policy($key, $value);
+        }
 
         return $this;
     }
