@@ -5,7 +5,7 @@
 
     <div class="relative min-h-screen flex items-center justify-center p-4">
         <div x-dialog:panel x-transition class="relative max-w-xl w-full bg-white rounded-xl shadow-lg overflow-y-auto dark:bg-zinc-800">
-            <div class="absolute top-0 right-0 pt-4 pr-4">
+            <div class="absolute top-0 end-0 pt-4 pe-4">
                 <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:bg-zinc-700 dark:text-zinc-200">
                     <span class="sr-only">{{ __('livewire-filemanager::filemanager.actions.close_modal') }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="p-4 flex justify-end space-x-2 bg-gray-50 dark:bg-zinc-900/30">
+            <div class="p-4 flex justify-end gap-x-2 bg-gray-50 dark:bg-zinc-900/30">
                 <x-livewire-filemanager::buttons.secondary type="button" x-on:click="$dialog.close()">
                     {{ __('livewire-filemanager::filemanager.actions.cancel') }}
                 </x-livewire-filemanager::buttons.secondary>
