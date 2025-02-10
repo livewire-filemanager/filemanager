@@ -43,8 +43,10 @@ class LivewireFilemanagerComponent extends Component
 
     public function mount($user_id = null, $tenant_id = null)
     {
+
         $this->tenant_id = $tenant_id;
         $this->user_id = $user_id;
+
 
         $currentFolderId = session('currentFolderId');
 
@@ -142,6 +144,7 @@ class LivewireFilemanagerComponent extends Component
                 ->where('name', 'like', '%'.$this->search.'%')
                 ->whereIn('folder_id', $folderIds)
                 ->get();
+
         } else {
             $this->folders = $this->currentFolder->fresh()->children;
             $this->searchedFiles = null;
@@ -171,7 +174,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function updatedSearch()
     {
-        $this->currentFolder = Folder::find(1);
+        $this->currentFolder = Folder::whereNull('parent_id')->first();
 
         session(['currentFolderId' => $this->currentFolder->id]);
 
@@ -223,7 +226,10 @@ class LivewireFilemanagerComponent extends Component
             ],
         ]);
 
-        $newFolder = new Folder;
+
+
+        $newFolder = new Folder();
+
         $newFolder->name = trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title');
         $newFolder->slug = Str::slug(trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title'));
         $newFolder->parent_id = ($this->currentFolder ? $this->currentFolder->id : null);

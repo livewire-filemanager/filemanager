@@ -96,6 +96,12 @@
                                 <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
 
                                 <input type="text" id="new-folder-name" wire:model="newFolderName" wire:keydown.enter="saveNewFolder" class="text-center w-full rounded py-0.5 px-1 text-sm dark:bg-zinc-800 dark:text-zinc-200">
+
+                                @error('newFolderName')
+                                <span class="text-left text-xs leading-none text-red-500 overflow-hidden text-ellipsis line-clamp-4">
+                                    {{ $message }}
+                                </span>
+                                @enderror
                             </div>
                         @endif
 
