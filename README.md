@@ -18,6 +18,21 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 
 Watch the presentation of the package here: [Laravel Switzerland Meetup](https://www.youtube.com/watch?v=lgk_1AtukfM)
 
+## Additions in this fork (lambertbeekhuis/livewire-filemanager)
+First, use the Livewire-compenent directly in your blade file, instead of using the x-livewire-filemanager tag. This way you can pass parameters to the component.
+
+<livewire:livewire-filemanager tenant_id="{{session('tenant')}}" />
+
+Second, I added the option for a tenant-id/team-id the folders-table. So the filemanager can be used in a multi-tenant application. The tenant_id is stored in the session, so it is available in the blade file.
+
+I did this not by a global config, but by the option to add the tenant_id as a parameter in the livewire-component.
+
+In addition, also the user_id can be added directly to the livewire-component. This way, the filemanager can be used in a multi-user application.
+
+<livewire:livewire-filemanager tenant_id="{{session('tenant')}}" user_id="{{Auth::id()}}" />
+
+In addition, I solved some bugs related to using the filemanager with ACL or multi-tenant.
+
 ## Project requirements
 
 - PHP 8.2.0 or greater required
