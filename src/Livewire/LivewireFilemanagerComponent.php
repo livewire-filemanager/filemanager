@@ -35,21 +35,58 @@ class LivewireFilemanagerComponent extends Component
     public $savedByEnter = false;
 
     public $breadcrumb = [];
+    public $tenant_id = null;
+    public $user_id = null;
 
     protected $listeners = ['fileAdded'];
 
-    public function mount()
+
+    public function mount($user_id = null, $tenant_id = null)
     {
-        if (! session('currentFolderId')) {
-            session(['currentFolderId' => 1]);
-        }
+        $this->tenant_id = $tenant_id;
+        $this->user_id = $user_id;
 
         $currentFolderId = session('currentFolderId');
 
-        $this->currentFolder = Folder::with(['children', 'parent'])->where('id', $currentFolderId)->first();
+        if ($currentFolderId) {
+            $this->currentFolder = Folder::with(['children', 'parent'])
+                ->where('user_id', $user_id)
+                ->when(config('livewire-fileuploader.tenant_enabled'), function ($query) use ($tenant_id) {
+                    return $query->where('tenant_id', $tenant_id);
+                })
+                ->where('id', $currentFolderId)
+                ->first();
+        }
+
+        if (!$this->currentFolder) {
+            // take the root
+            $this->currentFolder = Folder::with(['children', 'parent'])
+                ->where('user_id', $user_id)
+                ->when(config('livewire-fileuploader.tenant_enabled'), function ($query) use ($tenant_id) {
+                    return $query->where('tenant_id', intval($tenant_id));
+                })
+                ->whereNull('parent_id')
+                //->toSql();
+                ->first();
+        }
+
+        if (!$this->currentFolder) {
+            $initialRootFolder = [
+                'name' => 'root',
+                'slug' => 'root',
+                'parent_id' => null,
+                'user_id' => $user_id,
+            ];
+            if (config('livewire-fileuploader.tenant_enabled')) {
+                $initialRootFolder['tenant_id'] = $tenant_id;
+            }
+            $this->currentFolder = Folder::create($initialRootFolder);
+        }
+
         $this->breadcrumb = $this->generateBreadcrumb($this->currentFolder);
 
         if ($this->currentFolder) {
+            session(['currentFolderId' => $this->currentFolder->id]);
             $this->loadFolders();
         }
     }
@@ -84,8 +121,27 @@ class LivewireFilemanagerComponent extends Component
     public function loadFolders()
     {
         if ($this->search != '') {
-            $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%'.$this->search.'%')->get();
-            $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%'.$this->search.'%')->get();
+            $this->folders = Folder::whereNotNull('parent_id')
+                ->where('name', 'like', '%'.$this->search.'%')
+                ->where('user_id', $this->user_id)
+                ->when(config('livewire-fileuploader.tenant_enabled'), function ($query) {
+                    return $query->where('tenant_id', $this->tenant_id);
+                })
+                ->get();
+
+            $folderIds = Folder::where('name', 'like', '%'.$this->search.'%')
+                ->where('user_id', $this->user_id)
+                ->when(config('livewire-fileuploader.tenant_enabled'), function ($query) {
+                    return $query->where('tenant_id', $this->tenant_id);
+                })
+                ->select('id')
+                ->get()
+                ->pluck('id');
+
+            $this->searchedFiles = Media::where('collection_name', 'medialibrary')
+                ->where('name', 'like', '%'.$this->search.'%')
+                ->whereIn('folder_id', $folderIds)
+                ->get();
         } else {
             $this->folders = $this->currentFolder->fresh()->children;
             $this->searchedFiles = null;
@@ -155,6 +211,10 @@ class LivewireFilemanagerComponent extends Component
                     $slug = Str::slug(trim($value));
                     $existingFolder = Folder::where('slug', $slug)
                         ->where('parent_id', ($this->currentFolder ? $this->currentFolder->id : null))
+                        ->where('user_id', $this->user_id)
+                        ->when(config('livewire-fileuploader.tenant_enabled'), function ($query) {
+                            return $query->where('tenant_id', $this->tenant_id);
+                        })
                         ->first();
                     if ($existingFolder) {
                         $fail(__('livewire-filemanager::filemanager.folder_already_exists'));
@@ -164,10 +224,15 @@ class LivewireFilemanagerComponent extends Component
         ]);
 
         $newFolder = new Folder;
-
         $newFolder->name = trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title');
         $newFolder->slug = Str::slug(trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title'));
         $newFolder->parent_id = ($this->currentFolder ? $this->currentFolder->id : null);
+        if ($this->user_id) {
+            $newFolder->user_id = $this->user_id;
+        }
+        if ($this->tenant_id) {
+            $newFolder->tenant_id = $this->tenant_id;
+        }
         $newFolder->save();
 
         $this->currentFolder = $newFolder;

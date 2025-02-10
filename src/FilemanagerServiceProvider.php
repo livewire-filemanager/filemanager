@@ -44,6 +44,7 @@ class FilemanagerServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_folders_table.php'),
                 __DIR__ . '/../database/migrations/include_user_id_column_in_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_include_user_id_column_in_folders_table.php'),
+                __DIR__ . '/../database/migrations/include_tenant_id_in_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_include_tenant_id_in_folders_table.php'),
             ], 'livewire-fileuploader-migrations');
 
             $this->publishes([

@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+       if (config('livewire-fileuploader.acl_enabled')) {
+           Schema::table('folders', function (Blueprint $table) {
+               if (!Schema::hasColumn('folders', config('livewire-fileuploader.tenant_id_column', 'tenant_id'))) {
+                   $table->foreignIdFor(config('livewire-fileuploader.tenant_model', '\App\Models\Tenant::class'), config('livewire-fileuploader.tenant_id_column', 'tenant_id'))
+                       ->after('user_id')
+                       ->nullable()
+                       ->nullOnDelete();
+               }
+           });
+       }
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        if (config('livewire-fileuploader.acl_enabled')) {
+            Schema::table('folders', function (Blueprint $table) {
+                $table->dropForeign([config('livewire-fileuploader.tenant_id_column', 'tenant_id')]);
+                $table->dropColumn(config('livewire-fileuploader.tenant_id_column', 'tenant_id'));
+            });
+        }
+    }
+};

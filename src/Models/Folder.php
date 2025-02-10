@@ -18,6 +18,8 @@ class Folder extends Model implements HasMedia
 
     protected $fillable = [
         'parent_id',
+        'user_id',
+        'tenant_id',
         'name',
         'slug',
     ];
@@ -71,12 +73,12 @@ class Folder extends Model implements HasMedia
 
     public function isHomeFolder(): bool
     {
-        return $this->id === 1;
+        return is_null($this->parent_id);
     }
 
     public function parentWithoutRootFolder(): BelongsTo
     {
-        return $this->belongsTo(Folder::class, 'parent_id')->where('id', '!=', 1);
+        return $this->belongsTo(Folder::class, 'parent_id')->whereNotNull('parent_id');
     }
 
     public function parent(): BelongsTo
