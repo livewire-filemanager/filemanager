@@ -1,7 +1,7 @@
 <?php
 
 use LivewireFilemanager\Filemanager\Models\Folder;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use LivewireFilemanager\Filemanager\Models\Media;
 
 /*
 |--------------------------------------------------------------------------

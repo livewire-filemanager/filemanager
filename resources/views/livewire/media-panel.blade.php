@@ -2,9 +2,9 @@
     x-on:load-media.window="show = true"
     x-on:reset-media.window="show = false"
     :class="{ 'block animate-[slideIn_0.5s_forwards]': show, 'hidden animate-[slideOut_0.5s_forwards]': !show }"
-    class="absolute w-screen max-w-md top-0 right-0 bottom-0">
+    class="absolute w-screen max-w-md top-0 end-0 bottom-0">
         <div class="bg-white border-l min-h-full shadow-lg border-zinc-300 p-4 relative dark:bg-zinc-900 dark:border-zinc-800">
-            <div class="ml-3 absolute right-4 top-4 flex h-7 items-center">
+            <div class="ms-3 absolute end-4 top-4 flex h-7 items-center">
                 <button @click="Livewire.dispatch('reset-media', { media_id: null })" type="button" class="relative rounded-md border text-zinc-500 border-zinc-300 p-1 focus:outline-none focus:ring-2 focus:ring-white dark:border-zinc-600 dark:text-zinc-500" @click="open = false">
                     <span class="absolute -inset-2.5"></span>
                     <span class="sr-only">Close panel</span>
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="pb-4 pt-4 relative">
-                    <div class="flex space-x-4 text-sm">
+                    <div class="flex gap-x-4 text-sm">
                         <a href="{{ $media->getUrl() }}" download class="group border rounded p-1.5 inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -59,7 +59,7 @@
                                 <path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z"></path>
                                 <path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 105.656 5.656l3-3a4 4 0 00-.225-5.865z"></path>
                             </svg>
-                            <span class="ml-2">{{ __('livewire-filemanager::filemanager.actions.copy_url') }}</span>
+                            <span class="ms-2">{{ __('livewire-filemanager::filemanager.actions.copy_url') }}</span>
                         </button>
                     </div>
 

@@ -4,9 +4,11 @@ namespace LivewireFilemanager\Filemanager\Tests;
 
 use Exception;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use LivewireFilemanager\Filemanager\FilemanagerServiceProvider;
+use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -14,6 +16,7 @@ class TestCase extends BaseTestCase
     use LazilyRefreshDatabase;
 
     private static array $migrations = [];
+    protected $testUser;
 
     protected function setUp(): void
     {
@@ -26,7 +29,27 @@ class TestCase extends BaseTestCase
 
     protected function setUpDatabase($app)
     {
-        $this->runMigration(__DIR__.'/../database/migrations/create_folders_table.stub');
+        $schema = $app['db']->connection()->getSchemaBuilder();
+
+        $schema->create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->timestamps();
+        });
+        $schema->create('media', function (Blueprint $table) {
+            $table->id();
+
+            $table->uuid()->nullable()->unique();
+            $table->string('name');
+            $table->json('custom_properties');
+
+            $table->nullableTimestamps();
+        });
+
+        $this->runMigration(__DIR__ . '/../database/migrations/create_folders_table.stub');
+        $this->runMigration(__DIR__ . '/../database/migrations/include_user_id_column_in_folders_table.stub');
+
+        $this->testUser = TestUserModel::create(['email' => 'user@example.com']);
     }
 
     protected function getPackageProviders($app)

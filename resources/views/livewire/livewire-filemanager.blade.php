@@ -19,7 +19,7 @@
                     <div>
                         <input type="file" wire:model.live="files" name="files" id="fileInput" multiple style="display: none;">
 
-                        <button class="border rounded p-1.5 px-2 md:px-4 flex text-sm items-center space-x-4 bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-300" @click="Livewire.dispatch('reset-media', { media_id: null })" onclick="document.getElementById('fileInput').click();">
+                        <button class="border rounded p-1.5 px-2 md:px-4 flex text-sm items-center gap-x-4 bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-300" @click="Livewire.dispatch('reset-media', { media_id: null })" onclick="document.getElementById('fileInput').click();">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                             </svg>
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="flex space-x-4 items-center">
-                        <div class="flex items-center space-x-2 max-h-[25px]">
+                        <div class="flex items-center gap-x-2 max-h-[25px]">
                             @if((count($selectedFolders) + count($selectedFiles)) > 0)
                                 <div>
                                     <button @click="Livewire.dispatch('reset-media', { media_id: null })" class="border rounded p-1.5 border-red-600 text-white bg-red-500 dark:bg-red-600" wire:click="deleteItems">
@@ -45,7 +45,7 @@
                             @if ($this->currentFolder->id !== 1)
                                 <div>
                                     <button class="border rounded p-1.5 border-zinc-300 dark:border-zinc-600 dark:text-zinc-500" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click="navigateToParent">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 rtl:rotate-y-180">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                                         </svg>
                                     </button>
@@ -62,7 +62,7 @@
                                 </button>
                             </div>
 
-                            <input wire:model.live="search" @click="Livewire.dispatch('reset-media', { media_id: null })" class="rounded border border-zinc-300 w-full py-2 px-3 zinc-500 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:mr-2 dark:bg-zinc-700 dark:border-zinc-600 dark:text-zinc-500" type="search" placeholder="{{ __('livewire-filemanager::filemanager.search') }}...">
+                            <input wire:model.live="search" @click="Livewire.dispatch('reset-media', { media_id: null })" class="rounded border border-zinc-300 w-full py-2 px-3 zinc-500 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:me-2 dark:bg-zinc-700 dark:border-zinc-600 dark:text-zinc-500" type="search" placeholder="{{ __('livewire-filemanager::filemanager.search') }}...">
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,12 @@
                                 <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
 
                                 <input type="text" id="new-folder-name" wire:model="newFolderName" wire:keydown.enter="saveNewFolder" class="text-center w-full rounded py-0.5 px-1 text-sm dark:bg-zinc-800 dark:text-zinc-200">
+
+                                @error('newFolderName')
+                                <span class="text-left text-xs leading-none text-red-500 overflow-hidden text-ellipsis line-clamp-4">
+                                    {{ $message }}
+                                </span>
+                                @enderror
                             </div>
                         @endif
 
@@ -126,7 +132,7 @@
 
                 <nav class="select-none border-t text-sm px-4 sm:px-4 py-1.5 flex items-center border-zinc-300 dark:border-zinc-700 text-black dark:text-zinc-300">
                     @foreach ($breadcrumb as $index => $folder)
-                        <span class="cursor-pointer flex space-x-1 items-center" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click.prevent="navigateToBreadcrumb({{ $index }})">
+                        <span class="cursor-pointer flex gap-x-1 items-center" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click.prevent="navigateToBreadcrumb({{ $index }})">
                             <x-livewire-filemanager::icons.folder class="w-5 h-5" /> <span>{{ $folder->name }}</span>
                         </span>
 

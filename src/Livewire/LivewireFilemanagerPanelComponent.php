@@ -4,7 +4,7 @@ namespace LivewireFilemanager\Filemanager\Livewire;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use LivewireFilemanager\Filemanager\Models\Media;
 
 class LivewireFilemanagerPanelComponent extends Component
 {
