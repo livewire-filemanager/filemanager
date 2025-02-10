@@ -115,7 +115,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function updatedSearch()
     {
-        $this->currentFolder = Folder::find(1);
+        $this->currentFolder = Folder::whereNull('parent_id')->first();
 
         session(['currentFolderId' => $this->currentFolder->id]);
 
@@ -163,7 +163,7 @@ class LivewireFilemanagerComponent extends Component
             ],
         ]);
 
-        $newFolder = new Folder;
+        $newFolder = new Folder();
 
         $newFolder->name = trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title');
         $newFolder->slug = Str::slug(trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title'));
