@@ -41,7 +41,7 @@ class LivewireFilemanagerComponent extends Component
     public function mount()
     {
         if (! session('currentFolderId')) {
-            session(['currentFolderId' => 1]);
+            session(['currentFolderId' => Folder::whereNotNull('parent_id')->first() ? Folder::whereNotNull('parent_id')->first()->id : null]);
         }
 
         $currentFolderId = session('currentFolderId');
@@ -84,7 +84,7 @@ class LivewireFilemanagerComponent extends Component
     public function loadFolders()
     {
         if ($this->search != '') {
-            $this->folders = Folder::where('id', '!=', 1)->where('name', 'like', '%'.$this->search.'%')->get();
+            $this->folders = Folder::whereNotNull('parent_id')->where('name', 'like', '%'.$this->search.'%')->get();
             $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%'.$this->search.'%')->get();
         } else {
             $this->folders = $this->currentFolder->fresh()->children;
@@ -115,7 +115,7 @@ class LivewireFilemanagerComponent extends Component
 
     public function updatedSearch()
     {
-        $this->currentFolder = Folder::find(1);
+        $this->currentFolder = Folder::whereNull('parent_id')->first();
 
         session(['currentFolderId' => $this->currentFolder->id]);
 
@@ -163,7 +163,7 @@ class LivewireFilemanagerComponent extends Component
             ],
         ]);
 
-        $newFolder = new Folder;
+        $newFolder = new Folder();
 
         $newFolder->name = trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title');
         $newFolder->slug = Str::slug(trim($this->newFolderName) ?: __('livewire-filemanager::filemanager.folder_without_title'));
