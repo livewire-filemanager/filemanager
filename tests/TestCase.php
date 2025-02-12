@@ -16,6 +16,7 @@ class TestCase extends BaseTestCase
     use LazilyRefreshDatabase;
 
     private static array $migrations = [];
+
     protected $testUser;
 
     protected function setUp(): void
@@ -46,8 +47,8 @@ class TestCase extends BaseTestCase
             $table->nullableTimestamps();
         });
 
-        $this->runMigration(__DIR__ . '/../database/migrations/create_folders_table.stub');
-        $this->runMigration(__DIR__ . '/../database/migrations/include_user_id_column_in_folders_table.stub');
+        $this->runMigration(__DIR__.'/../database/migrations/create_folders_table.stub');
+        $this->runMigration(__DIR__.'/../database/migrations/include_user_id_column_in_folders_table.stub');
 
         $this->testUser = TestUserModel::create(['email' => 'user@example.com']);
     }
