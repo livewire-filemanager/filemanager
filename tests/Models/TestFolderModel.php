@@ -11,7 +11,9 @@ use LivewireFilemanager\Filemanager\Models\Folder;
 class TestFolderModel extends Model
 {
     protected $table = 'folders';
+
     protected $with = ['children'];
+
     protected $fillable = [
         'parent_id',
         'name',
@@ -31,7 +33,7 @@ class TestFolderModel extends Model
         });
 
         static::creating(function ($folder) {
-            if (!config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
             }
 
@@ -46,7 +48,7 @@ class TestFolderModel extends Model
     protected static function booted()
     {
         static::addGlobalScope('user_id', function (Builder $builder) {
-            if (!config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
             }
 

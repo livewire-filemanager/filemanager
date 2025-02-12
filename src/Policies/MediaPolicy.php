@@ -9,7 +9,7 @@ class MediaPolicy
 {
     public function view(User $user, Media $file)
     {
-        if (!config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
@@ -18,7 +18,7 @@ class MediaPolicy
 
     public function delete(User $user, Media $file)
     {
-        if (!config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
