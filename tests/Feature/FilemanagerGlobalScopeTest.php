@@ -2,11 +2,11 @@
 
 namespace LivewireFilemanager\Filemanager\Tests\Feature;
 
-use LivewireFilemanager\Filemanager\Models\Media;
 use LivewireFilemanager\Filemanager\Models\Folder;
-use LivewireFilemanager\Filemanager\Tests\TestCase;
-use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
+use LivewireFilemanager\Filemanager\Models\Media;
 use LivewireFilemanager\Filemanager\Tests\Models\TestFolderModel;
+use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
+use LivewireFilemanager\Filemanager\Tests\TestCase;
 
 class FilemanagerGlobalScopeTest extends TestCase
 {
@@ -16,6 +16,7 @@ class FilemanagerGlobalScopeTest extends TestCase
 
         $this->app['config']->set('livewire-fileuploader.acl_enabled', true);
     }
+
     /**
      * User can only view the folders that they own.
      *
@@ -43,9 +44,9 @@ class FilemanagerGlobalScopeTest extends TestCase
 
     /**
      * User can only view the files that they own.
-     * 
+     *
      * @group filemanager
-     * 
+     *
      * @test
      */
     public function user_can_only_view_files_that_they_own()

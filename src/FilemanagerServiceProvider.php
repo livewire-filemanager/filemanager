@@ -22,8 +22,8 @@ class FilemanagerServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'livewire-filemanager');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'livewire-filemanager');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'livewire-filemanager');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang/', 'livewire-filemanager');
 
         $this
             ->registerPublishables()
@@ -42,20 +42,20 @@ class FilemanagerServiceProvider extends ServiceProvider
     {
         if (! class_exists('CreateTemporaryUploadsTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_folders_table.php'),
-                __DIR__ . '/../database/migrations/include_user_id_column_in_folders_table.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_include_user_id_column_in_folders_table.php'),
+                __DIR__.'/../database/migrations/create_folders_table.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_folders_table.php'),
+                __DIR__.'/../database/migrations/include_user_id_column_in_folders_table.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_include_user_id_column_in_folders_table.php'),
             ], 'livewire-fileuploader-migrations');
 
             $this->publishes([
-                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
+                __DIR__.'/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
             ], 'livewire-fileuploader-views');
 
             $this->publishes([
-                __DIR__ . '/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
+                __DIR__.'/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
             ], 'livewire-fileuploader-lang');
 
             $this->publishes([
-                __DIR__ . '/../config/livewire-fileuploader.stub' => config_path('livewire-fileuploader.php'),
+                __DIR__.'/../config/livewire-fileuploader.stub' => config_path('livewire-fileuploader.php'),
             ], 'livewire-fileuploader-config');
         }
 

@@ -2,16 +2,18 @@
 
 namespace LivewireFilemanager\Filemanager\Tests\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use LivewireFilemanager\Filemanager\Models\Folder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use LivewireFilemanager\Filemanager\Models\Folder;
 
 class TestMediaModel extends Model
 {
     protected $table = 'folders';
+
     protected $with = ['children'];
+
     protected $fillable = [
         'parent_id',
         'name',
@@ -31,7 +33,7 @@ class TestMediaModel extends Model
         });
 
         static::creating(function ($folder) {
-            if (!config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
             }
 
@@ -46,7 +48,7 @@ class TestMediaModel extends Model
     protected static function booted()
     {
         static::addGlobalScope('user_id', function (Builder $builder) {
-            if (!config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
             }
 

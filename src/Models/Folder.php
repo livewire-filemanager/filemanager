@@ -35,7 +35,7 @@ class Folder extends Model implements HasMedia
         });
 
         static::creating(function ($folder) {
-            if (!config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
             }
 
@@ -46,10 +46,11 @@ class Folder extends Model implements HasMedia
             }
         });
     }
+
     protected static function booted()
     {
         static::addGlobalScope('user_id', function (Builder $builder) {
-            if (!config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
             }
 
