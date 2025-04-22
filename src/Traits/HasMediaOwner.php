@@ -13,15 +13,15 @@ trait HasMediaOwner
                 return;
             }
 
-			$user = null;
+            $user = null;
 
-			try {
-				$user = auth()->getUser();
-			} catch (\Exception $e) {
-				$user = auth()->user();
-			}
+            try {
+                $user = auth()->getUser();
+            } catch (\Exception $e) {
+                $user = auth()->user();
+            }
 
-			if ($user) {
+            if ($user) {
                 $builder->where(
                     'custom_properties->user_id',
                     $user->id
