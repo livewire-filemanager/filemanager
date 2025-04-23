@@ -24,7 +24,7 @@ Watch the presentation of the package here: [Laravel Switzerland Meetup](https:/
 
 ## Important composer dependencies
 
-- [livewire/livewire](https://laravel-livewire.com/)
+- [livewire/livewire](livewire.laravel.com)
 - [spatie/laravel-medialibrary](https://spatie.be/docs/laravel-medialibrary)
 
 ## Installation
