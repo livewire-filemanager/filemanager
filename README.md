@@ -87,6 +87,12 @@ For the styles and scripts, the package relies on TailwindCSS and AlpineJS. So i
 > [!IMPORTANT]
 > The @filemanagerStyles will include the PLAY CDN from TailwindCSS which is not recommended for production. Instead, prefer including the path inside your tailwind config file.
 
+Tailwind version 4, in your app.css
+```js
+@source '../../vendor/livewire-filemanager/filemanager/resources/views/**/*.blade.php';
+```
+
+Tailwind version 3, in your tailwind.config.js
 ```js
 module.exports = {
     content: [
