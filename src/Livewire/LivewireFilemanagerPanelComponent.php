@@ -22,6 +22,11 @@ class LivewireFilemanagerPanelComponent extends Component
         $this->media = null;
     }
 
+    public function renameFile()
+    {
+        $this->dispatch('rename-file', file: $this->media);
+    }
+
     public function render()
     {
         return view('livewire-filemanager::livewire.media-panel');

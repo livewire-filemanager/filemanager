@@ -1,8 +1,19 @@
 @props(['folder', 'selectedFolders'])
 
 <div
+    x-data="{ clickTimeout: null }"
     :class="{ '!bg-gray-200/50 !hover:bg-gray-200/60 !dark:bg-gray-700 !hover:dark:bg-gray-700 group': @json($selectedFolders).includes({{ $folder->id }}) }"
-    x-on:click="$wire.toggleFolderSelection({{ $folder->id }}); shiftKey = false"
+    x-on:click="
+        if (this.clickTimeout) {
+            clearTimeout(this.clickTimeout)
+        }
+
+        this.clickTimeout = setTimeout(() => {
+            $wire.toggleFolderSelection({{ $folder->id }});
+            $wire.handleFolderClick({{ $folder->id }});
+            shiftKey = false;
+        }, 200);
+    "
     x-on:dblclick="$wire.navigateToFolder({{ $folder->id }}); shiftKey = false"
     data-id="{{ $folder->id }}"
     class="folder cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 hover:bg-blue-100/30 hover:dark:bg-gray-700 text-center select-none">

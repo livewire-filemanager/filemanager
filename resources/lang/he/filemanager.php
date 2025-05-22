@@ -16,6 +16,8 @@ return [
     'modified' => 'שונה',
     'delete_items' => 'מחק פריטים',
     'delete_items_warning' => 'האם אתה בטוח שברצונך למחוק פריטים אלה?',
+    'rename_folder' => 'שינוי שם התיקייה',
+    'rename_file' => 'שינוי שם הקובץ',
     'actions' => [
         'cancel' => 'ביטול',
         'save' => 'שמירה',

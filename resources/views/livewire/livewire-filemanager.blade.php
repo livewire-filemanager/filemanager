@@ -127,6 +127,9 @@
                     </div>
 
                     <livewire:livewire-filemanager.media-panel />
+                    <livewire:livewire-filemanager.folder-panel />
+                    <livewire:livewire-filemanager.rename-folder />
+                    <livewire:livewire-filemanager.rename-file />
                     <livewire:livewire-filemanager.delete-items />
                 </div>
 

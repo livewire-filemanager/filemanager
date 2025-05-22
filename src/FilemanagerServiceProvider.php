@@ -10,7 +10,10 @@ use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
 use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerFolderPanelComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
+use LivewireFilemanager\Filemanager\Livewire\RenameFileComponent;
+use LivewireFilemanager\Filemanager\Livewire\RenameFolderComponent;
 use LivewireFilemanager\Filemanager\Models\Media;
 use LivewireFilemanager\Filemanager\Policies\MediaPolicy;
 
@@ -67,6 +70,9 @@ class FilemanagerServiceProvider extends ServiceProvider
         Livewire::component('livewire-filemanager', LivewireFilemanagerComponent::class);
         Livewire::component('livewire-filemanager.delete-items', DeleteItemsComponent::class);
         Livewire::component('livewire-filemanager.media-panel', LivewireFilemanagerPanelComponent::class);
+        Livewire::component('livewire-filemanager.folder-panel', LivewireFilemanagerFolderPanelComponent::class);
+        Livewire::component('livewire-filemanager.rename-folder', RenameFolderComponent::class);
+        Livewire::component('livewire-filemanager.rename-file', RenameFileComponent::class);
 
         return $this;
     }

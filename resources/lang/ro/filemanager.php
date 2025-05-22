@@ -16,6 +16,8 @@ return [
     'modified' => 'Modificat',
     'delete_items' => 'Șterge elemente',
     'delete_items_warning' => 'Ești sigur că vrei să ștergi aceste elemente?',
+    'rename_folder' => 'Redenumește dosarul',
+    'rename_file' => 'Redenumește fișierul',
     'actions' => [
         'cancel' => 'Anulează',
         'save' => 'Salvează',

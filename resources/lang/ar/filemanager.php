@@ -16,6 +16,8 @@ return [
     'modified' => 'تم التعديل',
     'delete_items' => 'حذف العناصر',
     'delete_items_warning' => 'هل انت متأكد من حذف هذه العناصر؟',
+    'rename_folder' => 'إعادة تسمية المجلد',
+    'rename_file' => 'إعادة تسمية الملف',
     'actions' => [
         'cancel' => 'الغاء',
         'save' => 'حفظ',
