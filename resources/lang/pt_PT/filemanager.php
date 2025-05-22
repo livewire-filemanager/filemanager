@@ -16,6 +16,8 @@ return [
     'modified' => 'Modificado',
     'delete_items' => 'Excluir itens',
     'delete_items_warning' => 'Tem certeza de que deseja excluir estes itens?',
+    'rename_folder' => 'Renomear a pasta',
+    'rename_file' => 'Renomear o arquivo',
     'actions' => [
         'cancel' => 'Cancelar',
         'save' => 'Salvar',

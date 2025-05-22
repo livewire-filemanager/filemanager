@@ -16,6 +16,8 @@ return [
     'modified' => 'Modified',
     'delete_items' => 'Delete items',
     'delete_items_warning' => 'Are you sure you want to delete these items?',
+    'rename_folder' => 'Rename the folder',
+    'rename_file' => 'Rename the file',
     'actions' => [
         'cancel' => 'Cancel',
         'save' => 'Save',

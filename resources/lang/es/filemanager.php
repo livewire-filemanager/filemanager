@@ -16,6 +16,8 @@ return [
     'modified' => 'Modificado',
     'delete_items' => 'Eliminar elementos',
     'delete_items_warning' => '¿Estás seguro de que deseas eliminar estos elementos?',
+    'rename_folder' => 'Renombrar la carpeta',
+    'rename_file' => 'Renombrar el archivo',
     'actions' => [
         'cancel' => 'Cancelar',
         'save' => 'Guardar',

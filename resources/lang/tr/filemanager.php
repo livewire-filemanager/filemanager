@@ -16,6 +16,8 @@ return [
     'modified' => 'Değiştirilme',
     'delete_items' => 'Öğeleri sil',
     'delete_items_warning' => 'Bu öğeleri silmek istediğinizden emin misiniz?',
+    'rename_folder' => 'Klasörü yeniden adlandır',
+    'rename_file' => 'Dosyayı yeniden adlandır',
     'actions' => [
         'cancel' => 'İptal',
         'save' => 'Kaydet',
