@@ -2,10 +2,10 @@
 
 namespace LivewireFilemanager\Filemanager\Livewire;
 
-use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
-use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
 use LivewireFilemanager\Filemanager\Models\Media;
 
 class RenameFileComponent extends Component
@@ -32,13 +32,13 @@ class RenameFileComponent extends Component
 
         $baseSlug = Str::slug(trim($this->name));
         $extension = $this->file->extension;
-        $name = $this->name . '.' . $extension;
-        $newFileName = $baseSlug . '.' . $extension;
+        $name = $this->name.'.'.$extension;
+        $newFileName = $baseSlug.'.'.$extension;
 
         $counter = 1;
         while (Media::where('file_name', $newFileName)->where('id', '!=', $this->file->id)->exists()) {
-            $newFileName = $baseSlug . '-' . $counter . '.' . $extension;
-            $name = $this->name . '-' . $counter . '.' . $extension;
+            $newFileName = $baseSlug.'-'.$counter.'.'.$extension;
+            $name = $this->name.'-'.$counter.'.'.$extension;
             $counter++;
         }
 

@@ -2,9 +2,9 @@
 
 namespace LivewireFilemanager\Filemanager\Livewire;
 
-use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
+use Livewire\Component;
 use LivewireFilemanager\Filemanager\Models\Folder;
 
 class RenameFolderComponent extends Component
@@ -33,7 +33,7 @@ class RenameFolderComponent extends Component
                     if ($existingFolder) {
                         $fail(__('livewire-filemanager::filemanager.folder_already_exists'));
                     }
-                }
+                },
             ],
         ], [
             'name.required' => __('livewire-filemanager::filemanager.validation.folder_name_required'),
