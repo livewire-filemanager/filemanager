@@ -31,6 +31,7 @@ Watch the presentation of the package here: [Laravel Switzerland Meetup](https:/
 
 > [!IMPORTANT]
 > This package is still in development and its structure can change until a stable version is released. Use with caution in you projects.
+> Additionally, the file manager does not include any security layers to protect uploaded documents. You are responsible for controlling access where you install the package and securing your files and folders.
 
 You can install the package via [composer](https://getcomposer.org):
 
