@@ -4,20 +4,26 @@ namespace LivewireFilemanager\Filemanager;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
+use LivewireFilemanager\Filemanager\Http\Middleware\FilemanagerAccess;
+use LivewireFilemanager\Filemanager\Http\Middleware\ValidateFileUpload;
 use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
+use LivewireFilemanager\Filemanager\Models\Folder;
 use LivewireFilemanager\Filemanager\Models\Media;
+use LivewireFilemanager\Filemanager\Policies\FolderPolicy;
 use LivewireFilemanager\Filemanager\Policies\MediaPolicy;
 
 class FilemanagerServiceProvider extends ServiceProvider
 {
     protected $policies = [
         Media::class => MediaPolicy::class,
+        Folder::class => FolderPolicy::class,
     ];
 
     public function boot()
@@ -30,7 +36,9 @@ class FilemanagerServiceProvider extends ServiceProvider
             ->registerBladeComponents()
             ->registerBladeDirectives()
             ->registerLivewireComponents()
-            ->registerPolicies();
+            ->registerPolicies()
+            ->registerApiRoutes()
+            ->registerMiddleware();
     }
 
     public function register()
@@ -109,6 +117,30 @@ class FilemanagerServiceProvider extends ServiceProvider
         foreach ($this->policies as $key => $value) {
             Gate::policy($key, $value);
         }
+
+        return $this;
+    }
+
+    protected function registerApiRoutes(): self
+    {
+        if (config('livewire-fileuploader.api.enabled', true)) {
+            Route::group([
+                'prefix' => 'api',
+                'middleware' => 'api',
+            ], function () {
+                $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+            });
+        }
+
+        return $this;
+    }
+
+    protected function registerMiddleware(): self
+    {
+        $router = $this->app['router'];
+
+        $router->aliasMiddleware('filemanager.validate', ValidateFileUpload::class);
+        $router->aliasMiddleware('filemanager.access', FilemanagerAccess::class);
 
         return $this;
     }

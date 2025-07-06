@@ -54,10 +54,23 @@ class FilemanagerGlobalScopeTest extends TestCase
         $this->actingAs($this->testUser);
 
         $media = Media::create([
+            'model_type' => 'LivewireFilemanager\\Filemanager\\Models\\Folder',
+            'model_id' => 1,
+            'uuid' => \Illuminate\Support\Str::uuid(),
+            'collection_name' => 'medialibrary',
             'name' => 'Test File',
+            'file_name' => 'test-file.txt',
+            'mime_type' => 'text/plain',
+            'disk' => 'local',
+            'conversions_disk' => 'local',
+            'size' => 1024,
+            'manipulations' => [],
             'custom_properties' => [
                 'user_id' => $this->testUser->id,
             ],
+            'generated_conversions' => [],
+            'responsive_images' => [],
+            'order_column' => 1,
         ]);
 
         $this->assertNotNull(Media::find($media->id));

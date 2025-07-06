@@ -9,4 +9,36 @@ return [
     |
     */
     'acl_enabled' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | API Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure the API endpoints for file management operations.
+    |
+    */
+    'api' => [
+        'enabled' => true,
+        'prefix' => 'filemanager/v1',
+        'middleware' => ['api', 'auth:sanctum'],
+        'rate_limit' => '100,1',
+        'max_file_size' => 10240,
+        'allowed_extensions' => ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'txt', 'zip'],
+        'chunk_size' => 1048576,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Callbacks
+    |--------------------------------------------------------------------------
+    |
+    | Custom callbacks for extending functionality.
+    |
+    */
+    'callbacks' => [
+        'before_upload' => null,
+        'after_upload' => null,
+        'access_check' => null,
+    ],
 ];

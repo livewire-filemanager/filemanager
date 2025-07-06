@@ -1,0 +1,2 @@
+This is a test file for testing file uploads in the filemanager package.
+It contains some sample text to verify proper file handling.
