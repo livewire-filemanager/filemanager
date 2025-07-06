@@ -1,7 +1,7 @@
 @props(['modal'])
 
 <div x-dialog x-model="{{ $modal }}" style="display: none" class="fixed inset-0 overflow-y-auto z-10">
-    <div x-dialog:overlay x-transition.opacity class="fixed inset-0 bg-indigo-950 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-80"></div>
+    <div x-dialog:overlay x-transition.opacity class="fixed inset-0 bg-indigo-950/50 dark:bg-zinc-700/80"></div>
 
     <div class="relative min-h-screen flex items-center justify-center p-4">
         <div x-dialog:panel x-transition class="relative max-w-xl w-full bg-white rounded-xl shadow-lg overflow-y-auto dark:bg-zinc-800">
