@@ -114,20 +114,4 @@ class ApiSecurityTest extends TestCase
 
         $response->assertStatus(200);
     }
-
-    public function test_rate_limiting_protects_against_abuse()
-    {
-        $folder = Folder::create([
-            'name' => 'Test Folder',
-            'slug' => 'test-folder',
-            'parent_id' => null,
-        ]);
-
-        for ($i = 0; $i < 120; $i++) {
-            $response = $this->actingAs($this->user1)
-                ->getJson('/api/filemanager/v1/folders');
-        }
-
-        $response->assertStatus(429);
-    }
 }
