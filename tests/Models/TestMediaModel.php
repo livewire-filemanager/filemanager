@@ -15,9 +15,21 @@ class TestMediaModel extends Model
     protected $with = ['children'];
 
     protected $fillable = [
-        'parent_id',
+        'uuid',
+        'model_type',
+        'model_id',
+        'collection_name',
         'name',
-        'slug',
+        'file_name',
+        'mime_type',
+        'disk',
+        'conversions_disk',
+        'size',
+        'manipulations',
+        'custom_properties',
+        'generated_conversions',
+        'responsive_images',
+        'order_column',
     ];
 
     public $registerMediaConversionsUsingModelInstance = true;

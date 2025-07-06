@@ -3,22 +3,22 @@
 namespace LivewireFilemanager\Filemanager\Policies;
 
 use Illuminate\Foundation\Auth\User;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use LivewireFilemanager\Filemanager\Models\Folder;
 
-class MediaPolicy
+class FolderPolicy
 {
     public function viewAny(User $user)
     {
         return true;
     }
 
-    public function view(User $user, Media $file)
+    public function view(User $user, Folder $folder)
     {
         if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
-        return $file->custom_properties['user_id'] === $user->id;
+        return $folder->user_id === $user->id;
     }
 
     public function create(User $user)
@@ -26,39 +26,43 @@ class MediaPolicy
         return true;
     }
 
-    public function update(User $user, Media $file)
+    public function update(User $user, Folder $folder)
     {
         if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
-        return $file->custom_properties['user_id'] === $user->id;
+        return $folder->user_id === $user->id;
     }
 
-    public function delete(User $user, Media $file)
+    public function delete(User $user, Folder $folder)
     {
         if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
-        return $file->custom_properties['user_id'] === $user->id;
+        if ($folder->isHomeFolder()) {
+            return false;
+        }
+
+        return $folder->user_id === $user->id;
     }
 
-    public function restore(User $user, Media $file)
+    public function restore(User $user, Folder $folder)
     {
         if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
-        return $file->custom_properties['user_id'] === $user->id;
+        return $folder->user_id === $user->id;
     }
 
-    public function forceDelete(User $user, Media $file)
+    public function forceDelete(User $user, Folder $folder)
     {
         if (! config('livewire-fileuploader.acl_enabled')) {
             return true;
         }
 
-        return $file->custom_properties['user_id'] === $user->id;
+        return $folder->user_id === $user->id;
     }
 }

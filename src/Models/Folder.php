@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use LivewireFilemanager\Filemanager\Models\Media as FilemanagerMedia;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -103,5 +104,10 @@ class Folder extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumbnail')->format('webp')->width(100)->performOnCollections('medialibrary');
+    }
+
+    public function getMediaModel(): string
+    {
+        return FilemanagerMedia::class;
     }
 }

@@ -15,6 +15,7 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 - Ready to include in any projects
 - Multiple languages (see resources/lang for the list)
 - Darkmode available
+- API endpoints
 
 Watch the presentation of the package here: [Laravel Switzerland Meetup](https://www.youtube.com/watch?v=lgk_1AtukfM)
 
@@ -151,6 +152,17 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 In the media-library config file, change the `media_model` value to `LivewireFilemanager\Filemanager\Models\Media`. If you already have a media model, you can use the Trait `LivewireFilemanager\Filemanager\Traits\HasMediaOwner` inside your model.
 
 This will ensure that only users who created files can view them.
+
+## API Integration
+
+The package includes a comprehensive REST API for programmatic file and folder management. The API provides endpoints for:
+
+- Folder CRUD operations (create, read, update, delete)
+- File upload and management
+- Bulk file operations
+- Authentication and authorization support
+
+API endpoints are available under the `/api/filemanager/v1/` prefix and require authentication via Laravel Sanctum. The API can be enabled/disabled and configured through the package configuration file. If upgrading the package, you may update the config file as well inside your project.
 
 ## Testing
 
