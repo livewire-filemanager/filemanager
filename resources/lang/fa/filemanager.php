@@ -16,6 +16,8 @@ return [
     'modified' => 'ویرایش شد',
     'delete_items' => 'حذف آیتم ها',
     'delete_items_warning' => 'آیا از حذف آیتم ها اطمینان دارید؟',
+    'rename_folder' => 'تغییر نام پوشه',
+    'rename_file' => 'تغییر نام فایل',
     'actions' => [
         'cancel' => 'لغو',
         'save' => 'ذخیره',

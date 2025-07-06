@@ -1,10 +1,12 @@
 <div x-cloak x-data="{ show: false }"
     x-on:load-media.window="show = true"
+    x-on:load-folder.window="show = false"
     x-on:reset-media.window="show = false"
+    x-on:reset-folder.window="show = false"
     :class="{ 'block animate-[slideIn_0.5s_forwards]': show, 'hidden animate-[slideOut_0.5s_forwards]': !show }"
     class="absolute w-screen max-w-md top-0 end-0 bottom-0">
         <div class="bg-white border-l min-h-full shadow-lg border-zinc-300 p-4 relative dark:bg-zinc-900 dark:border-zinc-800">
-            <div class="ms-3 absolute end-4 top-4 flex h-7 items-center">
+            <div class="absolute end-4 top-4 flex h-7 items-center">
                 <button @click="Livewire.dispatch('reset-media', { media_id: null })" type="button" class="relative rounded-md border text-zinc-500 border-zinc-300 p-1 focus:outline-none focus:ring-2 focus:ring-white dark:border-zinc-600 dark:text-zinc-500" @click="open = false">
                     <span class="absolute -inset-2.5"></span>
                     <span class="sr-only">Close panel</span>
@@ -33,7 +35,7 @@
                 </ul>
 
                 <div class="mt-4">
-                    <strong class="text-black dark:text-gray-300">Informations</strong>
+                    <strong class="text-black font-medium dark:text-gray-300">Informations</strong>
                     <dl class="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200 dark:divide-zinc-600 dark:border-zinc-600">
                         <div class="flex justify-between py-3 text-sm font-medium">
                             <dt class="text-gray-500 dark:text-gray-200">{{ __('livewire-filemanager::filemanager.created') }}</dt>
@@ -48,6 +50,12 @@
 
                 <div class="pb-4 pt-4 relative">
                     <div class="flex gap-x-4 text-sm">
+                        <button type="button" wire:click="renameFile" class="group border rounded p-1.5 inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                            </svg>
+                        </button>
+
                         <a href="{{ $media->getUrl() }}" download class="group border rounded p-1.5 inline-flex items-center font-medium text-blue-500 group-hover:text-blue-900 dark:text-blue-300 dark:group-hover:text-blue-400">
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />

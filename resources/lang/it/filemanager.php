@@ -16,6 +16,8 @@ return [
     'modified' => 'Modificato',
     'delete_items' => 'Elimina elementi',
     'delete_items_warning' => 'Sei sicuro di voler eliminare questi elementi?',
+    'rename_folder' => 'Rinomina cartella',
+    'rename_file' => 'Rinomina file',
     'actions' => [
         'cancel' => 'Annulla',
         'save' => 'Salva',
