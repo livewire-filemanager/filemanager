@@ -2,25 +2,25 @@
 
 namespace LivewireFilemanager\Filemanager;
 
-use Livewire\Livewire;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use LivewireFilemanager\Filemanager\Models\Media;
-use LivewireFilemanager\Filemanager\Models\Folder;
-use LivewireFilemanager\Filemanager\Policies\MediaPolicy;
-use LivewireFilemanager\Filemanager\Policies\FolderPolicy;
-use LivewireFilemanager\Filemanager\Livewire\RenameFileComponent;
-use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
-use LivewireFilemanager\Filemanager\Livewire\RenameFolderComponent;
+use Livewire\Livewire;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
 use LivewireFilemanager\Filemanager\Http\Middleware\FilemanagerAccess;
 use LivewireFilemanager\Filemanager\Http\Middleware\ValidateFileUpload;
+use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
-use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
-use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
-use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerFolderPanelComponent;
+use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
+use LivewireFilemanager\Filemanager\Livewire\RenameFileComponent;
+use LivewireFilemanager\Filemanager\Livewire\RenameFolderComponent;
+use LivewireFilemanager\Filemanager\Models\Folder;
+use LivewireFilemanager\Filemanager\Models\Media;
+use LivewireFilemanager\Filemanager\Policies\FolderPolicy;
+use LivewireFilemanager\Filemanager\Policies\MediaPolicy;
 
 class FilemanagerServiceProvider extends ServiceProvider
 {
@@ -99,7 +99,7 @@ class FilemanagerServiceProvider extends ServiceProvider
             $styles = '';
 
             $styles .= <<<'html'
-                        <script src="https://cdn.tailwindcss.com"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
                     html;
 
             return $styles;

@@ -62,6 +62,26 @@
                                 </button>
                             </div>
 
+                            {{-- View Mode Toggle --}}
+                            <div class="flex items-center gap-1 me-2">
+                                <button @click="viewMode = 'grid'; saveViewMode()"
+                                        class="p-1.5 rounded border"
+                                        :class="viewMode === 'grid' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' : 'border-zinc-300 text-zinc-500 hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-400 dark:hover:bg-zinc-700'"
+                                        title="Grid view">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                                    </svg>
+                                </button>
+                                <button @click="viewMode = 'list'; saveViewMode()"
+                                        class="p-1.5 rounded border"
+                                        :class="viewMode === 'list' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' : 'border-zinc-300 text-zinc-500 hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-400 dark:hover:bg-zinc-700'"
+                                        title="List view">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+
                             <input wire:model.live="search" @click="Livewire.dispatch('reset-media', { media_id: null })" class="rounded border border-zinc-300 w-full py-2 px-3 zinc-500 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:me-2 dark:bg-zinc-700 dark:border-zinc-600 dark:text-zinc-500" type="search" placeholder="{{ __('livewire-filemanager::filemanager.search') }}...">
                         </div>
                     </div>
@@ -83,6 +103,15 @@
                         }"></div>
                     </template>
 
+                    <style>
+                        .list-striped > *:nth-child(even) {
+                            background-color: rgba(0, 0, 0, 0.02);
+                        }
+                        .dark .list-striped > *:nth-child(even) {
+                            background-color: rgba(255, 255, 255, 0.02);
+                        }
+                    </style>
+
                     <div
                     id="folder-container"
                     x-on:drop="dropingFile = false"
@@ -90,18 +119,34 @@
                     x-on:dragover.prevent="dropingFile = true"
                     x-on:dragleave.prevent="dropingFile = false"
                     x-on:dblclick.self="$wire.createNewFolder()"
-                    class="p-2 pb-10 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
+                    class="min-h-[500px] select-none overflow-y-auto relative"
+                    :class="viewMode === 'grid' ? 'p-2 pb-10 flex flex-wrap content-start' : 'list-striped'">
                         @if ($isCreatingNewFolder)
-                            <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center" @click.outside="$wire.saveNewFolder">
-                                <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
-
-                                <input type="text" id="new-folder-name" wire:model="newFolderName" wire:keydown.enter="saveNewFolder" class="text-center w-full rounded py-0.5 px-1 text-sm dark:bg-zinc-800 dark:text-zinc-200">
-
-                                @error('newFolderName')
-                                <span class="text-left text-xs leading-none text-red-500 overflow-hidden text-ellipsis line-clamp-4">
-                                    {{ $message }}
-                                </span>
-                                @enderror
+                            <div :class="viewMode === 'grid' ? 'cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center' : 'px-4 py-1'"
+                                 :style="viewMode === 'list' ? 'height: 30px; max-height: 30px;' : ''"
+                                 @click.outside="$wire.saveNewFolder">
+                                <template x-if="viewMode === 'grid'">
+                                    <div>
+                                        <x-livewire-filemanager::icons.folder class="mx-auto w-16 h-16 mb-2" />
+                                        <input type="text" id="new-folder-name" wire:model="newFolderName" wire:keydown.enter="saveNewFolder" class="text-center w-full rounded py-0.5 px-1 text-sm dark:bg-zinc-800 dark:text-zinc-200">
+                                        @error('newFolderName')
+                                        <span class="text-left text-xs leading-none text-red-500 overflow-hidden text-ellipsis line-clamp-4">
+                                            {{ $message }}
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </template>
+                                <template x-if="viewMode === 'list'">
+                                    <div>
+                                        <x-livewire-filemanager::icons.folder class="w-4 h-4 me-3 flex-shrink-0" />
+                                        <div class="flex-1">
+                                            <input type="text" id="new-folder-name-list" wire:model="newFolderName" wire:keydown.enter="saveNewFolder" class="w-full rounded py-0.5 px-1 text-sm dark:bg-zinc-800 dark:text-zinc-200">
+                                            @error('newFolderName')
+                                            <span class="text-xs leading-none text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         @endif
 
@@ -162,6 +207,19 @@
                 startY: 0,
                 drawnArea: null,
                 drawingTimeout: null,
+                viewMode: localStorage.getItem('filemanager-view-mode') || 'grid',
+
+                init() {
+                    // Load view mode from localStorage
+                    const savedMode = localStorage.getItem('filemanager-view-mode');
+                    if (savedMode) {
+                        this.viewMode = savedMode;
+                    }
+                },
+
+                saveViewMode() {
+                    localStorage.setItem('filemanager-view-mode', this.viewMode);
+                },
 
                 initiateDrawing(event) {
                     this.isPending = true;
