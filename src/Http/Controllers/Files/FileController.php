@@ -21,7 +21,7 @@ class FileController
             abort(404);
         }
 
-        $file = $folder->media()->where('model_id', $folder->id)->where('file_name', $fileName)->firstOrFail();
+        $file = $folder->media()->where('model_id', $folder->id)->where('file_name', $fileName)->orWhere('name', $fileName)->firstOrFail();
 
         $filePath = $file->getPath();
 
