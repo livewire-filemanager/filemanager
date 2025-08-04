@@ -34,10 +34,10 @@ class StoreFolderRequest extends FormRequest
                 'exists:folders,id',
                 function ($attribute, $value, $fail) {
                     $maxDepth = config('livewire-fileuploader.folders.max_depth');
-                    if ($maxDepth === null || !$value) {
+                    if ($maxDepth === null || ! $value) {
                         return;
                     }
-                    
+
                     $parentFolder = \LivewireFilemanager\Filemanager\Models\Folder::find($value);
                     if ($parentFolder && $parentFolder->getDepth() >= $maxDepth - 1) {
                         $fail(__('livewire-filemanager::filemanager.validation.max_folder_depth_exceeded', ['max' => $maxDepth]));

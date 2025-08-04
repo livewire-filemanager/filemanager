@@ -3,11 +3,11 @@
 namespace LivewireFilemanager\Filemanager\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use LivewireFilemanager\Filemanager\Models\Folder;
-use LivewireFilemanager\Filemanager\Tests\TestCase;
-use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
 use Livewire\Livewire;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Models\Folder;
+use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
+use LivewireFilemanager\Filemanager\Tests\TestCase;
 
 class FolderDepthTest extends TestCase
 {

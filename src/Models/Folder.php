@@ -80,12 +80,12 @@ class Folder extends Model implements HasMedia
     {
         $depth = 0;
         $current = $this;
-        
+
         while ($current->parent_id !== null) {
             $depth++;
             $current = $current->parent;
         }
-        
+
         return $depth;
     }
 
