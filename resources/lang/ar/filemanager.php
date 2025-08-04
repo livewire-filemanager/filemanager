@@ -28,5 +28,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'اسم المجلد مطلوب',
+        'max_folder_depth_exceeded' => 'لا يمكن إنشاء المجلد. سيتم تجاوز الحد الأقصى لعمق المجلد :max.',
     ],
 ];

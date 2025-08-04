@@ -76,6 +76,19 @@ class Folder extends Model implements HasMedia
         return is_null($this->parent_id);
     }
 
+    public function getDepth(): int
+    {
+        $depth = 0;
+        $current = $this;
+        
+        while ($current->parent_id !== null) {
+            $depth++;
+            $current = $current->parent;
+        }
+        
+        return $depth;
+    }
+
     public function parentWithoutRootFolder(): BelongsTo
     {
         return $this->belongsTo(Folder::class, 'parent_id')->whereNotNull('parent_id');
