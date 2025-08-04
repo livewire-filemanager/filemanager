@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'Il nome della cartella è obbligatorio',
+        'max_folder_depth_exceeded' => 'Impossibile creare la cartella. La profondità massima di :max verrebbe superata.',
     ],
 ];

@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'Le nom du dossier est obligatoire',
+        'max_folder_depth_exceeded' => 'Impossible de créer le dossier. La profondeur maximale de :max serait dépassée.',
     ],
 ];

@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'O nome da pasta é obrigatório',
+        'max_folder_depth_exceeded' => 'Não é possível criar a pasta. A profundidade máxima de :max seria excedida.',
     ],
 ];

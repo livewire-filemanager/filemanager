@@ -166,6 +166,13 @@ class LivewireFilemanagerComponent extends Component
                     if ($existingFolder) {
                         $fail(__('livewire-filemanager::filemanager.folder_already_exists'));
                     }
+
+                    $maxDepth = config('livewire-fileuploader.folders.max_depth');
+                    if ($maxDepth !== null && $this->currentFolder) {
+                        if ($this->currentFolder->getDepth() >= $maxDepth - 1) {
+                            $fail(__('livewire-filemanager::filemanager.validation.max_folder_depth_exceeded', ['max' => $maxDepth]));
+                        }
+                    }
                 },
             ],
         ]);

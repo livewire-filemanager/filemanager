@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'نام پوشه اجباری است.',
+        'max_folder_depth_exceeded' => 'امکان ایجاد پوشه وجود ندارد. حداکثر عمق :max تجاوز خواهد شد.',
     ],
 ];

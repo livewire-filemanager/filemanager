@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'Klasör adı gereklidir',
+        'max_folder_depth_exceeded' => 'Klasör oluşturulamaz. Maksimum :max klasör derinliği aşılacaktır.',
     ],
 ];
