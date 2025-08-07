@@ -141,7 +141,37 @@
 
                 <nav class="select-none border-t text-sm px-4 sm:px-4 py-1.5 flex items-center border-zinc-300 dark:border-zinc-700 text-black dark:text-zinc-300">
                     @foreach ($breadcrumb as $index => $folder)
-                        <span class="cursor-pointer flex gap-x-1 items-center" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click.prevent="navigateToBreadcrumb({{ $index }})">
+                        <span 
+                            x-data="{ isDragOver: false }"
+                            class="cursor-pointer flex gap-x-1 items-center rounded px-2 py-1 transition-colors"
+                            :class="{ 
+                                'bg-blue-100 dark:bg-blue-900/50': isDragOver && {{ $loop->last ? 'false' : 'true' }}
+                            }"
+                            @if (!$loop->last)
+                                x-on:dragover.prevent="
+                                    if (!event.dataTransfer.types.includes('Files')) {
+                                        event.dataTransfer.dropEffect = 'move';
+                                        isDragOver = true;
+                                    }
+                                "
+                                x-on:dragleave.prevent="isDragOver = false"
+                                x-on:drop.prevent="
+                                    isDragOver = false;
+                                    const dragData = event.dataTransfer.getData('text/plain');
+                                    if (dragData) {
+                                        try {
+                                            const data = JSON.parse(dragData);
+                                            if (data.folders || data.files) {
+                                                $wire.moveItemsToFolder({{ $folder->id }}, data.folders || [], data.files || []);
+                                            }
+                                        } catch (e) {
+                                            console.error('Invalid drag data:', e);
+                                        }
+                                    }
+                                "
+                            @endif
+                            @click="Livewire.dispatch('reset-media', { media_id: null })" 
+                            wire:click.prevent="navigateToBreadcrumb({{ $index }})">
                             <x-livewire-filemanager::icons.folder class="w-5 h-5" /> <span>{{ $folder->name }}</span>
                         </span>
 

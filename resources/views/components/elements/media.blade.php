@@ -2,17 +2,20 @@
 
 <div
     x-data="{ isDragging: false }"
-    :draggable="@json($selectedFiles).includes({{ $media->id }})"
+    draggable="true"
     x-on:dragstart="
-        if (@json($selectedFiles).includes({{ $media->id }})) {
-            isDragging = true;
-            event.dataTransfer.effectAllowed = 'move';
-            const selectedFolders = @json($selectedFolders ?? []);
-            event.dataTransfer.setData('text/plain', JSON.stringify({
-                folders: selectedFolders,
-                files: @json($selectedFiles)
-            }));
+        const isSelected = @json($selectedFiles).includes({{ $media->id }});
+        if (!isSelected) {
+            $wire.clearSelection();
+            $wire.toggleFileSelection({{ $media->id }});
         }
+        isDragging = true;
+        event.dataTransfer.effectAllowed = 'move';
+        const selectedFolders = @json($selectedFolders ?? []);
+        event.dataTransfer.setData('text/plain', JSON.stringify({
+            folders: isSelected ? selectedFolders : [],
+            files: isSelected ? @json($selectedFiles) : [{{ $media->id }}]
+        }));
     "
     x-on:dragend="isDragging = false"
     :class="{ 

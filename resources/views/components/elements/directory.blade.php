@@ -2,16 +2,19 @@
 
 <div
     x-data="{ clickTimeout: null, isDragOver: false }"
-    :draggable="@json($selectedFolders).includes({{ $folder->id }})"
+    draggable="true"
     x-on:dragstart="
-        if (@json($selectedFolders).includes({{ $folder->id }})) {
-            event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('text/plain', JSON.stringify({
-                folders: @json($selectedFolders),
-                files: @json($selectedFiles)
-            }));
-            $el.classList.add('opacity-50');
+        const isSelected = @json($selectedFolders).includes({{ $folder->id }});
+        if (!isSelected) {
+            $wire.clearSelection();
+            $wire.toggleFolderSelection({{ $folder->id }});
         }
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', JSON.stringify({
+            folders: isSelected ? @json($selectedFolders) : [{{ $folder->id }}],
+            files: isSelected ? @json($selectedFiles) : []
+        }));
+        $el.classList.add('opacity-50');
     "
     x-on:dragend="$el.classList.remove('opacity-50')"
     x-on:dragover.prevent="

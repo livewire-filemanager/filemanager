@@ -112,7 +112,7 @@ class LivewireFilemanagerComponent extends Component
 
     #[On('reset-folder')]
     public function resetFolders() {}
-    
+
     #[On('clear-all-selections')]
     public function clearAllSelections()
     {
@@ -324,21 +324,21 @@ class LivewireFilemanagerComponent extends Component
     public function moveItemsToFolder($targetFolderId, $folderIds = [], $fileIds = [])
     {
         $targetFolder = Folder::find($targetFolderId);
-        
-        if (!$targetFolder) {
+
+        if (! $targetFolder) {
             return;
         }
-        
+
         $affectedFolders = [];
-        
+
         foreach ($folderIds as $folderId) {
-            if ($folderId != $targetFolderId && !$this->isChildOf($folderId, $targetFolderId)) {
+            if ($folderId != $targetFolderId && ! $this->isChildOf($folderId, $targetFolderId)) {
                 $folder = Folder::find($folderId);
                 if ($folder) {
                     $oldParentId = $folder->parent_id;
                     $folder->parent_id = $targetFolderId;
                     $folder->save();
-                    
+
                     if ($oldParentId) {
                         $affectedFolders[] = $oldParentId;
                     }
@@ -346,21 +346,21 @@ class LivewireFilemanagerComponent extends Component
                 }
             }
         }
-        
+
         foreach ($fileIds as $fileId) {
             $media = Media::find($fileId);
             if ($media) {
                 $oldModelId = $media->model_id;
                 $media->model_id = $targetFolderId;
                 $media->save();
-                
+
                 if ($oldModelId) {
                     $affectedFolders[] = $oldModelId;
                 }
                 $affectedFolders[] = $targetFolderId;
             }
         }
-        
+
         $affectedFolders = array_unique($affectedFolders);
         foreach ($affectedFolders as $folderId) {
             $folder = Folder::find($folderId);
@@ -369,7 +369,7 @@ class LivewireFilemanagerComponent extends Component
                 $folder->loadCount('children');
             }
         }
-        
+
         $this->selectedFolders = [];
         $this->selectedFiles = [];
         $this->dispatch('reset-media');
@@ -377,17 +377,17 @@ class LivewireFilemanagerComponent extends Component
         $this->currentFolder = $this->currentFolder->fresh(['children']);
         $this->loadFolders();
     }
-    
+
     private function isChildOf($childId, $parentId)
     {
         if ($childId == $parentId) {
             return true;
         }
-        
+
         $folder = Folder::find($parentId);
         $maxDepth = 50;
         $depth = 0;
-        
+
         while ($folder && $folder->parent_id && $depth < $maxDepth) {
             if ($folder->parent_id == $childId) {
                 return true;
@@ -395,7 +395,7 @@ class LivewireFilemanagerComponent extends Component
             $folder = Folder::find($folder->parent_id);
             $depth++;
         }
-        
+
         return false;
     }
 
