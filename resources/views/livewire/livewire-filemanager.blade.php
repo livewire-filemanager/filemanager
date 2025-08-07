@@ -68,7 +68,6 @@
                 </div>
 
                 <div id="filemanager-area"
-                    @mousedown="initiateDrawing($event)" @mousemove="draw($event)" @mouseup="stopDrawing()" @mouseleave="stopDrawing()"
                     class="border-t border-zinc-300 shadow-inner overflow-x-hidden relative dark:border-zinc-700" x-bind:class="dropingFile ? 'bg-blue-50 dark:bg-zinc-900/90 border-dashed' : ''">
                     @if($search)
                         <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-zinc-300 text-sm dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
@@ -85,11 +84,16 @@
 
                     <div
                     id="folder-container"
+                    @mousedown="initiateDrawing($event)" 
+                    @mousemove="draw($event)" 
+                    @mouseup="stopDrawing()" 
+                    @mouseleave="stopDrawing()"
                     x-on:drop="dropingFile = false"
                     x-on:drop.prevent="handleFileDrop($event)"
                     x-on:dragover.prevent="dropingFile = true"
                     x-on:dragleave.prevent="dropingFile = false"
                     x-on:dblclick.self="$wire.createNewFolder()"
+                    x-on:click="handleContainerClick($event)"
                     class="p-2 pb-10 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
                         @if ($isCreatingNewFolder)
                             <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center" @click.outside="$wire.saveNewFolder">
@@ -150,6 +154,25 @@
         </div>
     @endif
 
+    <style>
+        .drag-hover {
+            background-color: rgba(59, 130, 246, 0.2) !important;
+            outline: 2px solid rgba(59, 130, 246, 0.4);
+            outline-offset: -2px;
+            transition: all 0.1s ease;
+        }
+
+        .dark .drag-hover {
+            background-color: rgba(59, 130, 246, 0.3) !important;
+            outline: 2px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .drawn-area {
+            pointer-events: none;
+            transition: none;
+        }
+    </style>
+
     <script>
         function FilemanagerComponent() {
             return {
@@ -157,30 +180,26 @@
                 progress: 0,
                 dropingFile: false,
                 isDrawing: false,
-                isPending: false,
                 startX: 0,
                 startY: 0,
                 drawnArea: null,
-                drawingTimeout: null,
+                hoveredElements: new Set(),
+                wasDrawing: false,
 
                 initiateDrawing(event) {
-                    this.isPending = true;
+                    if (event.target.closest('.folder, .file')) {
+                        return;
+                    }
+
+                    this.$wire.clearSelection();
+
                     const container = event.currentTarget;
                     const rect = container.getBoundingClientRect();
 
                     this.startX = event.clientX - rect.left;
                     this.startY = event.clientY - rect.top;
 
-                    this.drawingTimeout = setTimeout(() => {
-                        if (this.isPending) {
-                            this.startDrawing();
-                        }
-                    }, 150); // Delay in milliseconds
-                },
-
-                startDrawing(event) {
                     this.isDrawing = true;
-                    this.isPending = false;
                     this.drawnArea = {
                         left: this.startX,
                         top: this.startY,
@@ -206,25 +225,63 @@
 
                     if (width < 0) {
                         this.drawnArea.left = currentX;
+                    } else {
+                        this.drawnArea.left = this.startX;
                     }
 
                     if (height < 0) {
                         this.drawnArea.top = currentY;
+                    } else {
+                        this.drawnArea.top = this.startY;
                     }
+
+                    this.updateHoveredElements();
                 },
 
                 stopDrawing() {
-                    if (this.isPending) {
-                        clearTimeout(this.drawingTimeout);
-                        this.isPending = false;
-                    }
-
                     if (this.isDrawing) {
+                        this.wasDrawing = true;
                         this.selectElementsWithinDrawnArea();
+
+                        this.hoveredElements.forEach(element => {
+                            element.classList.remove('drag-hover');
+                        });
+                        this.hoveredElements.clear();
 
                         this.isDrawing = false;
                         this.drawnArea = null;
                     }
+                },
+
+                updateHoveredElements() {
+                    const container = document.getElementById('folder-container');
+                    const drawnRect = {
+                        left: this.drawnArea.left,
+                        top: this.drawnArea.top,
+                        right: this.drawnArea.left + this.drawnArea.width,
+                        bottom: this.drawnArea.top + this.drawnArea.height
+                    };
+
+                    this.hoveredElements.forEach(element => {
+                        element.classList.remove('drag-hover');
+                    });
+                    this.hoveredElements.clear();
+
+                    container.querySelectorAll('.folder, .file').forEach(element => {
+                        const rect = element.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
+                        const elementRect = {
+                            left: rect.left - containerRect.left,
+                            top: rect.top - containerRect.top,
+                            right: rect.right - containerRect.left,
+                            bottom: rect.bottom - containerRect.top
+                        };
+
+                        if (this.isElementWithinDrawnArea(drawnRect, elementRect)) {
+                            element.classList.add('drag-hover');
+                            this.hoveredElements.add(element);
+                        }
+                    });
                 },
 
                 selectElementsWithinDrawnArea() {
@@ -236,33 +293,44 @@
                         bottom: this.drawnArea.top + this.drawnArea.height
                     };
 
+                    const selectedIds = { folders: [], files: [] };
+
                     container.querySelectorAll('.folder, .file').forEach(element => {
                         const rect = element.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
                         const elementRect = {
-                            left: rect.left - container.getBoundingClientRect().left,
-                            top: rect.top - container.getBoundingClientRect().top,
-                            right: rect.right - container.getBoundingClientRect().left,
-                            bottom: rect.bottom - container.getBoundingClientRect().top
+                            left: rect.left - containerRect.left,
+                            top: rect.top - containerRect.top,
+                            right: rect.right - containerRect.left,
+                            bottom: rect.bottom - containerRect.top
                         };
 
                         if (this.isElementWithinDrawnArea(drawnRect, elementRect)) {
-                            const id = element.getAttribute('data-id');
-                            const type = element.classList.contains('folder') ? 'folder' : 'file';
-
-                            if (type == 'folder') {
-                                this.$wire.toggleFolderSelection(id);
-                            } else {
-                                this.$wire.toggleFileSelection(id);
-                            }
+                            const id = parseInt(element.getAttribute('data-id'));
+                            const type = element.classList.contains('folder') ? 'folders' : 'files';
+                            selectedIds[type].push(id);
                         }
                     });
+
+                    if (selectedIds.folders.length > 0 || selectedIds.files.length > 0) {
+                        this.$wire.setSelection(selectedIds.folders, selectedIds.files);
+                    }
                 },
 
                 isElementWithinDrawnArea(drawnRect, elementRect) {
-                    return !(drawnRect.left > elementRect.right ||
-                             drawnRect.right < elementRect.left ||
-                             drawnRect.top > elementRect.bottom ||
-                             drawnRect.bottom < elementRect.top);
+                    const margin = 2;
+
+                    return !(drawnRect.left > elementRect.right + margin ||
+                             drawnRect.right < elementRect.left - margin ||
+                             drawnRect.top > elementRect.bottom + margin ||
+                             drawnRect.bottom < elementRect.top - margin);
+                },
+
+                handleContainerClick(event) {
+                    if (!this.wasDrawing && event.target === event.currentTarget) {
+                        this.$wire.clearSelection();
+                    }
+                    this.wasDrawing = false;
                 },
 
                 handleFileDrop(e) {

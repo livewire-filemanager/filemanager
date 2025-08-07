@@ -2,7 +2,23 @@
 
 <div
     :class="{ '!bg-gray-200/50 !hover:bg-gray-200/60 !dark:bg-gray-700 !hover:dark:bg-gray-700 group': @json($selectedFiles).includes({{ $media->id }}) }"
-    x-on:click="$wire.toggleFileSelection({{ $media->id }}); shiftKey = false; $wire.handleMediaClick({{ $media->id }})"
+    x-on:click.stop="
+        const isSelected = @json($selectedFiles).includes({{ $media->id }});
+        
+        if (event.ctrlKey || event.metaKey) {
+            $wire.toggleFileSelection({{ $media->id }});
+        } else {
+            if (!isSelected) {
+                $wire.clearSelection();
+                $wire.toggleFileSelection({{ $media->id }});
+            }
+        }
+        
+        $nextTick(() => {
+            $wire.handleMediaClick({{ $media->id }});
+        });
+    "
+    x-on:mousedown.stop=""
     data-id="{{ $media->id }}"
     id="{{ $key }}"
     class="file cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 hover:bg-blue-100/30 hover:dark:bg-gray-700 text-center select-none">
