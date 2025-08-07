@@ -46,7 +46,8 @@
     }"
     x-on:click.stop="
         if (this.clickTimeout) {
-            clearTimeout(this.clickTimeout)
+            clearTimeout(this.clickTimeout);
+            this.clickTimeout = null;
         }
         
         const ctrlPressed = event.ctrlKey || event.metaKey;
@@ -68,8 +69,10 @@
         }, 200);
     "
     x-on:dblclick.stop="
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
+        if (this.clickTimeout) {
+            clearTimeout(this.clickTimeout);
+            this.clickTimeout = null;
+        }
         $wire.navigateToFolder({{ $folder->id }});
     "
     x-on:mousedown.stop=""
