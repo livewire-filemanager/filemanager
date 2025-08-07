@@ -1,7 +1,24 @@
-@props(['folder', 'media', 'selectedFiles', 'key'])
+@props(['folder', 'media', 'selectedFiles', 'selectedFolders' => [], 'key'])
 
 <div
-    :class="{ '!bg-gray-200/50 !hover:bg-gray-200/60 !dark:bg-gray-700 !hover:dark:bg-gray-700 group': @json($selectedFiles).includes({{ $media->id }}) }"
+    x-data="{ isDragging: false }"
+    :draggable="@json($selectedFiles).includes({{ $media->id }})"
+    x-on:dragstart="
+        if (@json($selectedFiles).includes({{ $media->id }})) {
+            isDragging = true;
+            event.dataTransfer.effectAllowed = 'move';
+            const selectedFolders = @json($selectedFolders ?? []);
+            event.dataTransfer.setData('text/plain', JSON.stringify({
+                folders: selectedFolders,
+                files: @json($selectedFiles)
+            }));
+        }
+    "
+    x-on:dragend="isDragging = false"
+    :class="{ 
+        '!bg-gray-200/50 !hover:bg-gray-200/60 !dark:bg-gray-700 !hover:dark:bg-gray-700 group': @json($selectedFiles).includes({{ $media->id }}),
+        'opacity-50': isDragging
+    }"
     x-on:click.stop="
         const isSelected = @json($selectedFiles).includes({{ $media->id }});
         

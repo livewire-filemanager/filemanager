@@ -100,6 +100,10 @@ class LivewireFilemanagerComponent extends Component
     #[On('folder-deleted')]
     public function folderDeleted()
     {
+        $this->selectedFolders = [];
+        $this->selectedFiles = [];
+        $this->dispatch('reset-media');
+        $this->dispatch('reset-folder');
         $this->loadFolders();
     }
 
@@ -315,6 +319,84 @@ class LivewireFilemanagerComponent extends Component
             $this->dispatch('reset-media');
             $this->dispatch('reset-folder');
         }
+    }
+
+    public function moveItemsToFolder($targetFolderId, $folderIds = [], $fileIds = [])
+    {
+        $targetFolder = Folder::find($targetFolderId);
+        
+        if (!$targetFolder) {
+            return;
+        }
+        
+        $affectedFolders = [];
+        
+        foreach ($folderIds as $folderId) {
+            if ($folderId != $targetFolderId && !$this->isChildOf($folderId, $targetFolderId)) {
+                $folder = Folder::find($folderId);
+                if ($folder) {
+                    $oldParentId = $folder->parent_id;
+                    $folder->parent_id = $targetFolderId;
+                    $folder->save();
+                    
+                    if ($oldParentId) {
+                        $affectedFolders[] = $oldParentId;
+                    }
+                    $affectedFolders[] = $targetFolderId;
+                }
+            }
+        }
+        
+        foreach ($fileIds as $fileId) {
+            $media = Media::find($fileId);
+            if ($media) {
+                $oldModelId = $media->model_id;
+                $media->model_id = $targetFolderId;
+                $media->save();
+                
+                if ($oldModelId) {
+                    $affectedFolders[] = $oldModelId;
+                }
+                $affectedFolders[] = $targetFolderId;
+            }
+        }
+        
+        $affectedFolders = array_unique($affectedFolders);
+        foreach ($affectedFolders as $folderId) {
+            $folder = Folder::find($folderId);
+            if ($folder) {
+                $folder->load('children');
+                $folder->loadCount('children');
+            }
+        }
+        
+        $this->selectedFolders = [];
+        $this->selectedFiles = [];
+        $this->dispatch('reset-media');
+        $this->dispatch('reset-folder');
+        $this->currentFolder = $this->currentFolder->fresh(['children']);
+        $this->loadFolders();
+    }
+    
+    private function isChildOf($childId, $parentId)
+    {
+        if ($childId == $parentId) {
+            return true;
+        }
+        
+        $folder = Folder::find($parentId);
+        $maxDepth = 50;
+        $depth = 0;
+        
+        while ($folder && $folder->parent_id && $depth < $maxDepth) {
+            if ($folder->parent_id == $childId) {
+                return true;
+            }
+            $folder = Folder::find($folder->parent_id);
+            $depth++;
+        }
+        
+        return false;
     }
 
     public function render()

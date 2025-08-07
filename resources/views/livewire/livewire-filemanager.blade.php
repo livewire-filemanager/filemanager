@@ -6,7 +6,9 @@
             x-on:livewire-upload-start="uploading = true"
             x-on:livewire-upload-finish="uploading = false"
             x-on:livewire-upload-error="uploading = false"
-            x-on:livewire-upload-progress="progress = $event.detail.progress">
+            x-on:livewire-upload-progress="progress = $event.detail.progress"
+            @dragstart.window="handleDragStart($event)"
+            @dragend.window="handleDragEnd($event)">
             <div class="w-full shadow-sm bg-white pt-4 border border-zinc-300 sm:rounded dark:border-zinc-700 dark:bg-zinc-800">
                 <div class="px-4 pb-4 sm:px-5 flex items-center justify-between">
                     <h2 class="text-lg font-medium text-gray-900 dark:text-zinc-300">
@@ -110,16 +112,16 @@
                         @endif
 
                         @foreach($folders->sortBy('name') as $folder)
-                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :key="'folder-' . $folder->id" />
+                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :selectedFiles="$selectedFiles" :key="'folder-' . $folder->id" />
                         @endforeach
 
                         @if($searchedFiles)
                             @foreach($searchedFiles->sortBy('file_name') as $media)
-                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :key="'searched-file-' . $media->id" />
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :selectedFolders="$selectedFolders" :key="'searched-file-' . $media->id" />
                             @endforeach
                         @else
                             @foreach($currentFolder->getMedia('medialibrary')->sortBy('file_name') as $media)
-                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :key="'file-' . $media->id" />
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :selectedFolders="$selectedFolders" :key="'file-' . $media->id" />
                             @endforeach
                         @endif
                     </div>
@@ -185,6 +187,7 @@
                 drawnArea: null,
                 hoveredElements: new Set(),
                 wasDrawing: false,
+                isDraggingItems: false,
 
                 initiateDrawing(event) {
                     if (event.target.closest('.folder, .file')) {
@@ -340,6 +343,20 @@
                             (uploadedFilename) => {}, () => {}, (event) => {}
                         )
                     }
+                },
+                
+                handleDragStart(event) {
+                    this.isDraggingItems = true;
+                    document.querySelectorAll('.folder.selected, .file.selected').forEach(el => {
+                        el.classList.add('opacity-50');
+                    });
+                },
+                
+                handleDragEnd(event) {
+                    this.isDraggingItems = false;
+                    document.querySelectorAll('.folder, .file').forEach(el => {
+                        el.classList.remove('opacity-50');
+                    });
                 }
             };
         }

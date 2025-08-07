@@ -32,6 +32,9 @@ class DeleteItemsComponent extends Component
         }
 
         $this->dispatch('reset-media');
+        $this->dispatch('reset-folder');
+        $this->dispatch('clear-all-selections');
+        $this->dispatch('folder-deleted');
     }
 
     public function render()

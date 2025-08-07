@@ -106,7 +106,8 @@ class Folder extends Model implements HasMedia
 
     public function elements(): string
     {
-        return trans_choice('livewire-filemanager::filemanager.elements', $this->children_count + $this->getMedia('medialibrary')->count(), ['value' => $this->children_count + $this->getMedia('medialibrary')->count()]);
+        $totalCount = $this->children()->count() + $this->getMedia('medialibrary')->count();
+        return trans_choice('livewire-filemanager::filemanager.elements', $totalCount, ['value' => $totalCount]);
     }
 
     /**

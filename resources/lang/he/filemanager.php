@@ -5,7 +5,7 @@ return [
     'root_folder_not_configurated_help' => 'תיקייה זו תהיה התיקייה הראשית של מנהל הקבצים שלך',
     'add_your_first_folder' => 'הוסף את התיקייה הראשונה שלך',
     'root_folder_name' => 'שם התיקייה',
-    'elements' => '{0} אין פריטים|[1] פריט|[2,*] :value פריטים',
+    'elements' => '{0} אין פריטים|[1] 1 פריט|[2,*] :value פריטים',
     'add_a_file' => 'הוספת קובץ',
     'search' => 'חיפוש',
     'folder_already_exists' => 'תיקייה בשם זה כבר קיימת בספרייה הנוכחית',
