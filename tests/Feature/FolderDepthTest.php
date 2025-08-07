@@ -77,7 +77,7 @@ class FolderDepthTest extends TestCase
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
         $level1 = Folder::create(['name' => 'Level1', 'slug' => 'level1', 'parent_id' => $root->id]);
 
-        $request = new \LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest();
+        $request = new \LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest;
         $request->merge([
             'name' => 'TooDeep',
             'parent_id' => $level1->id,
@@ -98,7 +98,7 @@ class FolderDepthTest extends TestCase
 
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
 
-        $request = new \LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest();
+        $request = new \LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest;
         $request->merge([
             'name' => 'Subfolder',
             'parent_id' => $root->id,

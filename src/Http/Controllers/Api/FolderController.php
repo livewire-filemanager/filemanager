@@ -37,7 +37,7 @@ class FolderController extends Controller
     {
         $this->executeCallback('before_upload', $request);
 
-        $folder = new Folder();
+        $folder = new Folder;
         $folder->name = $request->name;
         $folder->slug = Str::slug($request->name);
         $folder->parent_id = $request->parent_id;
