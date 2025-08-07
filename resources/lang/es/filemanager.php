@@ -5,7 +5,7 @@ return [
     'root_folder_not_configurated_help' => 'Esta carpeta será tu carpeta raíz del gestor de archivos',
     'add_your_first_folder' => 'Agrega tu primera carpeta',
     'root_folder_name' => 'Nombre de la carpeta',
-    'elements' => '{0} Ningún elemento|[1] elemento|[2,*] :value elementos',
+    'elements' => '{0} Ningún elemento|[1] 1 elemento|[2,*] :value elementos',
     'add_a_file' => 'Agregar un archivo',
     'search' => 'Buscar',
     'folder_already_exists' => 'Ya existe una carpeta con este nombre en el directorio actual.',
