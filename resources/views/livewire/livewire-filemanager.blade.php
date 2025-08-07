@@ -6,7 +6,9 @@
             x-on:livewire-upload-start="uploading = true"
             x-on:livewire-upload-finish="uploading = false"
             x-on:livewire-upload-error="uploading = false"
-            x-on:livewire-upload-progress="progress = $event.detail.progress">
+            x-on:livewire-upload-progress="progress = $event.detail.progress"
+            @dragstart.window="handleDragStart($event)"
+            @dragend.window="handleDragEnd($event)">
             <div class="w-full shadow-sm bg-white pt-4 border border-zinc-300 sm:rounded dark:border-zinc-700 dark:bg-zinc-800">
                 <div class="px-4 pb-4 sm:px-5 flex items-center justify-between">
                     <h2 class="text-lg font-medium text-gray-900 dark:text-zinc-300">
@@ -68,7 +70,6 @@
                 </div>
 
                 <div id="filemanager-area"
-                    @mousedown="initiateDrawing($event)" @mousemove="draw($event)" @mouseup="stopDrawing()" @mouseleave="stopDrawing()"
                     class="border-t border-zinc-300 shadow-inner overflow-x-hidden relative dark:border-zinc-700" x-bind:class="dropingFile ? 'bg-blue-50 dark:bg-zinc-900/90 border-dashed' : ''">
                     @if($search)
                         <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-zinc-300 text-sm dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
@@ -85,11 +86,16 @@
 
                     <div
                     id="folder-container"
+                    @mousedown="initiateDrawing($event)" 
+                    @mousemove="draw($event)" 
+                    @mouseup="stopDrawing()" 
+                    @mouseleave="stopDrawing()"
                     x-on:drop="dropingFile = false"
                     x-on:drop.prevent="handleFileDrop($event)"
                     x-on:dragover.prevent="dropingFile = true"
                     x-on:dragleave.prevent="dropingFile = false"
                     x-on:dblclick.self="$wire.createNewFolder()"
+                    x-on:click="handleContainerClick($event)"
                     class="p-2 pb-10 min-h-[500px] select-none overflow-y-auto flex relative flex-wrap content-start">
                         @if ($isCreatingNewFolder)
                             <div class="cursor-pointer mb-4 max-w-[137px] min-w-[137px] max-h-[137px] min-h-[137px] items-start p-2 mx-1 text-center" @click.outside="$wire.saveNewFolder">
@@ -106,16 +112,16 @@
                         @endif
 
                         @foreach($folders->sortBy('name') as $folder)
-                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :key="'folder-' . $folder->id" />
+                            <x-livewire-filemanager::elements.directory :folder="$folder" :selectedFolders="$selectedFolders" :selectedFiles="$selectedFiles" :key="'folder-' . $folder->id" />
                         @endforeach
 
                         @if($searchedFiles)
                             @foreach($searchedFiles->sortBy('file_name') as $media)
-                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :key="'searched-file-' . $media->id" />
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :selectedFolders="$selectedFolders" :key="'searched-file-' . $media->id" />
                             @endforeach
                         @else
                             @foreach($currentFolder->getMedia('medialibrary')->sortBy('file_name') as $media)
-                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :key="'file-' . $media->id" />
+                                <x-livewire-filemanager::elements.media :media="$media" :selectedFiles="$selectedFiles" :selectedFolders="$selectedFolders" :key="'file-' . $media->id" />
                             @endforeach
                         @endif
                     </div>
@@ -135,7 +141,37 @@
 
                 <nav class="select-none border-t text-sm px-4 sm:px-4 py-1.5 flex items-center border-zinc-300 dark:border-zinc-700 text-black dark:text-zinc-300">
                     @foreach ($breadcrumb as $index => $folder)
-                        <span class="cursor-pointer flex gap-x-1 items-center" @click="Livewire.dispatch('reset-media', { media_id: null })" wire:click.prevent="navigateToBreadcrumb({{ $index }})">
+                        <span 
+                            x-data="{ isDragOver: false }"
+                            class="cursor-pointer flex gap-x-1 items-center rounded px-2 py-1 transition-colors"
+                            :class="{ 
+                                'bg-blue-100 dark:bg-blue-900/50': isDragOver && {{ $loop->last ? 'false' : 'true' }}
+                            }"
+                            @if (!$loop->last)
+                                x-on:dragover.prevent="
+                                    if (!event.dataTransfer.types.includes('Files')) {
+                                        event.dataTransfer.dropEffect = 'move';
+                                        isDragOver = true;
+                                    }
+                                "
+                                x-on:dragleave.prevent="isDragOver = false"
+                                x-on:drop.prevent="
+                                    isDragOver = false;
+                                    const dragData = event.dataTransfer.getData('text/plain');
+                                    if (dragData) {
+                                        try {
+                                            const data = JSON.parse(dragData);
+                                            if (data.folders || data.files) {
+                                                $wire.moveItemsToFolder({{ $folder->id }}, data.folders || [], data.files || []);
+                                            }
+                                        } catch (e) {
+                                            console.error('Invalid drag data:', e);
+                                        }
+                                    }
+                                "
+                            @endif
+                            @click="Livewire.dispatch('reset-media', { media_id: null })" 
+                            wire:click.prevent="navigateToBreadcrumb({{ $index }})">
                             <x-livewire-filemanager::icons.folder class="w-5 h-5" /> <span>{{ $folder->name }}</span>
                         </span>
 
@@ -150,6 +186,25 @@
         </div>
     @endif
 
+    <style>
+        .drag-hover {
+            background-color: rgba(59, 130, 246, 0.2) !important;
+            outline: 2px solid rgba(59, 130, 246, 0.4);
+            outline-offset: -2px;
+            transition: all 0.1s ease;
+        }
+
+        .dark .drag-hover {
+            background-color: rgba(59, 130, 246, 0.3) !important;
+            outline: 2px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .drawn-area {
+            pointer-events: none;
+            transition: none;
+        }
+    </style>
+
     <script>
         function FilemanagerComponent() {
             return {
@@ -157,30 +212,27 @@
                 progress: 0,
                 dropingFile: false,
                 isDrawing: false,
-                isPending: false,
                 startX: 0,
                 startY: 0,
                 drawnArea: null,
-                drawingTimeout: null,
+                hoveredElements: new Set(),
+                wasDrawing: false,
+                isDraggingItems: false,
 
                 initiateDrawing(event) {
-                    this.isPending = true;
+                    if (event.target.closest('.folder, .file')) {
+                        return;
+                    }
+
+                    this.$wire.clearSelection();
+
                     const container = event.currentTarget;
                     const rect = container.getBoundingClientRect();
 
                     this.startX = event.clientX - rect.left;
                     this.startY = event.clientY - rect.top;
 
-                    this.drawingTimeout = setTimeout(() => {
-                        if (this.isPending) {
-                            this.startDrawing();
-                        }
-                    }, 150); // Delay in milliseconds
-                },
-
-                startDrawing(event) {
                     this.isDrawing = true;
-                    this.isPending = false;
                     this.drawnArea = {
                         left: this.startX,
                         top: this.startY,
@@ -206,25 +258,63 @@
 
                     if (width < 0) {
                         this.drawnArea.left = currentX;
+                    } else {
+                        this.drawnArea.left = this.startX;
                     }
 
                     if (height < 0) {
                         this.drawnArea.top = currentY;
+                    } else {
+                        this.drawnArea.top = this.startY;
                     }
+
+                    this.updateHoveredElements();
                 },
 
                 stopDrawing() {
-                    if (this.isPending) {
-                        clearTimeout(this.drawingTimeout);
-                        this.isPending = false;
-                    }
-
                     if (this.isDrawing) {
+                        this.wasDrawing = true;
                         this.selectElementsWithinDrawnArea();
+
+                        this.hoveredElements.forEach(element => {
+                            element.classList.remove('drag-hover');
+                        });
+                        this.hoveredElements.clear();
 
                         this.isDrawing = false;
                         this.drawnArea = null;
                     }
+                },
+
+                updateHoveredElements() {
+                    const container = document.getElementById('folder-container');
+                    const drawnRect = {
+                        left: this.drawnArea.left,
+                        top: this.drawnArea.top,
+                        right: this.drawnArea.left + this.drawnArea.width,
+                        bottom: this.drawnArea.top + this.drawnArea.height
+                    };
+
+                    this.hoveredElements.forEach(element => {
+                        element.classList.remove('drag-hover');
+                    });
+                    this.hoveredElements.clear();
+
+                    container.querySelectorAll('.folder, .file').forEach(element => {
+                        const rect = element.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
+                        const elementRect = {
+                            left: rect.left - containerRect.left,
+                            top: rect.top - containerRect.top,
+                            right: rect.right - containerRect.left,
+                            bottom: rect.bottom - containerRect.top
+                        };
+
+                        if (this.isElementWithinDrawnArea(drawnRect, elementRect)) {
+                            element.classList.add('drag-hover');
+                            this.hoveredElements.add(element);
+                        }
+                    });
                 },
 
                 selectElementsWithinDrawnArea() {
@@ -236,33 +326,44 @@
                         bottom: this.drawnArea.top + this.drawnArea.height
                     };
 
+                    const selectedIds = { folders: [], files: [] };
+
                     container.querySelectorAll('.folder, .file').forEach(element => {
                         const rect = element.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
                         const elementRect = {
-                            left: rect.left - container.getBoundingClientRect().left,
-                            top: rect.top - container.getBoundingClientRect().top,
-                            right: rect.right - container.getBoundingClientRect().left,
-                            bottom: rect.bottom - container.getBoundingClientRect().top
+                            left: rect.left - containerRect.left,
+                            top: rect.top - containerRect.top,
+                            right: rect.right - containerRect.left,
+                            bottom: rect.bottom - containerRect.top
                         };
 
                         if (this.isElementWithinDrawnArea(drawnRect, elementRect)) {
-                            const id = element.getAttribute('data-id');
-                            const type = element.classList.contains('folder') ? 'folder' : 'file';
-
-                            if (type == 'folder') {
-                                this.$wire.toggleFolderSelection(id);
-                            } else {
-                                this.$wire.toggleFileSelection(id);
-                            }
+                            const id = parseInt(element.getAttribute('data-id'));
+                            const type = element.classList.contains('folder') ? 'folders' : 'files';
+                            selectedIds[type].push(id);
                         }
                     });
+
+                    if (selectedIds.folders.length > 0 || selectedIds.files.length > 0) {
+                        this.$wire.setSelection(selectedIds.folders, selectedIds.files);
+                    }
                 },
 
                 isElementWithinDrawnArea(drawnRect, elementRect) {
-                    return !(drawnRect.left > elementRect.right ||
-                             drawnRect.right < elementRect.left ||
-                             drawnRect.top > elementRect.bottom ||
-                             drawnRect.bottom < elementRect.top);
+                    const margin = 2;
+
+                    return !(drawnRect.left > elementRect.right + margin ||
+                             drawnRect.right < elementRect.left - margin ||
+                             drawnRect.top > elementRect.bottom + margin ||
+                             drawnRect.bottom < elementRect.top - margin);
+                },
+
+                handleContainerClick(event) {
+                    if (!this.wasDrawing && event.target === event.currentTarget) {
+                        this.$wire.clearSelection();
+                    }
+                    this.wasDrawing = false;
                 },
 
                 handleFileDrop(e) {
@@ -272,6 +373,20 @@
                             (uploadedFilename) => {}, () => {}, (event) => {}
                         )
                     }
+                },
+                
+                handleDragStart(event) {
+                    this.isDraggingItems = true;
+                    document.querySelectorAll('.folder.selected, .file.selected').forEach(el => {
+                        el.classList.add('opacity-50');
+                    });
+                },
+                
+                handleDragEnd(event) {
+                    this.isDraggingItems = false;
+                    document.querySelectorAll('.folder, .file').forEach(el => {
+                        el.classList.remove('opacity-50');
+                    });
                 }
             };
         }

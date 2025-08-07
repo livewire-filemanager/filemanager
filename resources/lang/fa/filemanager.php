@@ -5,7 +5,7 @@ return [
     'root_folder_not_configurated_help' => 'این پوشه در واقع حاوی فایل های است که توسط مدیریت فایل نمایش داده می شود.',
     'add_your_first_folder' => 'افزودن اولین پوشه',
     'root_folder_name' => 'نام پوشه',
-    'elements' => '{0} بدون المان|[1] المان|[2,*] :value المان',
+    'elements' => '{0} بدون المان|[1] 1 المان|[2,*] :value المان',
     'add_a_file' => 'افزودن فایل',
     'search' => 'جستجو',
     'folder_already_exists' => 'پوشه با این نام موجود است.',
@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'نام پوشه اجباری است.',
+        'max_folder_depth_exceeded' => 'امکان ایجاد پوشه وجود ندارد. حداکثر عمق :max تجاوز خواهد شد.',
     ],
 ];

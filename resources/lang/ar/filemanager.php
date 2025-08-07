@@ -5,7 +5,7 @@ return [
     'root_folder_not_configurated_help' => 'هذا المجلد سيكون المجلد الرئيسي لمدير ملفاتك',
     'add_your_first_folder' => 'اضف اول ملف لمجلدك',
     'root_folder_name' => 'اسم المجلد',
-    'elements' => '{0} لا توجد عناصر|[1] عنصر واحد|[2,*] :value عناصر',
+    'elements' => '{0} لا توجد عناصر|[1] 1 عنصر|[2,*] :value عناصر',
     'add_a_file' => 'اضف ملف',
     'search' => 'البحث',
     'folder_already_exists' => 'يوجد مجلد بهذا الاسم موجود بالفعل',
@@ -28,5 +28,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'اسم المجلد مطلوب',
+        'max_folder_depth_exceeded' => 'لا يمكن إنشاء المجلد. سيتم تجاوز الحد الأقصى لعمق المجلد :max.',
     ],
 ];

@@ -19,6 +19,8 @@ A simple, friendly, and practical file manager designed specifically for Laravel
 
 Watch the presentation of the package here: [Laravel Switzerland Meetup](https://www.youtube.com/watch?v=lgk_1AtukfM)
 
+**[Full Documentation](docs.md)** - Comprehensive guide with detailed examples, API reference, and advanced usage.
+
 ## Project requirements
 
 - PHP 8.2.0 or greater required

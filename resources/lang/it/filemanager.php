@@ -5,7 +5,7 @@ return [
     'root_folder_not_configurated_help' => 'Questa cartella sarà la cartella principale del file manager',
     'add_your_first_folder' => 'Aggiungi la prima cartella',
     'root_folder_name' => 'Nome cartella',
-    'elements' => '{0} Nessun elemento|[1] elemento|[2,*] :value elementi',
+    'elements' => '{0} Nessun elemento|[1] 1 elemento|[2,*] :value elementi',
     'add_a_file' => 'Aggiungi un file',
     'search' => 'Cerca',
     'folder_already_exists' => 'Esiste già una cartella con questo nome nella directory corrente.',
@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'Il nome della cartella è obbligatorio',
+        'max_folder_depth_exceeded' => 'Impossibile creare la cartella. La profondità massima di :max verrebbe superata.',
     ],
 ];

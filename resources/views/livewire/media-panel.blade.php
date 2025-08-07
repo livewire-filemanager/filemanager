@@ -3,11 +3,12 @@
     x-on:load-folder.window="show = false"
     x-on:reset-media.window="show = false"
     x-on:reset-folder.window="show = false"
+    x-on:click.stop=""
     :class="{ 'block animate-[slideIn_0.5s_forwards]': show, 'hidden animate-[slideOut_0.5s_forwards]': !show }"
     class="absolute w-screen max-w-md top-0 end-0 bottom-0">
         <div class="bg-white border-l min-h-full shadow-lg border-zinc-300 p-4 relative dark:bg-zinc-900 dark:border-zinc-800">
             <div class="absolute end-4 top-4 flex h-7 items-center">
-                <button @click="Livewire.dispatch('reset-media', { media_id: null })" type="button" class="relative rounded-md border text-zinc-500 border-zinc-300 p-1 focus:outline-none focus:ring-2 focus:ring-white dark:border-zinc-600 dark:text-zinc-500" @click="open = false">
+                <button @click="Livewire.dispatch('clear-all-selections'); Livewire.dispatch('reset-media', { media_id: null })" type="button" class="relative rounded-md border text-zinc-500 border-zinc-300 p-1 focus:outline-none focus:ring-2 focus:ring-white dark:border-zinc-600 dark:text-zinc-500">
                     <span class="absolute -inset-2.5"></span>
                     <span class="sr-only">Close panel</span>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">

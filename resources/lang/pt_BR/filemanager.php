@@ -5,7 +5,7 @@ return [
     'root_folder_not_configurated_help' => 'Esta pasta será a sua pasta raiz do gestor de ficheiros',
     'add_your_first_folder' => 'Adicione a sua primeira pasta',
     'root_folder_name' => 'Nome da pasta',
-    'elements' => '{0} Sem elementos|[1] elemento|[2,*] :value elementos',
+    'elements' => '{0} Sem elementos|[1] 1 elemento|[2,*] :value elementos',
     'add_a_file' => 'Adicionar um ficheiro',
     'search' => 'Pesquisar',
     'folder_already_exists' => 'Já existe uma pasta com este nome no diretório atual.',
@@ -29,5 +29,6 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'O nome da pasta é obrigatório',
+        'max_folder_depth_exceeded' => 'Não é possível criar a pasta. A profundidade máxima de :max seria excedida.',
     ],
 ];

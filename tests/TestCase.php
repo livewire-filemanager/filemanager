@@ -85,6 +85,7 @@ class TestCase extends BaseTestCase
         $app['config']->set('livewire-fileuploader.api.prefix', 'filemanager/v1');
         $app['config']->set('livewire-fileuploader.api.middleware', ['api', 'auth']);
         $app['config']->set('livewire-fileuploader.acl_enabled', false);
+        $app['config']->set('livewire-fileuploader.folders.max_depth', null);
 
         $app['config']->set('filesystems.disks.local', [
             'driver' => 'local',
