@@ -1,0 +1,34 @@
+<?php
+
+return [
+    'root_folder_not_configurated' => 'Je hoofdmap is niet geconfigureerd.',
+    'root_folder_not_configurated_help' => 'Deze map wordt uw hoofdmap van uw bestandsbeheerder',
+    'add_your_first_folder' => 'Voeg je eerste map toe',
+    'root_folder_name' => 'Map naam',
+    'elements' => '{0} geen elementen|[1] 1 element|[2,*] :value elementen',
+    'add_a_file' => 'Een bestand toevoegen',
+    'search' => 'Zoeken',
+    'folder_already_exists' => 'Er bestaat reeds een map met deze naam in de huidige map.',
+    'folder_without_title' => 'naamloze map',
+    'selected' => '[1] geselecteerd|[2,*] geselecteerd',
+    'search_results' => 'Zoek resultaten',
+    'created' => 'Aangemaakt',
+    'modified' => 'Gewijzigd',
+    'delete_items' => 'Verwijderde items',
+    'delete_items_warning' => 'Ben je zeker dat je deze items wenst te verwijderen?',
+    'rename_folder' => 'Hernoem de map',
+    'rename_file' => 'Hernoem het bestand',
+    'actions' => [
+        'cancel' => 'Annuleren',
+        'save' => 'Opslaan',
+        'delete' => 'Verwijder',
+        'close_modal' => 'Sluit modal',
+        'copy_url' => 'Kopieer de URL van het bestand',
+        'url_copy_pasted' => 'Link gekopieerd naar klembord!',
+        'url_not_copy_pasted' => 'Klembord-API niet ondersteund in niet-beveiligde context. Gelieve de site via HTTPS te bedienen.',
+    ],
+    'validation' => [
+        'folder_name_required' => 'De mapnaam is vereist',
+        'max_folder_depth_exceeded' => 'Kan map niet aanmaken. Maximale map diepte van : max zou worden overschreden.',
+    ],
+];
