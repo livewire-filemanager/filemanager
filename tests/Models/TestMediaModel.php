@@ -45,7 +45,7 @@ class TestMediaModel extends Model
         });
 
         static::creating(function ($folder) {
-            if (! config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-filemanager.acl_enabled')) {
                 return;
             }
 
@@ -60,7 +60,7 @@ class TestMediaModel extends Model
     protected static function booted()
     {
         static::addGlobalScope('user_id', function (Builder $builder) {
-            if (! config('livewire-fileuploader.acl_enabled')) {
+            if (! config('livewire-filemanager.acl_enabled')) {
                 return;
             }
 

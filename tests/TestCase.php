@@ -81,11 +81,11 @@ class TestCase extends BaseTestCase
             'prefix' => '',
         ]);
 
-        $app['config']->set('livewire-fileuploader.api.enabled', true);
-        $app['config']->set('livewire-fileuploader.api.prefix', 'filemanager/v1');
-        $app['config']->set('livewire-fileuploader.api.middleware', ['api', 'auth']);
-        $app['config']->set('livewire-fileuploader.acl_enabled', false);
-        $app['config']->set('livewire-fileuploader.folders.max_depth', null);
+        $app['config']->set('livewire-filemanager.api.enabled', true);
+        $app['config']->set('livewire-filemanager.api.prefix', 'filemanager/v1');
+        $app['config']->set('livewire-filemanager.api.middleware', ['api', 'auth']);
+        $app['config']->set('livewire-filemanager.acl_enabled', false);
+        $app['config']->set('livewire-filemanager.folders.max_depth', null);
 
         $app['config']->set('filesystems.disks.local', [
             'driver' => 'local',

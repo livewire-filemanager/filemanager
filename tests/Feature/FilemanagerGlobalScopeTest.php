@@ -14,7 +14,7 @@ class FilemanagerGlobalScopeTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['config']->set('livewire-fileuploader.acl_enabled', true);
+        $this->app['config']->set('livewire-filemanager.acl_enabled', true);
     }
 
     /**

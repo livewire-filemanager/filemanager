@@ -14,7 +14,7 @@ class MediaPolicy
 
     public function view(User $user, Media $file)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -28,7 +28,7 @@ class MediaPolicy
 
     public function update(User $user, Media $file)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -37,7 +37,7 @@ class MediaPolicy
 
     public function delete(User $user, Media $file)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -46,7 +46,7 @@ class MediaPolicy
 
     public function restore(User $user, Media $file)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -55,7 +55,7 @@ class MediaPolicy
 
     public function forceDelete(User $user, Media $file)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 

@@ -13,8 +13,8 @@ class BulkUploadRequest extends FormRequest
 
     public function rules()
     {
-        $maxSize = config('livewire-fileuploader.api.max_file_size', 10240);
-        $allowedExtensions = config('livewire-fileuploader.api.allowed_extensions', ['jpg', 'jpeg', 'png', 'pdf', 'txt']);
+        $maxSize = config('livewire-filemanager.api.max_file_size', 10240);
+        $allowedExtensions = config('livewire-filemanager.api.allowed_extensions', ['jpg', 'jpeg', 'png', 'pdf', 'txt']);
 
         return [
             'folder_id' => 'required|exists:folders,id',

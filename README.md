@@ -45,7 +45,7 @@ composer require livewire-filemanager/filemanager
 Publish the package's migration file:
 
 ```bash
-php artisan vendor:publish --tag=livewire-fileuploader-migrations
+php artisan vendor:publish --tag=livewire-filemanager-migrations
 ```
 
 This package relies on spatie/medialibrary to handle the medias, so if you haven't already configured the package, don't forget this step:
@@ -140,10 +140,10 @@ The whole interface is available in dark/light mode.
 If you want to enable ACL, you should publish the config file:
 
 ```bash
-php artisan vendor:publish --tag=livewire-fileuploader-config
+php artisan vendor:publish --tag=livewire-filemanager-config
 ```
 
-This will create a `livewire-fileuploader.php` file inside your config folder. You can now enable the ACL by changing the `acl_enabled` value to `true`.
+This will create a `livewire-filemanager.php` file inside your config folder. You can now enable the ACL by changing the `acl_enabled` value to `true`.
 
 Also publish the Spatie medialibrary config file, if you haven't already done it.
 

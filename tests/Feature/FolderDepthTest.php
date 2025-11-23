@@ -15,7 +15,7 @@ class FolderDepthTest extends TestCase
 
     public function test_can_create_folders_when_no_depth_limit()
     {
-        config(['livewire-fileuploader.folders.max_depth' => null]);
+        config(['livewire-filemanager.folders.max_depth' => null]);
 
         $parent = Folder::create(['name' => 'Parent', 'slug' => 'parent', 'parent_id' => null]);
         $child = Folder::create(['name' => 'Child', 'slug' => 'child', 'parent_id' => $parent->id]);
@@ -40,7 +40,7 @@ class FolderDepthTest extends TestCase
 
     public function test_cannot_exceed_max_depth_via_livewire()
     {
-        config(['livewire-fileuploader.folders.max_depth' => 2]);
+        config(['livewire-filemanager.folders.max_depth' => 2]);
 
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
         $level1 = Folder::create(['name' => 'Level1', 'slug' => 'level1', 'parent_id' => $root->id]);
@@ -56,7 +56,7 @@ class FolderDepthTest extends TestCase
 
     public function test_can_create_folder_at_max_depth_limit()
     {
-        config(['livewire-fileuploader.folders.max_depth' => 3]);
+        config(['livewire-filemanager.folders.max_depth' => 3]);
 
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
         $level1 = Folder::create(['name' => 'Level1', 'slug' => 'level1', 'parent_id' => $root->id]);
@@ -72,7 +72,7 @@ class FolderDepthTest extends TestCase
 
     public function test_validation_prevents_exceeding_max_depth()
     {
-        config(['livewire-fileuploader.folders.max_depth' => 2]);
+        config(['livewire-filemanager.folders.max_depth' => 2]);
 
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
         $level1 = Folder::create(['name' => 'Level1', 'slug' => 'level1', 'parent_id' => $root->id]);
@@ -94,7 +94,7 @@ class FolderDepthTest extends TestCase
 
     public function test_validation_allows_folder_within_depth_limit()
     {
-        config(['livewire-fileuploader.folders.max_depth' => 3]);
+        config(['livewire-filemanager.folders.max_depth' => 3]);
 
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
 
@@ -114,7 +114,7 @@ class FolderDepthTest extends TestCase
 
     public function test_can_create_root_folder_with_depth_limit()
     {
-        config(['livewire-fileuploader.folders.max_depth' => 1]);
+        config(['livewire-filemanager.folders.max_depth' => 1]);
 
         Livewire::test(LivewireFilemanagerComponent::class)
             ->set('currentFolder', null)

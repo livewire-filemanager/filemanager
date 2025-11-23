@@ -2,6 +2,26 @@
 
 All notable changes to `livewire-filemanager/filemanager` will be documented in this file.
 
+## [1.0.0] - 2024-11-23
+
+### Breaking Changes ⚠️
+
+- **Naming unification**: Fixed inconsistent naming throughout the package. All `livewire-fileuploader` references have been renamed to `livewire-filemanager`.
+  - Publishing tags: `livewire-fileuploader-*` → `livewire-filemanager-*`
+  - Config file: `config/livewire-fileuploader.php` → `config/livewire-filemanager.php`
+  - Published views: `resources/views/vendor/livewire-fileuploader/` → `resources/views/vendor/livewire-filemanager/`
+  - Published translations: `resources/lang/vendor/livewire-fileuploader/` → `resources/lang/vendor/livewire-filemanager/`
+  - Config references: `config('livewire-fileuploader.*')` → `config('livewire-filemanager.*')`
+
+### Added
+
+- New command `filemanager:migrate-config` to automatically migrate legacy v0.x installations to v1.0.0
+- UPGRADE.md guide with detailed migration instructions
+
+### Migration
+
+See [UPGRADE.md](UPGRADE.md) for detailed migration instructions. Use `php artisan filemanager:migrate-config` to automatically migrate from v0.x to v1.0.0.
+
 ## Release Notes
 
 ### Added

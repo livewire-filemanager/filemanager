@@ -33,7 +33,7 @@ class StoreFolderRequest extends FormRequest
                 'nullable',
                 'exists:folders,id',
                 function ($attribute, $value, $fail) {
-                    $maxDepth = config('livewire-fileuploader.folders.max_depth');
+                    $maxDepth = config('livewire-filemanager.folders.max_depth');
                     if ($maxDepth === null || ! $value) {
                         return;
                     }

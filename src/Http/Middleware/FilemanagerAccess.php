@@ -10,7 +10,7 @@ class FilemanagerAccess
 {
     public function handle(Request $request, Closure $next)
     {
-        $callback = config('livewire-fileuploader.callbacks.access_check');
+        $callback = config('livewire-filemanager.callbacks.access_check');
 
         if ($callback && is_callable($callback)) {
             $result = call_user_func($callback, $request);

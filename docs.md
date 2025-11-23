@@ -50,7 +50,7 @@ composer require livewire-filemanager/filemanager
 
 ```bash
 # Publish filemanager migrations
-php artisan vendor:publish --tag=livewire-fileuploader-migrations
+php artisan vendor:publish --tag=livewire-filemanager-migrations
 
 # Publish Spatie Media Library migrations (if not already done)
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
@@ -121,12 +121,12 @@ Route::get('{path}', [FileController::class, 'show'])
 ### Publishing Configuration
 
 ```bash
-php artisan vendor:publish --tag=livewire-fileuploader-config
+php artisan vendor:publish --tag=livewire-filemanager-config
 ```
 
 ### Configuration Options
 
-The `config/livewire-fileuploader.php` file includes:
+The `config/livewire-filemanager.php` file includes:
 
 ```php
 return [
@@ -161,7 +161,7 @@ return [
 ```
 filemanager/
 ├── config/
-│   └── livewire-fileuploader.stub      # Configuration template
+│   └── livewire-filemanager.stub      # Configuration template
 ├── database/
 │   └── migrations/                     # Database migrations
 ├── resources/
@@ -368,7 +368,7 @@ Status Codes:
 
 1. Publish configuration:
 ```bash
-php artisan vendor:publish --tag=livewire-fileuploader-config
+php artisan vendor:publish --tag=livewire-filemanager-config
 ```
 
 2. Enable ACL in config:
@@ -430,7 +430,7 @@ return [
 Override package views:
 
 ```bash
-php artisan vendor:publish --tag=livewire-fileuploader-views
+php artisan vendor:publish --tag=livewire-filemanager-views
 ```
 
 Then modify views in `resources/views/vendor/livewire-filemanager/`.

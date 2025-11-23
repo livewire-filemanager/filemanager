@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use LivewireFilemanager\Filemanager\Console\Commands\MigrateConfigCommand;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
 use LivewireFilemanager\Filemanager\Http\Middleware\FilemanagerAccess;
@@ -41,7 +42,8 @@ class FilemanagerServiceProvider extends ServiceProvider
             ->registerLivewireComponents()
             ->registerPolicies()
             ->registerApiRoutes()
-            ->registerMiddleware();
+            ->registerMiddleware()
+            ->registerCommands();
     }
 
     public function register()
@@ -55,19 +57,19 @@ class FilemanagerServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../database/migrations/create_folders_table.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_folders_table.php'),
                 __DIR__.'/../database/migrations/include_user_id_column_in_folders_table.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_include_user_id_column_in_folders_table.php'),
-            ], 'livewire-fileuploader-migrations');
+            ], 'livewire-filemanager-migrations');
 
             $this->publishes([
-                __DIR__.'/../resources/views' => base_path('resources/views/vendor/livewire-fileuploader'),
-            ], 'livewire-fileuploader-views');
+                __DIR__.'/../resources/views' => base_path('resources/views/vendor/livewire-filemanager'),
+            ], 'livewire-filemanager-views');
 
             $this->publishes([
-                __DIR__.'/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-fileuploader",
-            ], 'livewire-fileuploader-lang');
+                __DIR__.'/../resources/lang' => "{$this->app['path.lang']}/vendor/livewire-filemanager",
+            ], 'livewire-filemanager-lang');
 
             $this->publishes([
-                __DIR__.'/../config/livewire-fileuploader.stub' => config_path('livewire-fileuploader.php'),
-            ], 'livewire-fileuploader-config');
+                __DIR__.'/../config/livewire-filemanager.stub' => config_path('livewire-filemanager.php'),
+            ], 'livewire-filemanager-config');
         }
 
         return $this;
@@ -129,7 +131,7 @@ class FilemanagerServiceProvider extends ServiceProvider
 
     protected function registerApiRoutes(): self
     {
-        if (config('livewire-fileuploader.api.enabled', true)) {
+        if (config('livewire-filemanager.api.enabled', true)) {
             Route::group([
                 'prefix' => 'api',
                 'middleware' => 'api',
@@ -147,6 +149,17 @@ class FilemanagerServiceProvider extends ServiceProvider
 
         $router->aliasMiddleware('filemanager.validate', ValidateFileUpload::class);
         $router->aliasMiddleware('filemanager.access', FilemanagerAccess::class);
+
+        return $this;
+    }
+
+    protected function registerCommands(): self
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MigrateConfigCommand::class,
+            ]);
+        }
 
         return $this;
     }

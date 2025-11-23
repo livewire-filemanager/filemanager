@@ -32,7 +32,7 @@ class ApiSecurityTest extends TestCase
         ]);
 
         Storage::fake('local');
-        Config::set('livewire-fileuploader.acl_enabled', true);
+        Config::set('livewire-filemanager.acl_enabled', true);
     }
 
     public function test_user_cannot_access_other_users_folders_when_acl_enabled()
@@ -100,7 +100,7 @@ class ApiSecurityTest extends TestCase
 
     public function test_global_access_when_acl_disabled()
     {
-        Config::set('livewire-fileuploader.acl_enabled', false);
+        Config::set('livewire-filemanager.acl_enabled', false);
 
         $folder = Folder::create([
             'name' => 'Any User Folder',

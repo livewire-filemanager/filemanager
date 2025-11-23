@@ -14,7 +14,7 @@ class FolderPolicy
 
     public function view(User $user, Folder $folder)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -28,7 +28,7 @@ class FolderPolicy
 
     public function update(User $user, Folder $folder)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -37,7 +37,7 @@ class FolderPolicy
 
     public function delete(User $user, Folder $folder)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -50,7 +50,7 @@ class FolderPolicy
 
     public function restore(User $user, Folder $folder)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
@@ -59,7 +59,7 @@ class FolderPolicy
 
     public function forceDelete(User $user, Folder $folder)
     {
-        if (! config('livewire-fileuploader.acl_enabled')) {
+        if (! config('livewire-filemanager.acl_enabled')) {
             return true;
         }
 
