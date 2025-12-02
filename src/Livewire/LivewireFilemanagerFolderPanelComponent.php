@@ -8,27 +8,33 @@ use LivewireFilemanager\Filemanager\Models\Folder;
 
 class LivewireFilemanagerFolderPanelComponent extends Component
 {
-    public $folder;
+    public ?int $folderId = null;
 
     #[On('load-folder')]
-    public function loadFolder(int $folder_id)
+    public function loadFolder(int $folder_id): void
     {
-        $this->folder = Folder::find($folder_id);
+        $this->folderId = $folder_id;
     }
 
     #[On('reset-folder')]
-    public function resetFolder()
+    public function resetFolder(): void
     {
-        $this->folder = null;
+        $this->folderId = null;
     }
 
-    public function renameFolder()
+    public function renameFolder(): void
     {
-        $this->dispatch('rename-folder', folder: $this->folder);
+        $folder = Folder::find($this->folderId);
+
+        if ($folder) {
+            $this->dispatch('rename-folder', folder: $folder);
+        }
     }
 
     public function render()
     {
-        return view('livewire-filemanager::livewire.folder-panel');
+        $folder = $this->folderId ? Folder::find($this->folderId) : null;
+
+        return view('livewire-filemanager::livewire.folder-panel', compact('folder'));
     }
 }

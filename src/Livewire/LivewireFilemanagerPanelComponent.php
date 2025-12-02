@@ -8,27 +8,33 @@ use LivewireFilemanager\Filemanager\Models\Media;
 
 class LivewireFilemanagerPanelComponent extends Component
 {
-    public $media;
+    public ?int $mediaId = null;
 
     #[On('load-media')]
-    public function loadMedia(int $media_id)
+    public function loadMedia(int $media_id): void
     {
-        $this->media = Media::find($media_id);
+        $this->mediaId = $media_id;
     }
 
     #[On('reset-media')]
-    public function resetMedia()
+    public function resetMedia(): void
     {
-        $this->media = null;
+        $this->mediaId = null;
     }
 
-    public function renameFile()
+    public function renameFile(): void
     {
-        $this->dispatch('rename-file', file: $this->media);
+        $media = Media::find($this->mediaId);
+
+        if ($media) {
+            $this->dispatch('rename-file', file: $media);
+        }
     }
 
     public function render()
     {
-        return view('livewire-filemanager::livewire.media-panel');
+        $media = $this->mediaId ? Media::find($this->mediaId) : null;
+
+        return view('livewire-filemanager::livewire.media-panel', compact('media'));
     }
 }
