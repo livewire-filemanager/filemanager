@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use LivewireFilemanager\Filemanager\Http\Requests\Api\UpdateFileRequest;
 use LivewireFilemanager\Filemanager\Http\Resources\MediaResource;
+use LivewireFilemanager\Filemanager\Models\Folder;
 use LivewireFilemanager\Filemanager\Models\Media;
 
 class FileController extends Controller
@@ -16,14 +17,27 @@ class FileController extends Controller
 
     public function index(Request $request)
     {
-        $files = Media::query()
-            ->when($request->folder_id, function ($query, $folderId) {
-                return $query->where('model_id', $folderId);
-            })
-            ->when($request->search, function ($query, $search) {
-                return $query->where('name', 'like', '%'.$search.'%');
-            })
-            ->get();
+        $query = Media::query()
+            ->where('model_type', Folder::class)
+            ->where('collection_name', 'medialibrary');
+
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%')
+                  ->orWhere('file_name', 'like', '%'.$request->search.'%');
+            });
+        } elseif ($request->has('folder_id') && $request->folder_id !== null && $request->folder_id !== '') {
+            $query->where('model_id', $request->folder_id);
+        } else {
+            $homeFolder = Folder::whereNull('parent_id')->first();
+            if ($homeFolder) {
+                $query->where('model_id', $homeFolder->id);
+            } else {
+                $query->whereRaw('1 = 0');
+            }
+        }
+
+        $files = $query->get();
 
         return MediaResource::collection($files);
     }

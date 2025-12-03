@@ -21,14 +21,24 @@ class FolderController extends Controller
 
     public function index(Request $request)
     {
-        $folders = Folder::with(['children', 'media'])
-            ->when($request->parent_id, function ($query, $parentId) {
-                return $query->where('parent_id', $parentId);
-            })
-            ->when($request->search, function ($query, $search) {
-                return $query->where('name', 'like', '%'.$search.'%');
-            })
-            ->get();
+        $query = Folder::with(['media'])->withCount('children');
+
+        if ($request->has('parent_id') && $request->parent_id !== null && $request->parent_id !== '') {
+            $query->where('parent_id', $request->parent_id);
+        } else {
+            $homeFolder = Folder::whereNull('parent_id')->first();
+            if ($homeFolder) {
+                $query->where('parent_id', $homeFolder->id);
+            } else {
+                $query->whereRaw('1 = 0');
+            }
+        }
+
+        if ($request->search) {
+            $query->where('name', 'like', '%'.$request->search.'%');
+        }
+
+        $folders = $query->get();
 
         return FolderResource::collection($folders);
     }

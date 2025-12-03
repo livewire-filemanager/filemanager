@@ -10,6 +10,7 @@ use Livewire\Livewire;
 use LivewireFilemanager\Filemanager\Console\Commands\MigrateConfigCommand;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
+use LivewireFilemanager\Filemanager\Http\Middleware\ApiAuthenticate;
 use LivewireFilemanager\Filemanager\Http\Middleware\FilemanagerAccess;
 use LivewireFilemanager\Filemanager\Http\Middleware\ValidateFileUpload;
 use LivewireFilemanager\Filemanager\Livewire\DeleteItemsComponent;
@@ -49,6 +50,11 @@ class FilemanagerServiceProvider extends ServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/livewire-filemanager.stub',
+            'livewire-filemanager'
+        );
     }
 
     protected function registerPublishables(): self
@@ -132,10 +138,7 @@ class FilemanagerServiceProvider extends ServiceProvider
     protected function registerApiRoutes(): self
     {
         if (config('livewire-filemanager.api.enabled', true)) {
-            Route::group([
-                'prefix' => 'api',
-                'middleware' => 'api',
-            ], function () {
+            Route::prefix('api')->group(function () {
                 $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
             });
         }
@@ -147,6 +150,7 @@ class FilemanagerServiceProvider extends ServiceProvider
     {
         $router = $this->app['router'];
 
+        $router->aliasMiddleware('filemanager.auth', ApiAuthenticate::class);
         $router->aliasMiddleware('filemanager.validate', ValidateFileUpload::class);
         $router->aliasMiddleware('filemanager.access', FilemanagerAccess::class);
 
