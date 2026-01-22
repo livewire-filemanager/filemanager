@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'Klasör adı gereklidir',
         'max_folder_depth_exceeded' => 'Klasör oluşturulamaz. Maksimum :max klasör derinliği aşılacaktır.',
+        'file_invalid' => 'Dosya geçersiz.',
+        'file_too_large' => 'Dosya çok büyük.',
+        'file_type_not_allowed' => 'Bu dosya türüne izin verilmiyor.',
     ],
 ];

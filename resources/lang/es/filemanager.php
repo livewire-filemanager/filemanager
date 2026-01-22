@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'El nombre de la carpeta es obligatorio',
         'max_folder_depth_exceeded' => 'No se puede crear la carpeta. Se excedería la profundidad máxima de :max.',
+        'file_invalid' => 'El archivo no es válido.',
+        'file_too_large' => 'El archivo es demasiado grande.',
+        'file_type_not_allowed' => 'Este tipo de archivo no está permitido.',
     ],
 ];

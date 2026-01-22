@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'The folder name is required',
         'max_folder_depth_exceeded' => 'Cannot create folder. Maximum folder depth of :max would be exceeded.',
+        'file_invalid' => 'The file is invalid.',
+        'file_too_large' => 'The file is too large.',
+        'file_type_not_allowed' => 'This file type is not allowed.',
     ],
 ];

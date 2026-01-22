@@ -38,6 +38,29 @@ class LivewireFilemanagerComponent extends Component
 
     protected $listeners = ['fileAdded'];
 
+    protected function rules(): array
+    {
+        $maxFileSize = config('livewire-filemanager.api.max_file_size', 10240);
+        $allowedExtensions = config('livewire-filemanager.api.allowed_extensions', ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'txt', 'zip']);
+
+        return [
+            'files.*' => [
+                'file',
+                'max:'.$maxFileSize,
+                'mimes:'.implode(',', $allowedExtensions),
+            ],
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'files.*.file' => __('livewire-filemanager::filemanager.validation.file_invalid'),
+            'files.*.max' => __('livewire-filemanager::filemanager.validation.file_too_large'),
+            'files.*.mimes' => __('livewire-filemanager::filemanager.validation.file_type_not_allowed'),
+        ];
+    }
+
     public function mount()
     {
         if (! session('currentFolderId')) {
@@ -251,6 +274,8 @@ class LivewireFilemanagerComponent extends Component
 
     public function updatedFiles()
     {
+        $this->validate();
+
         foreach ($this->files as $file) {
             $this->currentFolder
                 ->addMedia($file->getRealPath())
@@ -259,9 +284,9 @@ class LivewireFilemanagerComponent extends Component
                     $extension = pathinfo($file->getRealPath(), PATHINFO_EXTENSION);
                     $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-                    $slugified_name = Str::slug($name);
+                    $slugifiedName = Str::slug($name);
 
-                    return strtolower($slugified_name.'.'.$extension);
+                    return strtolower($slugifiedName.'.'.$extension);
                 })
                 ->withCustomProperties([
                     'user_id' => optional(Auth::user())->id,
