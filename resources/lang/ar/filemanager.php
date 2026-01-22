@@ -29,5 +29,8 @@ return [
     'validation' => [
         'folder_name_required' => 'اسم المجلد مطلوب',
         'max_folder_depth_exceeded' => 'لا يمكن إنشاء المجلد. سيتم تجاوز الحد الأقصى لعمق المجلد :max.',
+        'file_invalid' => 'الملف غير صالح.',
+        'file_too_large' => 'الملف كبير جداً.',
+        'file_type_not_allowed' => 'نوع الملف غير مسموح به.',
     ],
 ];

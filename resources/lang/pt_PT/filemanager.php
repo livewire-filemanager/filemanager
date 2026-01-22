@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'O nome da pasta é obrigatório',
         'max_folder_depth_exceeded' => 'Não é possível criar a pasta. A profundidade máxima de :max seria excedida.',
+        'file_invalid' => 'O ficheiro é inválido.',
+        'file_too_large' => 'O ficheiro é demasiado grande.',
+        'file_type_not_allowed' => 'Este tipo de ficheiro não é permitido.',
     ],
 ];

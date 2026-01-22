@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'Numele folderului este obligatoriu',
         'max_folder_depth_exceeded' => 'Nu se poate crea folderul. Adâncimea maximă de :max ar fi depășită.',
+        'file_invalid' => 'Fișierul nu este valid.',
+        'file_too_large' => 'Fișierul este prea mare.',
+        'file_type_not_allowed' => 'Acest tip de fișier nu este permis.',
     ],
 ];

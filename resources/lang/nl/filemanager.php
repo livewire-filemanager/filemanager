@@ -29,6 +29,9 @@ return [
     ],
     'validation' => [
         'folder_name_required' => 'De mapnaam is vereist',
-        'max_folder_depth_exceeded' => 'Kan map niet aanmaken. Maximale map diepte van : max zou worden overschreden.',
+        'max_folder_depth_exceeded' => 'Kan map niet aanmaken. Maximale map diepte van :max zou worden overschreden.',
+        'file_invalid' => 'Het bestand is ongeldig.',
+        'file_too_large' => 'Het bestand is te groot.',
+        'file_type_not_allowed' => 'Dit bestandstype is niet toegestaan.',
     ],
 ];

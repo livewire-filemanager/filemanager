@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'שם התיקייה נדרש',
         'max_folder_depth_exceeded' => 'לא ניתן ליצור תיקייה. עומק מקסימלי של :max יחריג.',
+        'file_invalid' => 'הקובץ אינו תקין.',
+        'file_too_large' => 'הקובץ גדול מדי.',
+        'file_type_not_allowed' => 'סוג קובץ זה אינו מורשה.',
     ],
 ];

@@ -30,5 +30,8 @@ return [
     'validation' => [
         'folder_name_required' => 'Le nom du dossier est obligatoire',
         'max_folder_depth_exceeded' => 'Impossible de créer le dossier. La profondeur maximale de :max serait dépassée.',
+        'file_invalid' => 'Le fichier est invalide.',
+        'file_too_large' => 'Le fichier est trop volumineux.',
+        'file_type_not_allowed' => 'Ce type de fichier n\'est pas autorisé.',
     ],
 ];

@@ -456,30 +456,66 @@ The package uses TailwindCSS classes. Customize by:
 
 ## Security
 
+### File Upload Validation
+
+Both the API endpoints and Livewire component validate file uploads against the configured allowed extensions and maximum file size.
+
+**Configuration:**
+```php
+// config/livewire-filemanager.php
+'api' => [
+    'max_file_size' => 10240, // KB
+    'allowed_extensions' => ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'txt', 'zip'],
+],
+```
+
+**Blocked by default:**
+- PHP files (.php, .phtml, .php5, etc.)
+- Executable files (.exe, .sh, .bat, etc.)
+- Server-side scripts
+
 ### Important Considerations
 
-> **Warning**: This package does not include built-in security layers for uploaded files. You are responsible for:
-> - Implementing access control
-> - Validating file types
-> - Scanning for malware
-> - Protecting sensitive files
+> **Warning**: While this package validates file types, you are still responsible for:
+> - Implementing proper access control (see ACL section)
+> - Scanning uploads for malware in sensitive environments
+> - Configuring your web server to prevent PHP execution in storage directories
+
+### Web Server Hardening
+
+**Prevent PHP execution in storage directory:**
+
+**Apache (.htaccess in storage/app/public/):**
+```apache
+<FilesMatch "\.php$">
+    Deny from all
+</FilesMatch>
+```
+
+**Nginx:**
+```nginx
+location ~* /storage/.*\.php$ {
+    deny all;
+}
+```
 
 ### Best Practices
 
 1. **File Validation**
-   - Configure allowed extensions
-   - Set maximum file sizes
-   - Validate MIME types
+   - Configure allowed extensions to only what your application needs
+   - Set appropriate maximum file sizes
+   - Both API and Livewire component enforce the same validation rules
 
 2. **Access Control**
    - Enable ACL for multi-user environments
-   - Implement custom policies
+   - Implement custom policies for sensitive files
    - Use middleware for route protection
 
 3. **Storage Security**
-   - Store files outside public directory
+   - Consider storing files on a private disk
    - Use signed URLs for temporary access
    - Implement download authorization
+   - Configure web server to prevent script execution in storage
 
 4. **API Security**
    - Use Sanctum authentication
