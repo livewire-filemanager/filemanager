@@ -38,7 +38,9 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-scripts
+        run: |
+          composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-scripts
 
       - name: Execute tests
         run: composer test
