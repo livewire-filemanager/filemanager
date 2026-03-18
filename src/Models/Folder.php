@@ -25,10 +25,8 @@ class Folder extends Model implements HasMedia
 
     public $registerMediaConversionsUsingModelInstance = true;
 
-    protected static function boot(): void
+    protected static function booted(): void
     {
-        parent::boot();
-
         static::deleting(function ($folder) {
             if ($folder->isHomeFolder()) {
                 return false;
@@ -46,10 +44,7 @@ class Folder extends Model implements HasMedia
                 $folder->user_id = $user->id;
             }
         });
-    }
 
-    protected static function booted()
-    {
         static::addGlobalScope('user_id', function (Builder $builder) {
             if (! config('livewire-fileuploader.acl_enabled')) {
                 return;

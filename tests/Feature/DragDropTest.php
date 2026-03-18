@@ -49,8 +49,7 @@ class DragDropTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function can_move_single_folder_to_another_folder()
+    public function test_can_move_single_folder_to_another_folder()
     {
         Livewire::test(LivewireFilemanagerComponent::class)
             ->call('moveItemsToFolder', $this->targetFolder->id, [$this->sourceFolder->id], [])
@@ -60,8 +59,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->targetFolder->id, $this->sourceFolder->fresh()->parent_id);
     }
 
-    /** @test */
-    public function can_move_multiple_folders_to_another_folder()
+    public function test_can_move_multiple_folders_to_another_folder()
     {
         $anotherFolder = Folder::create([
             'name' => 'Another Folder',
@@ -77,8 +75,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->targetFolder->id, $anotherFolder->fresh()->parent_id);
     }
 
-    /** @test */
-    public function can_move_file_to_folder()
+    public function test_can_move_file_to_folder()
     {
         $file = UploadedFile::fake()->image('test.jpg');
         $media = $this->sourceFolder->addMedia($file->getRealPath())
@@ -93,8 +90,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->targetFolder->id, $media->fresh()->model_id);
     }
 
-    /** @test */
-    public function can_move_multiple_files_to_folder()
+    public function test_can_move_multiple_files_to_folder()
     {
         $file1 = UploadedFile::fake()->image('test1.jpg');
         $media1 = $this->sourceFolder->addMedia($file1->getRealPath())
@@ -115,8 +111,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->targetFolder->id, $media2->fresh()->model_id);
     }
 
-    /** @test */
-    public function can_move_mixed_items_to_folder()
+    public function test_can_move_mixed_items_to_folder()
     {
         $file = UploadedFile::fake()->image('test.jpg');
         $media = $this->sourceFolder->addMedia($file->getRealPath())
@@ -137,8 +132,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->targetFolder->id, $media->fresh()->model_id);
     }
 
-    /** @test */
-    public function cannot_move_folder_to_itself()
+    public function test_cannot_move_folder_to_itself()
     {
         Livewire::test(LivewireFilemanagerComponent::class)
             ->call('moveItemsToFolder', $this->sourceFolder->id, [$this->sourceFolder->id], []);
@@ -146,8 +140,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->rootFolder->id, $this->sourceFolder->fresh()->parent_id);
     }
 
-    /** @test */
-    public function cannot_move_parent_folder_to_its_child()
+    public function test_cannot_move_parent_folder_to_its_child()
     {
         Livewire::test(LivewireFilemanagerComponent::class)
             ->call('moveItemsToFolder', $this->nestedFolder->id, [$this->sourceFolder->id], []);
@@ -155,8 +148,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->rootFolder->id, $this->sourceFolder->fresh()->parent_id);
     }
 
-    /** @test */
-    public function moving_folder_also_moves_its_children()
+    public function test_moving_folder_also_moves_its_children()
     {
         Livewire::test(LivewireFilemanagerComponent::class)
             ->call('moveItemsToFolder', $this->targetFolder->id, [$this->sourceFolder->id], []);
@@ -165,8 +157,7 @@ class DragDropTest extends TestCase
         $this->assertEquals($this->sourceFolder->id, $this->nestedFolder->fresh()->parent_id);
     }
 
-    /** @test */
-    public function selection_is_cleared_after_move()
+    public function test_selection_is_cleared_after_move()
     {
         $component = Livewire::test(LivewireFilemanagerComponent::class)
             ->set('selectedFolders', [$this->sourceFolder->id])
@@ -177,8 +168,7 @@ class DragDropTest extends TestCase
             ->assertSet('selectedFiles', []);
     }
 
-    /** @test */
-    public function move_to_non_existent_folder_does_nothing()
+    public function test_move_to_non_existent_folder_does_nothing()
     {
         $originalParentId = $this->sourceFolder->parent_id;
 

@@ -2,6 +2,19 @@
 
 All notable changes to `livewire-filemanager/filemanager` will be documented in this file.
 
+## [0.1.52] - 2026-03-18
+
+### Added
+
+- Laravel 13 support
+- PHPUnit 12 support
+- Orchestra Testbench 11 support
+
+### Changed
+
+- Migrated model event registration from `boot()` to `booted()` for Laravel 13 compatibility (backward-compatible with Laravel 10/11/12)
+- Updated CI matrix to include Laravel 13 (PHP 8.3+ required for Laravel 13)
+
 ## Release Notes
 
 ### Added

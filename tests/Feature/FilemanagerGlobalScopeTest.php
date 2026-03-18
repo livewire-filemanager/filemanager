@@ -18,13 +18,9 @@ class FilemanagerGlobalScopeTest extends TestCase
     }
 
     /**
-     * User can only view the folders that they own.
-     *
      * @group filemanager
-     *
-     * @test
      */
-    public function user_can_only_view_folders_that_they_own()
+    public function test_user_can_only_view_folders_that_they_own()
     {
         $this->actingAs($this->testUser);
 
@@ -43,13 +39,9 @@ class FilemanagerGlobalScopeTest extends TestCase
     }
 
     /**
-     * User can only view the files that they own.
-     *
      * @group filemanager
-     *
-     * @test
      */
-    public function user_can_only_view_files_that_they_own()
+    public function test_user_can_only_view_files_that_they_own()
     {
         $this->actingAs($this->testUser);
 

@@ -34,10 +34,8 @@ class TestMediaModel extends Model
 
     public $registerMediaConversionsUsingModelInstance = true;
 
-    protected static function boot(): void
+    protected static function booted(): void
     {
-        parent::boot();
-
         static::deleting(function ($folder) {
             if ($folder->isHomeFolder()) {
                 return false;
@@ -55,10 +53,7 @@ class TestMediaModel extends Model
                 $folder->user_id = $user->id;
             }
         });
-    }
 
-    protected static function booted()
-    {
         static::addGlobalScope('user_id', function (Builder $builder) {
             if (! config('livewire-fileuploader.acl_enabled')) {
                 return;
