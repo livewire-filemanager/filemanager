@@ -8,20 +8,19 @@ class FileController
 {
     public function show($path)
     {
-        $segments = explode('/', $path);
+        $segments = explode('/', trim($path, '/'));
         $fileName = array_pop($segments);
 
-        $folderPath = implode('/', $segments);
+        $folder = Folder::findByPath(implode('/', $segments));
 
-        $folder = Folder::where('slug', '=', end($segments))->firstOrFail();
+        abort_if(! $folder, 404);
 
-        $fullFolderPath = buildFolderPath($folder->id);
-
-        if ($folderPath !== $fullFolderPath) {
-            abort(404);
-        }
-
-        $file = $folder->media()->where('model_id', $folder->id)->where('file_name', $fileName)->orWhere('name', $fileName)->firstOrFail();
+        $file = $folder->media()
+            ->where(function ($query) use ($fileName) {
+                $query->where('file_name', $fileName)
+                    ->orWhere('name', $fileName);
+            })
+            ->firstOrFail();
 
         $filePath = $file->getPath();
 
