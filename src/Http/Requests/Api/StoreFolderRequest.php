@@ -4,6 +4,7 @@ namespace LivewireFilemanager\Filemanager\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use LivewireFilemanager\Filemanager\Models\Folder;
 
 class StoreFolderRequest extends FormRequest
 {
@@ -21,7 +22,7 @@ class StoreFolderRequest extends FormRequest
                 'max:255',
                 function ($attribute, $value, $fail) {
                     $slug = Str::slug(trim($value));
-                    $existingFolder = \LivewireFilemanager\Filemanager\Models\Folder::where('slug', $slug)
+                    $existingFolder = Folder::where('slug', $slug)
                         ->where('parent_id', $this->parent_id)
                         ->first();
                     if ($existingFolder) {
@@ -38,7 +39,7 @@ class StoreFolderRequest extends FormRequest
                         return;
                     }
 
-                    $parentFolder = \LivewireFilemanager\Filemanager\Models\Folder::find($value);
+                    $parentFolder = Folder::find($value);
                     if ($parentFolder && $parentFolder->getDepth() >= $maxDepth - 1) {
                         $fail(__('livewire-filemanager::filemanager.validation.max_folder_depth_exceeded', ['max' => $maxDepth]));
                     }

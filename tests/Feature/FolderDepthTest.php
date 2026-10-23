@@ -3,7 +3,9 @@
 namespace LivewireFilemanager\Filemanager\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Livewire;
+use LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Models\Folder;
 use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
@@ -77,13 +79,13 @@ class FolderDepthTest extends TestCase
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
         $level1 = Folder::create(['name' => 'Level1', 'slug' => 'level1', 'parent_id' => $root->id]);
 
-        $request = new \LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest;
+        $request = new StoreFolderRequest;
         $request->merge([
             'name' => 'TooDeep',
             'parent_id' => $level1->id,
         ]);
 
-        $validator = \Illuminate\Support\Facades\Validator::make(
+        $validator = Validator::make(
             $request->all(),
             $request->rules()
         );
@@ -98,13 +100,13 @@ class FolderDepthTest extends TestCase
 
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
 
-        $request = new \LivewireFilemanager\Filemanager\Http\Requests\Api\StoreFolderRequest;
+        $request = new StoreFolderRequest;
         $request->merge([
             'name' => 'Subfolder',
             'parent_id' => $root->id,
         ]);
 
-        $validator = \Illuminate\Support\Facades\Validator::make(
+        $validator = Validator::make(
             $request->all(),
             $request->rules()
         );

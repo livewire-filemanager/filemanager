@@ -2,6 +2,7 @@
 
 namespace LivewireFilemanager\Filemanager\Tests\Feature;
 
+use Illuminate\Support\Str;
 use LivewireFilemanager\Filemanager\Models\Folder;
 use LivewireFilemanager\Filemanager\Models\Media;
 use LivewireFilemanager\Filemanager\Tests\Models\TestFolderModel;
@@ -48,7 +49,7 @@ class FilemanagerGlobalScopeTest extends TestCase
         $media = Media::create([
             'model_type' => 'LivewireFilemanager\\Filemanager\\Models\\Folder',
             'model_id' => 1,
-            'uuid' => \Illuminate\Support\Str::uuid(),
+            'uuid' => Str::uuid(),
             'collection_name' => 'medialibrary',
             'name' => 'Test File',
             'file_name' => 'test-file.txt',
