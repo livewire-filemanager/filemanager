@@ -36,7 +36,13 @@ class RenameFileComponent extends Component
         $newFileName = $baseSlug.'.'.$extension;
 
         $counter = 1;
-        while (Media::where('file_name', $newFileName)->where('id', '!=', $this->file->id)->exists()) {
+        while (
+            Media::where('file_name', $newFileName)
+                ->where('model_type', $this->file->model_type)
+                ->where('model_id', $this->file->model_id)
+                ->where('id', '!=', $this->file->id)
+                ->exists()
+        ) {
             $newFileName = $baseSlug.'-'.$counter.'.'.$extension;
             $name = $this->name.'-'.$counter.'.'.$extension;
             $counter++;
