@@ -63,6 +63,13 @@ class Folder extends Model implements HasMedia
 
     public function getChildrenCountAttribute(): int
     {
+        // Respect a value already batched in via ->withCount('children')
+        // instead of always re-querying live (which causes a query per
+        // folder when rendering a list).
+        if (array_key_exists('children_count', $this->attributes)) {
+            return (int) $this->attributes['children_count'];
+        }
+
         return $this->children()->count();
     }
 
@@ -101,7 +108,9 @@ class Folder extends Model implements HasMedia
 
     public function elements(): string
     {
-        $totalCount = $this->children()->count() + $this->getMedia('medialibrary')->count();
+        // media_count falls back to a live query when not batched in via
+        // ->withCount(); children_count's own accessor does the same.
+        $totalCount = $this->children_count + ($this->media_count ?? $this->getMedia('medialibrary')->count());
 
         return trans_choice('livewire-filemanager::filemanager.elements', $totalCount, ['value' => $totalCount]);
     }
