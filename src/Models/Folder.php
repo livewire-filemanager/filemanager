@@ -23,8 +23,6 @@ class Folder extends Model implements HasMedia
         'slug',
     ];
 
-    public $registerMediaConversionsUsingModelInstance = true;
-
     protected static function booted(): void
     {
         static::deleting(function ($folder) {
