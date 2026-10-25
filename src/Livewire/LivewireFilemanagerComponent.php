@@ -107,10 +107,15 @@ class LivewireFilemanagerComponent extends Component
     public function loadFolders()
     {
         if ($this->search != '') {
-            $this->folders = Folder::whereNotNull('parent_id')->where('name', 'like', '%'.$this->search.'%')->get();
+            $this->folders = Folder::whereNotNull('parent_id')
+                ->where('name', 'like', '%'.$this->search.'%')
+                ->withCount(['children', 'media' => fn ($query) => $query->where('collection_name', 'medialibrary')])
+                ->get();
             $this->searchedFiles = Media::where('collection_name', 'medialibrary')->where('name', 'like', '%'.$this->search.'%')->get();
         } else {
-            $this->folders = $this->currentFolder->fresh()->children;
+            $this->folders = $this->currentFolder->fresh()->children()
+                ->withCount(['children', 'media' => fn ($query) => $query->where('collection_name', 'medialibrary')])
+                ->get();
             $this->searchedFiles = null;
         }
     }
