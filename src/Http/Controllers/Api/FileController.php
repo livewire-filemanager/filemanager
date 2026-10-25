@@ -24,7 +24,7 @@ class FileController extends Controller
         if ($request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%'.$request->search.'%')
-                  ->orWhere('file_name', 'like', '%'.$request->search.'%');
+                    ->orWhere('file_name', 'like', '%'.$request->search.'%');
             });
         } elseif ($request->has('folder_id') && $request->folder_id !== null && $request->folder_id !== '') {
             $query->where('model_id', $request->folder_id);

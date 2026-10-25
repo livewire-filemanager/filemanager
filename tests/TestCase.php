@@ -10,6 +10,9 @@ use Livewire\LivewireServiceProvider;
 use LivewireFilemanager\Filemanager\FilemanagerServiceProvider;
 use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer;
+use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 
 class TestCase extends BaseTestCase
 {
@@ -93,9 +96,9 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('media-library.disk_name', 'local');
-        $app['config']->set('media-library.file_namer', \Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class);
-        $app['config']->set('media-library.path_generator', \Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class);
-        $app['config']->set('media-library.url_generator', \Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class);
+        $app['config']->set('media-library.file_namer', DefaultFileNamer::class);
+        $app['config']->set('media-library.path_generator', DefaultPathGenerator::class);
+        $app['config']->set('media-library.url_generator', DefaultUrlGenerator::class);
         $app['config']->set('media-library.max_file_size', 1024 * 1024 * 10);
     }
 

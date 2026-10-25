@@ -4,6 +4,7 @@ namespace LivewireFilemanager\Filemanager\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use LivewireFilemanager\Filemanager\Models\Folder;
 
 class UpdateFolderRequest extends FormRequest
 {
@@ -21,7 +22,7 @@ class UpdateFolderRequest extends FormRequest
                 'max:255',
                 function ($attribute, $value, $fail) {
                     $slug = Str::slug(trim($value));
-                    $existingFolder = \LivewireFilemanager\Filemanager\Models\Folder::where('slug', $slug)
+                    $existingFolder = Folder::where('slug', $slug)
                         ->where('parent_id', $this->route('folder')->parent_id)
                         ->where('id', '!=', $this->route('folder')->id)
                         ->first();
