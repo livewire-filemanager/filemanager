@@ -10,6 +10,7 @@ use Livewire\Livewire;
 use LivewireFilemanager\Filemanager\Console\Commands\MigrateConfigCommand;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Http\Components\BladeFilemanagerModalComponent;
+use LivewireFilemanager\Filemanager\Http\Controllers\Files\FileController;
 use LivewireFilemanager\Filemanager\Http\Middleware\ApiAuthenticate;
 use LivewireFilemanager\Filemanager\Http\Middleware\FilemanagerAccess;
 use LivewireFilemanager\Filemanager\Http\Middleware\ValidateFileUpload;
@@ -43,6 +44,7 @@ class FilemanagerServiceProvider extends ServiceProvider
             ->registerLivewireComponents()
             ->registerPolicies()
             ->registerApiRoutes()
+            ->registerPublicFileRoute()
             ->registerMiddleware()
             ->registerCommands();
     }
@@ -141,6 +143,19 @@ class FilemanagerServiceProvider extends ServiceProvider
             Route::prefix('api')->group(function () {
                 $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
             });
+        }
+
+        return $this;
+    }
+
+    protected function registerPublicFileRoute(): self
+    {
+        if (config('livewire-filemanager.public_path.enabled', false)) {
+            Route::prefix(config('livewire-filemanager.public_path.prefix', 'files'))
+                ->middleware(config('livewire-filemanager.public_path.middleware', ['web']))
+                ->get('{path}', [FileController::class, 'show'])
+                ->where('path', '.*')
+                ->name('filemanager.public.show');
         }
 
         return $this;

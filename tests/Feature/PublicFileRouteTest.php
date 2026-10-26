@@ -26,6 +26,11 @@ class PublicFileRouteTest extends TestCase
             ->toMediaCollection('medialibrary');
     }
 
+    public function test_the_package_does_not_register_the_public_file_route_by_default()
+    {
+        $this->assertFalse(Route::has('filemanager.public.show'));
+    }
+
     public function test_it_serves_a_file_by_the_url_from_get_media_full_path()
     {
         $root = Folder::create(['name' => 'Root', 'slug' => 'root', 'parent_id' => null]);
