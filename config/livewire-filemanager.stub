@@ -30,6 +30,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Public File Route
+    |--------------------------------------------------------------------------
+    |
+    | If enabled, registers a route that serves files by their folder path
+    | (e.g. "/files/projects/invoice.pdf"). The copied file URLs follow the prefix.
+    |
+    */
+    'public_path' => [
+        'enabled' => false,
+        'prefix' => 'files',
+        'middleware' => ['web'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Folder Configuration
     |--------------------------------------------------------------------------
     |

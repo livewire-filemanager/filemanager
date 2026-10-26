@@ -120,6 +120,18 @@ use LivewireFilemanager\Filemanager\Http\Controllers\Files\FileController;
 
 This will give you an endpoint where you can reach the files with a direct url.
 
+Alternatively, you can let the package register the route for you under a prefix, by enabling it in the `livewire-filemanager.php` config file:
+
+```php
+'public_path' => [
+    'enabled' => true,
+    'prefix' => 'files',
+    'middleware' => ['web'],
+],
+```
+
+Files will then be available at `/files/{folder path}/{file name}`, and the copied file urls will include the prefix. Don't combine this with the route above.
+
 Inside the filemanager, when you click on a file, you'll have the possibility to copy the url to the file. In order to work correctly, this feature needs to have your domain with https enabled.
 
 ## The interface

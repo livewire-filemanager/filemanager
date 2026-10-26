@@ -96,8 +96,12 @@ if (! function_exists('getMediaFullPath')) {
             $folder = $folder->parentWithoutRootFolder;
         }
 
+        if (config('livewire-filemanager.public_path.enabled', false)) {
+            array_unshift($path, trim(config('livewire-filemanager.public_path.prefix', 'files'), '/'));
+        }
+
         // Return the full path as a string
-        return config('app.url').'/'.implode('/', $path);
+        return config('app.url').'/'.implode('/', array_filter($path, 'strlen'));
     }
 }
 
