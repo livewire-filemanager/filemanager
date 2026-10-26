@@ -104,6 +104,37 @@ class Folder extends Model implements HasMedia
         return $this->hasMany(Folder::class, 'parent_id');
     }
 
+    public static function findByPath(string $path): ?self
+    {
+        $segments = array_values(array_filter(explode('/', trim($path, '/')), 'strlen'));
+
+        if ($segments === []) {
+            return null;
+        }
+
+        $folder = null;
+
+        foreach ($segments as $segment) {
+            $folder = static::where('slug', $segment)
+                ->when(
+                    $folder,
+                    fn (Builder $query, self $parent) => $query->where('parent_id', $parent->id),
+                    fn (Builder $query) => $query->whereIn('parent_id', static::whereNull('parent_id')->select('id'))
+                )
+                ->first();
+
+            if (! $folder) {
+                break;
+            }
+        }
+
+        if (! $folder && count($segments) === 1) {
+            $folder = static::whereNull('parent_id')->where('slug', $segments[0])->first();
+        }
+
+        return $folder;
+    }
+
     public function elements(): string
     {
         // media_count falls back to a live query when not batched in via
