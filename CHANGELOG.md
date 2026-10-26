@@ -2,6 +2,27 @@
 
 All notable changes to `livewire-filemanager/filemanager` will be documented in this file.
 
+## [1.2.0] - 2026-10-26
+
+### Added
+
+- Opt-in public file route, configured with `public_path` (`enabled`, `prefix`, `middleware`). Copied file urls include the prefix (#100)
+
+### Changed
+
+- Require `spatie/laravel-medialibrary` `^11.23` to get the fixes for GHSA-3ggm-c5m7-hfv5 and GHSA-fggg-964j-3j7h. Support for medialibrary 10 is dropped
+- The public file route isn't registered when the prefix is empty
+- With `acl_enabled`, the public file route only serves files to their owner. Guests and other users get a 404 (#99)
+
+## [1.1.1] - 2026-10-26
+
+### Fixed
+
+- Serve public file paths by walking the folder tree: same-named folders under different parents no longer collide, and a file can no longer be served from another folder by name (#98)
+- Lazy loading violation when resolving media conversions (#94)
+- N+1 queries when rendering the folder list (#95)
+- Rename duplicate-name check scoped to the file's own folder (#97)
+
 ## [1.1.0] - 2026-03-18
 
 ### Added
