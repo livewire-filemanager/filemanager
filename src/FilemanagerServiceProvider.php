@@ -150,8 +150,10 @@ class FilemanagerServiceProvider extends ServiceProvider
 
     protected function registerPublicFileRoute(): self
     {
-        if (config('livewire-filemanager.public_path.enabled', false)) {
-            Route::prefix(config('livewire-filemanager.public_path.prefix', 'files'))
+        $prefix = trim(config('livewire-filemanager.public_path.prefix', 'files'), '/');
+
+        if (config('livewire-filemanager.public_path.enabled', false) && $prefix !== '') {
+            Route::prefix($prefix)
                 ->middleware(config('livewire-filemanager.public_path.middleware', ['web']))
                 ->get('{path}', [FileController::class, 'show'])
                 ->where('path', '.*')

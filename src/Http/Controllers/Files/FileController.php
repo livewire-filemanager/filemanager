@@ -2,6 +2,7 @@
 
 namespace LivewireFilemanager\Filemanager\Http\Controllers\Files;
 
+use Illuminate\Support\Facades\Gate;
 use LivewireFilemanager\Filemanager\Models\Folder;
 
 class FileController
@@ -21,6 +22,10 @@ class FileController
                     ->orWhere('name', $fileName);
             })
             ->firstOrFail();
+
+        if (config('livewire-filemanager.acl_enabled')) {
+            abort_unless(Gate::allows('view', $file), 404);
+        }
 
         $filePath = $file->getPath();
 

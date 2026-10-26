@@ -118,7 +118,7 @@ And don't forget to import the FileController class:
 use LivewireFilemanager\Filemanager\Http\Controllers\Files\FileController;
 ```
 
-This will give you an endpoint where you can reach the files with a direct url.
+This will give you an endpoint where you can reach the files with a direct url. With ACL enabled, files are only served to their owner.
 
 Alternatively, you can let the package register the route for you under a prefix, by enabling it in the `livewire-filemanager.php` config file:
 
@@ -130,7 +130,7 @@ Alternatively, you can let the package register the route for you under a prefix
 ],
 ```
 
-Files will then be available at `/files/{folder path}/{file name}`, and the copied file urls will include the prefix. Don't combine this with the route above.
+Files will then be available at `/files/{folder path}/{file name}`, and the copied file urls will include the prefix. The prefix can't be empty: for urls at the root, use the route above instead. Don't combine both.
 
 Inside the filemanager, when you click on a file, you'll have the possibility to copy the url to the file. In order to work correctly, this feature needs to have your domain with https enabled.
 
