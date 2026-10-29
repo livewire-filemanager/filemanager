@@ -11,6 +11,7 @@ use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
 use LivewireFilemanager\Filemanager\Models\Folder;
 use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
 use LivewireFilemanager\Filemanager\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LivewireSecurityTest extends TestCase
 {
@@ -119,6 +120,57 @@ class LivewireSecurityTest extends TestCase
             ->test(LivewireFilemanagerComponent::class)
             ->set('files', [$txtFile])
             ->assertHasErrors(['files.0']);
+    }
+
+    public static function dangerousFileNames(): array
+    {
+        return [
+            'pht' => ['shell.pht'],
+            'phtm' => ['shell.phtm'],
+            'phps' => ['shell.phps'],
+            'htaccess' => ['.htaccess'],
+        ];
+    }
+
+    #[DataProvider('dangerousFileNames')]
+    public function test_livewire_component_rejects_dangerous_names_with_allowed_content(string $fileName)
+    {
+        $file = UploadedFile::fake()->createWithContent(
+            $fileName,
+            file_get_contents(__DIR__.'/../TestSupport/testfiles/test.jpg')
+        )->mimeType('image/jpeg');
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->set('files', [$file])
+            ->assertHasErrors(['files.0']);
+
+        $this->assertSame(0, $this->testFolder->getMedia('medialibrary')->count());
+    }
+
+    public function test_livewire_component_rejects_allowed_content_with_disallowed_extension()
+    {
+        $file = UploadedFile::fake()->createWithContent(
+            'photo.svg',
+            file_get_contents(__DIR__.'/../TestSupport/testfiles/test.jpg')
+        )->mimeType('image/jpeg');
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->set('files', [$file])
+            ->assertHasErrors(['files.0']);
+    }
+
+    public function test_livewire_component_stores_allowed_file_under_slugified_name()
+    {
+        $file = UploadedFile::fake()->image('Mon Image.JPG', 600, 400);
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->set('files', [$file])
+            ->assertHasNoErrors();
+
+        $this->assertSame('mon-image.jpg', $this->testFolder->getFirstMedia('medialibrary')->file_name);
     }
 
     public function test_livewire_component_rejects_double_extension_php_files()

@@ -48,6 +48,7 @@ class LivewireFilemanagerComponent extends Component
                 'file',
                 'max:'.$maxFileSize,
                 'mimes:'.implode(',', $allowedExtensions),
+                'extensions:'.implode(',', $allowedExtensions),
             ],
         ];
     }
@@ -58,6 +59,7 @@ class LivewireFilemanagerComponent extends Component
             'files.*.file' => __('livewire-filemanager::filemanager.validation.file_invalid'),
             'files.*.max' => __('livewire-filemanager::filemanager.validation.file_too_large'),
             'files.*.mimes' => __('livewire-filemanager::filemanager.validation.file_type_not_allowed'),
+            'files.*.extensions' => __('livewire-filemanager::filemanager.validation.file_type_not_allowed'),
         ];
     }
 
@@ -282,17 +284,14 @@ class LivewireFilemanagerComponent extends Component
         $this->validate();
 
         foreach ($this->files as $file) {
-            $this->currentFolder
+            $fileAdder = $this->currentFolder
                 ->addMedia($file->getRealPath())
-                ->usingName($file->getClientOriginalName())
-                ->sanitizingFileName(function ($fileName) use ($file) {
-                    $extension = pathinfo($file->getRealPath(), PATHINFO_EXTENSION);
-                    $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                ->usingName($file->getClientOriginalName());
 
-                    $slugifiedName = Str::slug($name);
-
-                    return strtolower($slugifiedName.'.'.$extension);
-                })
+            $fileAdder
+                ->sanitizingFileName(fn () => $fileAdder->defaultSanitizer(strtolower(
+                    Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)).'.'.$file->getClientOriginalExtension()
+                )))
                 ->withCustomProperties([
                     'user_id' => optional(Auth::user())->id,
                 ])
