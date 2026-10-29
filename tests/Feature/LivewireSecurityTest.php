@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerComponent;
+use LivewireFilemanager\Filemanager\Livewire\LivewireFilemanagerPanelComponent;
 use LivewireFilemanager\Filemanager\Models\Folder;
 use LivewireFilemanager\Filemanager\Tests\Models\TestUserModel;
 use LivewireFilemanager\Filemanager\Tests\TestCase;
@@ -181,5 +182,21 @@ class LivewireSecurityTest extends TestCase
             ->test(LivewireFilemanagerComponent::class)
             ->set('files', [$doubleExtFile])
             ->assertHasErrors(['files.0']);
+    }
+
+    public function test_media_panel_copy_link_cannot_break_out_of_javascript_string()
+    {
+        $media = $this->testFolder
+            ->addMedia(UploadedFile::fake()->image('photo.jpg', 10, 10))
+            ->usingFileName("x'});alert(1);({a:'.jpg")
+            ->toMediaCollection('medialibrary');
+
+        $html = Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerPanelComponent::class)
+            ->call('loadMedia', $media->id)
+            ->html();
+
+        $this->assertStringNotContainsString("x'});alert(1);({a:'", html_entity_decode($html, ENT_QUOTES));
+        $this->assertStringContainsString('x\\u0027});alert(1);({a:\\u0027.jpg', html_entity_decode($html, ENT_QUOTES));
     }
 }
