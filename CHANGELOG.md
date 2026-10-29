@@ -2,6 +2,18 @@
 
 All notable changes to `livewire-filemanager/filemanager` will be documented in this file.
 
+## [1.2.1] - 2026-10-29
+
+### Fixed
+
+- Reject dangerous file extensions (`.pht`, `.phtm`, `.phps`, `.htaccess`, …) on the Livewire upload path, completing the fix for GHSA-9g95-48c6-r778 / CVE-2025-14894. Reported by [@0xjunwei](https://github.com/0xjunwei) (#103)
+- Prevent stored XSS through crafted file names in the copy-link action (#103)
+
+### Changed
+
+- Require `illuminate/*` `^10.34` for the `extensions` validation rule
+- Require `livewire/livewire` `^3.8.3|^4.3.4` to exclude CVE-2026-81887
+
 ## [1.2.0] - 2026-10-26
 
 ### Added
