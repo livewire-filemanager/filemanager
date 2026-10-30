@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Folder name',
     'elements' => '{0} No elements|[1] 1 element|[2,*] :value elements',
     'add_a_file' => 'Add a file',
+    'max_file_size' => 'Max. file size: :max',
     'search' => 'Search',
     'folder_already_exists' => 'A folder with this name already exists in the current directory.',
     'folder_without_title' => 'untitled folder',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'The folder name is required',
         'max_folder_depth_exceeded' => 'Cannot create folder. Maximum folder depth of :max would be exceeded.',
         'file_invalid' => 'The file is invalid.',
-        'file_too_large' => 'The file is too large.',
+        'file_too_large' => 'The file is too large. The maximum size is :max.',
         'file_type_not_allowed' => 'This file type is not allowed.',
     ],
 ];

@@ -4,6 +4,8 @@ namespace LivewireFilemanager\Filemanager\Livewire;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -40,7 +42,7 @@ class LivewireFilemanagerComponent extends Component
 
     protected function rules(): array
     {
-        $maxFileSize = config('livewire-filemanager.api.max_file_size', 10240);
+        $maxFileSize = $this->maxFileSize();
         $allowedExtensions = config('livewire-filemanager.api.allowed_extensions', ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'txt', 'zip']);
 
         return [
@@ -57,10 +59,25 @@ class LivewireFilemanagerComponent extends Component
     {
         return [
             'files.*.file' => __('livewire-filemanager::filemanager.validation.file_invalid'),
-            'files.*.max' => __('livewire-filemanager::filemanager.validation.file_too_large'),
+            'files.*.max' => __('livewire-filemanager::filemanager.validation.file_too_large', ['max' => $this->maxFileSizeLabel]),
             'files.*.mimes' => __('livewire-filemanager::filemanager.validation.file_type_not_allowed'),
             'files.*.extensions' => __('livewire-filemanager::filemanager.validation.file_type_not_allowed'),
         ];
+    }
+
+    #[Computed]
+    public function maxFileSizeLabel(): string
+    {
+        $kilobytes = $this->maxFileSize();
+
+        return $kilobytes >= 1024
+            ? round($kilobytes / 1024, 1).' MB'
+            : $kilobytes.' KB';
+    }
+
+    protected function maxFileSize(): int
+    {
+        return (int) config('livewire-filemanager.api.max_file_size', 10240);
     }
 
     public function mount()
@@ -281,7 +298,13 @@ class LivewireFilemanagerComponent extends Component
 
     public function updatedFiles()
     {
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->reset('files');
+
+            throw $e;
+        }
 
         foreach ($this->files as $file) {
             $fileAdder = $this->currentFolder

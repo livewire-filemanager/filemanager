@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Intitulé de votre dossier de départ',
     'elements' => '{0} Aucun élément|[1] 1 élément|[2,*] :value éléments',
     'add_a_file' => 'Ajouter un fichier',
+    'max_file_size' => 'Taille max. du fichier : :max',
     'search' => 'Rechercher',
     'folder_already_exists' => 'Le dossier existe déjà',
     'folder_without_title' => 'dossier sans titre',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'Le nom du dossier est obligatoire',
         'max_folder_depth_exceeded' => 'Impossible de créer le dossier. La profondeur maximale de :max serait dépassée.',
         'file_invalid' => 'Le fichier est invalide.',
-        'file_too_large' => 'Le fichier est trop volumineux.',
+        'file_too_large' => 'Le fichier est trop volumineux. La taille maximale est de :max.',
         'file_type_not_allowed' => 'Ce type de fichier n\'est pas autorisé.',
     ],
 ];

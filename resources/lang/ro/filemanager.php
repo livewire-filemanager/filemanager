@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Numele folderului',
     'elements' => '{0} Niciun element|[1] 1 element|[2,*] :value elemente',
     'add_a_file' => 'Adaugă un fișier',
+    'max_file_size' => 'Dimensiune maximă fișier: :max',
     'search' => 'Caută',
     'folder_already_exists' => 'Există deja un folder cu acest nume în folderul curent.',
     'folder_without_title' => 'folder fără titlu',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'Numele folderului este obligatoriu',
         'max_folder_depth_exceeded' => 'Nu se poate crea folderul. Adâncimea maximă de :max ar fi depășită.',
         'file_invalid' => 'Fișierul nu este valid.',
-        'file_too_large' => 'Fișierul este prea mare.',
+        'file_too_large' => 'Fișierul este prea mare. Dimensiunea maximă este :max.',
         'file_type_not_allowed' => 'Acest tip de fișier nu este permis.',
     ],
 ];
