@@ -111,6 +111,63 @@ class LivewireSecurityTest extends TestCase
             ->assertHasErrors(['files.0']);
     }
 
+    public function test_livewire_component_shows_the_configured_max_file_size()
+    {
+        Config::set('livewire-filemanager.api.max_file_size', 102400);
+        Config::set('livewire.temporary_file_upload.rules', ['required', 'file', 'max:102400']);
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->assertSee('Max. file size: 100 MB');
+    }
+
+    public function test_livewire_component_shows_oversized_file_error_and_clears_files()
+    {
+        Config::set('livewire-filemanager.api.max_file_size', 1024);
+
+        $largeFile = UploadedFile::fake()->create('large.txt', 2000, 'text/plain');
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->set('files', [$largeFile])
+            ->assertHasErrors(['files.0'])
+            ->assertSet('files', [])
+            ->assertSee('The file is too large. The maximum size is 1 MB.');
+    }
+
+    public function test_livewire_component_shows_kilobytes_when_the_max_file_size_is_not_a_whole_megabyte()
+    {
+        Config::set('livewire-filemanager.api.max_file_size', 1076);
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->assertSee('Max. file size: 1076 KB');
+    }
+
+    public function test_livewire_component_shows_the_livewire_temporary_upload_limit_when_it_is_lower()
+    {
+        Config::set('livewire-filemanager.api.max_file_size', 102400);
+        Config::set('livewire.temporary_file_upload.rules', null);
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->assertSee('Max. file size: 12 MB');
+    }
+
+    public function test_livewire_component_clears_upload_errors_when_navigating()
+    {
+        Config::set('livewire-filemanager.api.max_file_size', 1024);
+
+        $largeFile = UploadedFile::fake()->create('large.txt', 2000, 'text/plain');
+
+        Livewire::actingAs($this->user)
+            ->test(LivewireFilemanagerComponent::class)
+            ->set('files', [$largeFile])
+            ->assertHasErrors(['files.0'])
+            ->call('navigateToParent')
+            ->assertHasNoErrors();
+    }
+
     public function test_livewire_component_respects_custom_allowed_extensions()
     {
         Config::set('livewire-filemanager.api.allowed_extensions', ['jpg', 'png']);

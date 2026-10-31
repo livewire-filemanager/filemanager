@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'نام پوشه',
     'elements' => '{0} بدون المان|[1] 1 المان|[2,*] :value المان',
     'add_a_file' => 'افزودن فایل',
+    'max_file_size' => 'حداکثر اندازه فایل: :max',
     'search' => 'جستجو',
     'folder_already_exists' => 'پوشه با این نام موجود است.',
     'folder_without_title' => 'پوشه بدون عنوان',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'نام پوشه اجباری است.',
         'max_folder_depth_exceeded' => 'امکان ایجاد پوشه وجود ندارد. حداکثر عمق :max تجاوز خواهد شد.',
         'file_invalid' => 'فایل نامعتبر است.',
-        'file_too_large' => 'فایل بسیار بزرگ است.',
+        'file_too_large' => 'فایل بسیار بزرگ است. حداکثر اندازه :max است.',
         'file_type_not_allowed' => 'این نوع فایل مجاز نیست.',
     ],
 ];

@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Nome da pasta',
     'elements' => '{0} Nenhum elemento|[1] 1 elemento|[2,*] :value elementos',
     'add_a_file' => 'Adicionar um arquivo',
+    'max_file_size' => 'Tamanho máx. do ficheiro: :max',
     'search' => 'Pesquisar',
     'folder_already_exists' => 'Já existe uma pasta com esse nome no diretório atual.',
     'folder_without_title' => 'pasta sem título',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'O nome da pasta é obrigatório',
         'max_folder_depth_exceeded' => 'Não é possível criar a pasta. A profundidade máxima de :max seria excedida.',
         'file_invalid' => 'O ficheiro é inválido.',
-        'file_too_large' => 'O ficheiro é demasiado grande.',
+        'file_too_large' => 'O ficheiro é demasiado grande. O tamanho máximo é :max.',
         'file_type_not_allowed' => 'Este tipo de ficheiro não é permitido.',
     ],
 ];

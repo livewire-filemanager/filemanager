@@ -18,7 +18,7 @@
                         <span class="text-gray-500 text-sm dark:text-zinc-400">{{ $currentFolder->elements() }}{!! ((count($selectedFolders) + count($selectedFiles)) > 0 ? ' <span class="text-zinc-700 dark:text-zinc-400">(' . (count($selectedFolders) + count($selectedFiles)) . ' ' . trans_choice('livewire-filemanager::filemanager.selected', (count($selectedFolders) + count($selectedFiles))) . ')</span>' : '') !!}</span>
                     </h2>
 
-                    <div>
+                    <div class="flex items-center gap-x-3">
                         <input type="file" wire:model.live="files" name="files" id="fileInput" multiple style="display: none;">
 
                         <button class="border rounded p-1.5 px-2 md:px-4 flex text-sm items-center gap-x-4 bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-300" @click="Livewire.dispatch('reset-media', { media_id: null })" onclick="document.getElementById('fileInput').click();">
@@ -28,6 +28,8 @@
 
                             <span class="hidden md:flex">{{ __('livewire-filemanager::filemanager.add_a_file') }}</span>
                         </button>
+
+                        <span class="hidden md:inline text-xs text-gray-500 dark:text-zinc-400">{{ __('livewire-filemanager::filemanager.max_file_size', ['max' => $this->maxFileSizeLabel]) }}</span>
                     </div>
 
                     <div class="flex space-x-4 items-center">
@@ -71,6 +73,15 @@
 
                 <div id="filemanager-area"
                     class="border-t border-zinc-300 shadow-inner overflow-x-hidden relative dark:border-zinc-700" x-bind:class="dropingFile ? 'bg-blue-50 dark:bg-zinc-900/90 border-dashed' : ''">
+                    @php($uploadErrors = array_unique(\Illuminate\Support\Arr::flatten([$errors->get('files'), $errors->get('files.*')])))
+                    @if($uploadErrors)
+                        <div class="px-4 sm:px-5 py-1 bg-red-50 border-b border-red-200 text-sm text-red-600 dark:bg-red-950/40 dark:text-red-400 dark:border-red-900">
+                            @foreach($uploadErrors as $uploadError)
+                                <div>{{ $uploadError }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+
                     @if($search)
                         <div class="px-4 sm:px-5 py-1 bg-gray-100 border-b border-zinc-300 text-sm dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700">{{ (count($searchedFiles) + count($folders)) }} {{ trans_choice('livewire-filemanager::filemanager.search_results', count($searchedFiles) + count($folders)) }}</div>
                     @endif

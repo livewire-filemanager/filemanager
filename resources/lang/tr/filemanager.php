@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Klasör adı',
     'elements' => '{0} Öğe yok|[1] 1 öğe|[2,*] :value öğe',
     'add_a_file' => 'Dosya ekle',
+    'max_file_size' => 'Maks. dosya boyutu: :max',
     'search' => 'Ara',
     'folder_already_exists' => 'Bu isimde bir klasör zaten mevcut klasörde bulunuyor.',
     'folder_without_title' => 'isimsiz klasör',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'Klasör adı gereklidir',
         'max_folder_depth_exceeded' => 'Klasör oluşturulamaz. Maksimum :max klasör derinliği aşılacaktır.',
         'file_invalid' => 'Dosya geçersiz.',
-        'file_too_large' => 'Dosya çok büyük.',
+        'file_too_large' => 'Dosya çok büyük. Maksimum boyut :max.',
         'file_type_not_allowed' => 'Bu dosya türüne izin verilmiyor.',
     ],
 ];

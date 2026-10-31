@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Map naam',
     'elements' => '{0} geen elementen|[1] 1 element|[2,*] :value elementen',
     'add_a_file' => 'Een bestand toevoegen',
+    'max_file_size' => 'Max. bestandsgrootte: :max',
     'search' => 'Zoeken',
     'folder_already_exists' => 'Er bestaat reeds een map met deze naam in de huidige map.',
     'folder_without_title' => 'naamloze map',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'De mapnaam is vereist',
         'max_folder_depth_exceeded' => 'Kan map niet aanmaken. Maximale map diepte van :max zou worden overschreden.',
         'file_invalid' => 'Het bestand is ongeldig.',
-        'file_too_large' => 'Het bestand is te groot.',
+        'file_too_large' => 'Het bestand is te groot. De maximale grootte is :max.',
         'file_type_not_allowed' => 'Dit bestandstype is niet toegestaan.',
     ],
 ];

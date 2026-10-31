@@ -7,6 +7,7 @@ return [
     'root_folder_name' => 'Nombre de la carpeta',
     'elements' => '{0} Ningún elemento|[1] 1 elemento|[2,*] :value elementos',
     'add_a_file' => 'Agregar un archivo',
+    'max_file_size' => 'Tamaño máximo de archivo: :max',
     'search' => 'Buscar',
     'folder_already_exists' => 'Ya existe una carpeta con este nombre en el directorio actual.',
     'folder_without_title' => 'carpeta sin título',
@@ -31,7 +32,7 @@ return [
         'folder_name_required' => 'El nombre de la carpeta es obligatorio',
         'max_folder_depth_exceeded' => 'No se puede crear la carpeta. Se excedería la profundidad máxima de :max.',
         'file_invalid' => 'El archivo no es válido.',
-        'file_too_large' => 'El archivo es demasiado grande.',
+        'file_too_large' => 'El archivo es demasiado grande. El tamaño máximo es :max.',
         'file_type_not_allowed' => 'Este tipo de archivo no está permitido.',
     ],
 ];
