@@ -2,6 +2,17 @@
 
 All notable changes to `livewire-filemanager/filemanager` will be documented in this file.
 
+## [1.2.2] - 2026-10-31
+
+### Fixed
+
+- Show upload validation errors, which were silently dropped, and display the max file size next to the upload button. Contributed by [@cbz1991](https://github.com/cbz1991) (#104)
+
+### Changed
+
+- The `file_too_large` message now includes the max file size, and a new `max_file_size` translation key is available in all locales (#104)
+- Document how to raise Livewire's temporary upload limit above 12 MB
+
 ## [1.2.1] - 2026-10-29
 
 ### Fixed

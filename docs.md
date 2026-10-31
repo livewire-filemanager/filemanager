@@ -154,6 +154,22 @@ return [
 ];
 ```
 
+### Upload Size Limit
+
+`api.max_file_size` is checked after Livewire's temporary upload, which rejects files above 12 MB by default. To allow larger files, publish Livewire's config and raise its limit to the same value:
+
+```bash
+php artisan livewire:publish --config
+```
+
+```php
+'temporary_file_upload' => [
+    'rules' => ['required', 'file', 'max:102400'],
+],
+```
+
+PHP's `upload_max_filesize` and `post_max_size` must allow that size too.
+
 ## Architecture
 
 ### Directory Structure

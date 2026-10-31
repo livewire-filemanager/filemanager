@@ -134,6 +134,22 @@ Files will then be available at `/files/{folder path}/{file name}`, and the copi
 
 Inside the filemanager, when you click on a file, you'll have the possibility to copy the url to the file. In order to work correctly, this feature needs to have your domain with https enabled.
 
+### Upload size limit
+
+The `api.max_file_size` value (in KB) is checked after Livewire's temporary upload, which rejects files above 12 MB by default. To allow larger files, publish Livewire's config and raise its limit to the same value:
+
+```bash
+php artisan livewire:publish --config
+```
+
+```php
+'temporary_file_upload' => [
+    'rules' => ['required', 'file', 'max:102400'],
+],
+```
+
+PHP's `upload_max_filesize` and `post_max_size` must allow that size too.
+
 ## The interface
 
 Once everything is installed, the interface should look like this:
